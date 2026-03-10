@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الحسابات - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Premium Success Notification (Toast) */
+        .toast-container-custom {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .success-toast {
+            background: rgba(16, 185, 129, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 16px 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            animation: slideInLeft 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+            pointer-events: auto;
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .success-toast i {
+            font-size: 1.5rem;
+        }
+
+        .success-toast-text {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .current-status-badge {
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+        
+        .status-off { background: #fee2e2; color: #dc2626; }
+        .status-on { background: #d1fae5; color: #059669; }
+
+        .btn-disable-2fa {
+            background: #fff;
+            border: 1px solid #fee2e2;
+            color: #dc2626;
+            font-size: 0.85rem;
+            padding: 6px 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .btn-disable-2fa:hover {
+            background: #fef2f2;
+        }
+    </style>
+
+</head>
+
+<body>
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2" href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_badge.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./manage_providers.html">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./import_products.html">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./api_clients.html">
+                        <i class="bi bi-braces-asterisk"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_theme.html">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./modal_texts.html">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-4" href="./admin_category_explorer.html">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_social_links.html">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admins_manager.html">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-primary gap-3 ms-4 hov p-2 active mt-3" href="./twofa_settings.html">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <div id="content" class="main-content d-flex flex-column min-vh-100" style="background-color: #f8fafc;">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none"><i class="fa-solid fa-bell"></i></button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none"><i
+                        class="fa-solid fa-moon"></i></button>
+            </div>
+        </nav>
+        <div class="row g-3 p-3">
+        <div class="col-12 col-lg-8">
+
+
+            <div class="card p-3 border-0 shadow-sm" id="statusCard">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                    <div>
+                        <div class="fw-bold mb-1">الحالة الحالية</div>
+                        <div id="twofaStatusArea">
+                            <span class="current-status-badge status-off" id="twofaStatusText">غير مفعّل</span>
+                        </div>
+                    </div>
+                    <div id="disableActionArea" class="d-none">
+                        <button class="btn-disable-2fa" id="btnDisable2FA">
+                            <i class="bi bi-x-circle me-1"></i> إيقاف التفعيل
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-3 mt-3">
+                <h5 class="fw-bold mb-2"><i class="bi bi-google me-1"></i> تفعيل عبر Google Authenticator (6 أرقام)</h5>
+                <p class="text-muted mb-3">الأقوى والأفضل. امسح QR وبعدين اكتب أول كود للتأكيد.</p>
+
+
+                <div class="d-flex flex-wrap align-items-center gap-3">
+                    <div class="text-center">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&amp;data=otpauth%3A%2F%2Ftotp%2FShams%2520Store%253AAhmed%2540shams4store.com%3Fsecret%3DQLFTKJEUYPJVCEOWDSPC%26issuer%3DShams%2520Store%26digits%3D6%26period%3D30"
+                            alt="QR" class="border rounded p-2 bg-white" style="width:220px;height:220px;">
+                        <div class="small text-muted mt-2">امسح الـ QR</div>
+                    </div>
+
+                    <div class="flex-grow-1">
+                        <div class="mb-2">
+                            <label class="form-label">Secret (إذا بدك تدخله يدوي):</label>
+                            <input type="text" class="form-control" value="QLFTKJEUYPJVCEOWDSPC"
+                                readonly style="background-color: #f8fafc;">
+                        </div>
+
+                        <form id="totpForm" class="mt-2 text-end">
+                            <label class="form-label d-block text-start">كود التفعيل (6 أرقام):</label>
+                            <input type="text" id="totpCode" inputmode="numeric" class="form-control shadow-none"
+                                maxlength="6" required placeholder="000000" style="letter-spacing: 5px; font-weight: 800; text-align: center;">
+                            <button class="btn btn-primary mt-3 w-100 fw-bold py-2 shadow-sm" type="submit">
+                                <i class="bi bi-check2-circle"></i> تفعيل Google Authenticator
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-3 mt-3">
+                <h5 class="fw-bold mb-2"><i class="bi bi-key me-1"></i> تفعيل PIN (4 أرقام)</h5>
+
+                <form id="pinForm" class="row g-2">
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">PIN (4 أرقام)</label>
+                        <input type="password" id="pinCode" inputmode="numeric" maxlength="4"
+                            class="form-control shadow-none text-center" required placeholder="****" style="letter-spacing: 5px;">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">تأكيد PIN</label>
+                        <input type="password" id="pinConfirm" inputmode="numeric" maxlength="4"
+                            class="form-control shadow-none text-center" required placeholder="****" style="letter-spacing: 5px;">
+                    </div>
+                    <div class="col-12 mt-3">
+                        <button class="btn btn-secondary w-100 fw-bold py-2 shadow-sm" type="submit">
+                            <i class="bi bi-shield-check"></i> تفعيل PIN
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    </div>
+    
+
+    <!-- Success Toast Container -->
+    <div class="toast-container-custom" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>

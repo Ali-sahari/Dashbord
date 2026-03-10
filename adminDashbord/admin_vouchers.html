@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة أكواد الشحن - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 2rem;
+            margin-top: 1rem;
+            text-align: right;
+        }
+
+        /* Voucher Creation Card */
+        .creation-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2.5rem;
+        }
+
+        .card-header-custom {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: #1e293b;
+            font-weight: 800;
+        }
+
+        .card-header-custom i {
+            color: #10b981;
+            font-size: 1.2rem;
+        }
+
+        .form-label-custom {
+            font-weight: 700;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: block;
+            text-align: right;
+        }
+
+        .form-control-custom {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            color: #1e293b;
+            width: 100%;
+            outline: none;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .form-control-custom:focus {
+            background: white;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-create {
+            background: #86c1ad;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 30px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            float: left;
+            margin-top: 20px;
+        }
+
+        .btn-create:hover {
+            background: #75b09c;
+            transform: translateY(-1px);
+        }
+
+        /* Filter Tabs */
+        .voucher-tabs {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0;
+            margin-bottom: 20px;
+            border: 1px solid #f1f5f9;
+            border-radius: 12px;
+            overflow: hidden;
+            width: fit-content;
+            margin-right: auto;
+            background: white;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            border: none;
+            background: white;
+            color: #64748b;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 1px solid #f1f5f9;
+        }
+
+        .tab-btn:last-child {
+            border-left: none;
+        }
+
+        .tab-btn i {
+            font-size: 1.1rem;
+        }
+
+        .tab-btn .counter {
+            background: #64748b;
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 50px;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .tab-btn.active {
+            color: #3b82f6;
+            background: #f8fafc;
+            border-bottom: 2px solid #3b82f6;
+        }
+
+        .tab-btn.active .counter {
+            background: #3b82f6;
+        }
+
+        /* Table Styles */
+        .vouchers-table-container {
+            background: white;
+            border-radius: 15px;
+            padding: 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
+        }
+
+        .vouchers-header {
+            background: #fcfdfe;
+            display: flex;
+            padding: 15px 20px;
+            border-bottom: 1px solid #f1f5f9;
+            font-weight: 800;
+            color: #1e293b;
+            text-align: center;
+        }
+
+        .vouchers-header div,
+        .voucher-row div {
+            flex: 1;
+        }
+
+        .voucher-row {
+            display: flex;
+            padding: 15px 20px;
+            border-bottom: 1px solid #f8fafc;
+            align-items: center;
+            text-align: center;
+            transition: background 0.2s;
+        }
+
+        .voucher-row:hover {
+            background: #f8fafc;
+        }
+
+        .voucher-row:last-child {
+            border-bottom: none;
+        }
+
+        .voucher-code {
+            font-family: monospace;
+            font-weight: 700;
+            color: #334155;
+            background: #f1f5f9;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .voucher-value {
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        .voucher-date {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .btn-action {
+            color: #94a3b8;
+            background: transparent;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .btn-action:hover {
+            color: #ef4444;
+        }
+
+        /* Dark Mode */
+        body.dark-mode .page-title {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .creation-card {
+            background: #1e293b;
+        }
+
+        body.dark-mode .card-header-custom {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .form-control-custom {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f8fafc;
+        }
+
+        body.dark-mode .voucher-tabs {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark-mode .tab-btn {
+            background: #1e293b;
+            color: #94a3b8;
+            border-left: 1px solid #334155;
+        }
+
+        body.dark-mode .tab-btn.active {
+            background: #334155;
+            color: #38bdf8;
+        }
+
+        body.dark-mode .vouchers-table-container {
+            background: #1e293b;
+        }
+
+        body.dark-mode .vouchers-header {
+            background: #1e293b;
+            border-color: #334155;
+            color: #f8fafc;
+        }
+
+        body.dark-mode .voucher-row {
+            border-color: #334155;
+        }
+
+        body.dark-mode .voucher-row:hover {
+            background: #334155;
+        }
+
+        body.dark-mode .voucher-code {
+            background: #0f172a;
+            color: #f8fafc;
+        }
+
+        body.dark-mode .voucher-value {
+            color: #f8fafc;
+        }
+    </style>
+</head>
+
+<body>
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2" href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-primary gap-3 ms-4 hov p-2 mt-3 active" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_badge.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./manage_providers.html">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./import_products.html">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./api_clients.html">
+                        <i class="bi bi-braces-asterisk"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_theme.html">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./modal_texts.html">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_category_explorer.html">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_social_links.html">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admins_manager.html">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./twofa_settings.html">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="content" class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+
+        <div class="container-fluid p-4">
+            <h1 class="page-title">إدارة أكواد الشحن</h1>
+
+            <!-- Voucher Creation Card -->
+            <div class="creation-card">
+                <div class="card-header-custom">
+                    <span>إنشاء أكواد جديدة</span>
+                    <i class="bi bi-plus-circle"></i>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label-custom">القيمة ($)</label>
+                        <input type="number" id="voucherValue" class="form-control-custom" placeholder="0">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label-custom">الكمية</label>
+                        <input type="number" id="voucherQty" class="form-control-custom" placeholder="0">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label-custom">بادئة (اختياري)</label>
+                        <input type="text" id="voucherPrefix" class="form-control-custom" placeholder="مثال: HF">
+                    </div>
+                </div>
+
+                <div class="clearfix">
+                    <button class="btn-create" onclick="generateVouchers()">
+                        إنشاء <i class="bi bi-check2-circle"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="voucher-tabs" id="voucherStatusFilter">
+                <button class="tab-btn active" data-status="new">
+                    <i class="bi bi-stars"></i>
+                    جديدة
+                    <span class="counter" id="count-new">0</span>
+                </button>
+                <button class="tab-btn" data-status="redeemed">
+                    <i class="bi bi-check-circle"></i>
+                    مستردة
+                    <span class="counter" id="count-redeemed">0</span>
+                </button>
+                <button class="tab-btn" data-status="cancelled">
+                    <i class="bi bi-x-circle"></i>
+                    ملغاة
+                    <span class="counter" id="count-cancelled">0</span>
+                </button>
+            </div>
+
+            <!-- Vouchers Table -->
+            <div class="vouchers-table-container shadow-sm">
+                <div class="vouchers-header">
+                    <div>#</div>
+                    <div>الكود</div>
+                    <div>القيمة</div>
+                    <div>تاريخ الإنشاء</div>
+                    <div>إجراء</div>
+                </div>
+                <div id="vouchersList">
+                    <!-- Dynamic Rows -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-auto py-4 px-5 border-top bg-white d-flex justify-content-between align-items-center">
+            <div class="text-muted fw-bold">V 1.2</div>
+            <div class="text-muted">
+                © 2026 جميع الحقوق محفوظة - برمجة وتصميم
+                <a href="#" class="text-primary text-decoration-none fw-bold ms-1">ahminix</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // Mock Data Storage (Local Storage for persistence during session)
+        let vouchers = JSON.parse(localStorage.getItem('vouchers_data')) || [
+            { id: 1, code: 'HF-8DS7-A9X2-QW4E', value: 10, date: '2026-03-09 10:15:22', status: 'new' },
+            { id: 2, code: 'HF-1A2B-3C4D-5E6F', value: 25, date: '2026-03-08 14:20:10', status: 'redeemed' }
+        ];
+
+        let currentFilter = 'new';
+
+        function renderVouchers() {
+            const list = document.getElementById('vouchersList');
+            const filtered = vouchers.filter(v => v.status === currentFilter);
+
+            list.innerHTML = filtered.map((v, index) => `
+                <div class="voucher-row">
+                    <div>${index + 1}</div>
+                    <div><span class="voucher-code">${v.code}</span></div>
+                    <div><span class="voucher-value">$${v.value}</span></div>
+                    <div><span class="voucher-date">${v.date}</span></div>
+                    <div>
+                        <button class="btn-action" onclick="deleteVoucher(${v.id})">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            if (filtered.length === 0) {
+                list.innerHTML = '<div class="p-4 text-center text-muted fw-bold">لا توجد أكواد حالياً</div>';
+            }
+
+            // Update Counters
+            document.getElementById('count-new').innerText = vouchers.filter(v => v.status === 'new').length;
+            document.getElementById('count-redeemed').innerText = vouchers.filter(v => v.status === 'redeemed').length;
+            document.getElementById('count-cancelled').innerText = vouchers.filter(v => v.status === 'cancelled').length;
+        }
+
+        function generateVouchers() {
+            const value = document.getElementById('voucherValue').value;
+            const qty = document.getElementById('voucherQty').value;
+            const prefix = document.getElementById('voucherPrefix').value || 'VC';
+
+            if (!value || !qty || qty <= 0) {
+                alert('يرجى إدخال القيمة والكمية بشكل صحيح');
+                return;
+            }
+
+            for (let i = 0; i < qty; i++) {
+                const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase() + '-' +
+                    Math.random().toString(36).substring(2, 6).toUpperCase();
+                const newVoucher = {
+                    id: Date.now() + i,
+                    code: `${prefix}-${randomPart}`,
+                    value: parseFloat(value),
+                    date: new Date().toISOString().replace('T', ' ').substring(0, 19),
+                    status: 'new'
+                };
+                vouchers.unshift(newVoucher);
+            }
+
+            localStorage.setItem('vouchers_data', JSON.stringify(vouchers));
+            renderVouchers();
+
+            // Clear inputs
+            document.getElementById('voucherValue').value = '';
+            document.getElementById('voucherQty').value = '';
+        }
+
+        function deleteVoucher(id) {
+            if (confirm('هل أنت متأكد من حذف هذا الكود؟')) {
+                vouchers = vouchers.filter(v => v.id !== id);
+                localStorage.setItem('vouchers_data', JSON.stringify(vouchers));
+                renderVouchers();
+            }
+        }
+
+        // Filter Tabs Logic
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.getAttribute('data-status');
+                renderVouchers();
+            });
+        });
+
+        // Initial Layout Reset
+        window.addEventListener('load', () => {
+            renderVouchers();
+        });
+    </script>
+</body>
+
+</html>

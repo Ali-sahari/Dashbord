@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة العضويات المميزة (VIP) - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .page-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            margin-top: 1rem;
+        }
+
+        .page-title-main {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1a2332;
+            margin: 0;
+        }
+
+        .page-subtitle-muted {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        /* Summary Cards */
+        .summary-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            text-align: left;
+            border: 1px solid #f1f5f9;
+            height: 100%;
+        }
+
+        .summary-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #64748b;
+            margin-bottom: 10px;
+            text-align: right;
+        }
+
+        .summary-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1a2332;
+            text-align: right;
+        }
+
+        /* Filter Bar */
+        .filter-bar-card {
+            background: white;
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            margin-bottom: 2rem;
+            border: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-input-group {
+            flex: 1;
+            background: #f1f5f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+        }
+
+        .search-input-group input {
+            background: transparent;
+            border: none;
+            width: 100%;
+            height: 100%;
+            font-weight: 700;
+            color: #1e293b;
+            outline: none;
+            text-align: right;
+        }
+
+        .search-input-group input::placeholder {
+            color: #94a3b8;
+        }
+
+        .btn-search-blue {
+            background: #60a5fa;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .btn-search-blue:hover {
+            background: #3b82f6;
+        }
+
+        .btn-reset-gray {
+            background: transparent;
+            color: #94a3b8;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .btn-reset-gray:hover {
+            background: #f8fafc;
+        }
+
+        /* Empty State */
+        .empty-state-wrapper {
+            padding: 100px 20px;
+            text-align: center;
+            color: #64748b;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Pagination */
+        .pagination-custom {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin-top: 1rem;
+            background: #f1f5f9;
+            padding: 5px;
+            border-radius: 8px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pagination-btn {
+            border: none;
+            background: transparent;
+            color: #64748b;
+            font-weight: 700;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .pagination-btn.active {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .pagination-btn:hover:not(.active):not(:disabled) {
+            background: #e2e8f0;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .footer-count-text {
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #94a3b8;
+            margin-top: 1.5rem;
+        }
+
+        /* Table Results */
+        .results-table-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            margin-bottom: 2rem;
+            border: 1px solid #f1f5f9;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .results-table th {
+            padding: 15px;
+            font-weight: 800;
+            color: #1a2332;
+            text-align: right;
+            border-bottom: 2px solid #f1f5f9;
+            font-size: 0.95rem;
+        }
+
+        .results-table td {
+            padding: 15px;
+            text-align: right;
+            font-weight: 700;
+            color: #475569;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        .client-id-badge {
+            background: #f1f5f9;
+            color: #64748b;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        /* Dark Mode */
+        body.dark-mode .page-title-main,
+        body.dark-mode .summary-value,
+        body.dark-mode .results-table th {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .summary-card,
+        body.dark-mode .filter-bar-card,
+        body.dark-mode .results-table-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark-mode .results-table td {
+            color: #cbd5e1;
+            border-color: #334155;
+        }
+
+        body.dark-mode .results-table th {
+            border-bottom-color: #334155;
+        }
+
+        body.dark-mode .client-id-badge {
+            background: #0f172a;
+            color: #94a3b8;
+        }
+
+        body.dark-mode .search-input-group {
+            background: #0f172a;
+        }
+
+        body.dark-mode .search-input-group input {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .pagination-custom {
+            background: #1e293b;
+        }
+
+        body.dark-mode .btn-reset-gray {
+            border-color: #334155;
+        }
+    </style>
+</head>
+
+<body>
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2" href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_badge.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./manage_providers.html">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./import_products.html">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-primary gap-3 ms-4 hov p-2 active mt-3" href="./api_clients.html">
+                        <i class="bi bi-braces-asterisk"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_theme.html">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./modal_texts.html">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-4" href="./admin_category_explorer.html">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_social_links.html">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admins_manager.html">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./twofa_settings.html">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <div id="content" class="main-content d-flex flex-column min-vh-100">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none" onclick="showNotifications()"><i
+                        class="fa-solid fa-bell"></i></button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none"><i
+                        class="fa-solid fa-moon"></i></button>
+            </div>
+        </nav>
+
+        <div class="container-fluid p-4">
+            <!-- Page Header -->
+            <div class="page-header-row">
+                <div class="page-subtitle-muted">(لديهم طلبات عبر API آخر 30 يوم)</div>
+                <h1 class="page-title-main">العملاء المرتبطين بـ API موقعك</h1>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-4">
+                    <div class="summary-card">
+                        <span class="summary-label">عدد العملاء المرتبطين</span>
+                        <span class="summary-value" id="count-clients">0</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="summary-card">
+                        <span class="summary-label">إجمالي عدد الطلبات</span>
+                        <span class="summary-value" id="count-orders">0</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="summary-card">
+                        <span class="summary-label">مجموع مبالغ الطلبات</span>
+                        <span class="summary-value" id="sum-amounts">0$</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar-card">
+                <button class="btn-reset-gray" id="btn-reset">إعادة تعيين</button>
+                <button class="btn-search-blue" id="btn-search">بحث</button>
+                <div class="search-input-group">
+                    <input type="text" id="search-query" placeholder="بحث: ID المستخدم أو اسم المستخدم">
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results-area">
+                <div class="empty-state-wrapper">
+                    ما في نتائج خلال آخر أسبوع حسب الفلترة الحالية.
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-custom" id="pagination-container">
+                <button class="pagination-btn" id="btn-prev">السابق</button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn" id="btn-next">التالي</button>
+            </div>
+
+            <div class="footer-count-text" id="footer-count">
+                عرض 0 من أصل 0 مستخدم (صفحة 1/1)
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-auto py-4 px-5 border-top bg-white d-flex justify-content-between align-items-center">
+            <div class="text-muted fw-bold">V 1.2</div>
+            <div class="text-muted">
+                © 2026 جميع الحقوق محفوظة - برمجة وتصميم
+                <a href="#" class="text-primary text-decoration-none fw-bold ms-1">ahminix</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // --- API Clients Data ---
+        let allClients = [
+            { id: 1025, name: "أحمد محمد", orders: 25, total: 1250.50, lastActive: "2026-03-09" },
+            { id: 1056, name: "سارة علي", orders: 12, total: 450.00, lastActive: "2026-03-08" },
+            { id: 1102, name: "خالد فهد", orders: 45, total: 3200.75, lastActive: "2026-03-09" },
+            { id: 1145, name: "نورة القحطاني", orders: 5, total: 120.00, lastActive: "2026-03-05" },
+            { id: 1189, name: "عبدالله العتيبي", orders: 33, total: 2100.00, lastActive: "2026-03-09" },
+            { id: 1210, name: "ريم الشمري", orders: 8, total: 350.25, lastActive: "2026-03-07" },
+            { id: 1245, name: "ماجد المطيري", orders: 50, total: 4800.00, lastActive: "2026-03-09" },
+            { id: 1289, name: "ليلى الحربي", orders: 15, total: 600.50, lastActive: "2026-03-04" },
+            { id: 1302, name: "فواز الرويلي", orders: 2, total: 45.00, lastActive: "2026-03-01" },
+            { id: 1345, name: "محمد العمري", orders: 40, total: 2800.00, lastActive: "2026-03-09" }
+        ];
+
+        let filteredClients = [...allClients]; // Show all by default now to see the UI, user can search
+        let currentPage = 1;
+        const itemsPerPage = 10;
+
+        function renderResults() {
+            const area = document.getElementById('results-area');
+            const summaryClients = document.getElementById('count-clients');
+            const summaryOrders = document.getElementById('count-orders');
+            const summaryAmounts = document.getElementById('sum-amounts');
+            const footerCount = document.getElementById('footer-count');
+
+            if (filteredClients.length === 0) {
+                area.innerHTML = `
+                    <div class="empty-state-wrapper">
+                        ما في نتائج خلال آخر أسبوع حسب الفلترة الحالية.
+                    </div>
+                `;
+                summaryClients.innerText = "0";
+                summaryOrders.innerText = "0";
+                summaryAmounts.innerText = "0$";
+                footerCount.innerText = "عرض 0 من أصل 0 مستخدم (صفحة 1/1)";
+                document.getElementById('pagination-container').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('pagination-container').style.display = 'flex';
+
+            // Calculations for summary cards
+            const totalOrders = filteredClients.reduce((acc, c) => acc + c.orders, 0);
+            const totalSum = filteredClients.reduce((acc, c) => acc + c.total, 0);
+
+            summaryClients.innerText = filteredClients.length;
+            summaryOrders.innerText = totalOrders;
+            summaryAmounts.innerText = totalSum.toLocaleString() + "$";
+
+            // Pagination logic
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, filteredClients.length);
+            const pageItems = filteredClients.slice(startIndex, endIndex);
+            const totalPages = Math.ceil(filteredClients.length / itemsPerPage);
+
+            let tableHtml = `
+                <div class="results-table-card">
+                    <div class="table-responsive">
+                        <table class="results-table">
+                            <thead>
+                                <tr>
+                                    <th>ID العميل</th>
+                                    <th>الاسم</th>
+                                    <th>عدد الطلبات</th>
+                                    <th>مجموع المبالغ</th>
+                                    <th>آخر نشاط</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+
+            pageItems.forEach(c => {
+                tableHtml += `
+                    <tr>
+                        <td><span class="client-id-badge">#${c.id}</span></td>
+                        <td>${c.name}</td>
+                        <td class="fw-bold">${c.orders}</td>
+                        <td class="text-primary fw-bold">${c.total.toFixed(2)}$</td>
+                        <td class="text-muted small">${c.lastActive}</td>
+                    </tr>
+                `;
+            });
+
+            tableHtml += `
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+            area.innerHTML = tableHtml;
+            footerCount.innerText = `عرض ${startIndex + 1}-${endIndex} من أصل ${filteredClients.length} مستخدم (صفحة ${currentPage}/${totalPages})`;
+
+            updatePaginationUI(totalPages);
+        }
+
+        function updatePaginationUI(totalPages) {
+            const container = document.getElementById('pagination-container');
+            container.innerHTML = '';
+
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'pagination-btn';
+            prevBtn.innerText = 'السابق';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => { currentPage--; renderResults(); };
+            container.appendChild(prevBtn);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                pageBtn.innerText = i;
+                pageBtn.onclick = () => { currentPage = i; renderResults(); };
+                container.appendChild(pageBtn);
+            }
+
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'pagination-btn';
+            nextBtn.innerText = 'التالي';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => { currentPage++; renderResults(); };
+            container.appendChild(nextBtn);
+        }
+
+        function showNotifications() {
+            Swal.fire({
+                title: 'الإشعارات',
+                html: '<div class="text-end small"><p>• تمت محاولة فاشلة للاتصال بمزود SMM Peak</p><p>• رصيد المزود Demo منخفض جداً</p></div>',
+                icon: 'info',
+                confirmButtonText: 'إغلاق'
+            });
+        }
+
+        // --- Event Listeners ---
+        document.getElementById('btn-search').addEventListener('click', () => {
+            const query = document.getElementById('search-query').value.trim().toLowerCase();
+            if (query === "") {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'warning',
+                    title: 'يرجى إدخال أي معلومة للبحث',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                return;
+            }
+
+            filteredClients = allClients.filter(c =>
+                c.name.toLowerCase().includes(query) ||
+                c.id.toString().includes(query)
+            );
+            currentPage = 1;
+            renderResults();
+        });
+
+        document.getElementById('btn-reset').addEventListener('click', () => {
+            document.getElementById('search-query').value = "";
+            filteredClients = [...allClients];
+            currentPage = 1;
+            renderResults();
+        });
+
+        // Initial render
+        renderResults();
+    </script>
+</body>
+
+</html>

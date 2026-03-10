@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة شحن الرصيد - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            margin-top: 1rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 8px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #64748b;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .filter-btn:hover {
+            background: #f8fafc;
+        }
+
+        .filter-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .filter-btn.pending,
+        .filter-btn.accepted,
+        .filter-btn.rejected {
+            background: #eff6ff;
+            color: #3b82f6;
+            border-color: #dbeafe;
+        }
+
+        .filter-btn.pending:hover,
+        .filter-btn.accepted:hover,
+        .filter-btn.rejected:hover {
+            background: #dbeafe;
+        }
+
+        /* Search Group */
+        .search-group {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            display: flex;
+            gap: 12px;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        .search-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: #3b82f6;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-search {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 25px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-search:hover {
+            background: #60a5fa;
+            transform: translateY(-1px);
+        }
+
+        .btn-reset {
+            background: #f1f5f9;
+            color: #94a3b8;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        /* Top-up Card */
+        .topup-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px 25px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .topup-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+            border-color: #f1f5f9;
+        }
+
+        .topup-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .topup-id-badge {
+            background: #f8fafc;
+            border: 1px solid #f1f5f9;
+            border-radius: 12px;
+            padding: 10px 15px;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .topup-id-num {
+            font-weight: 800;
+            color: #1e293b;
+            font-size: 1rem;
+            display: block;
+        }
+
+        .topup-method {
+            font-weight: 700;
+            color: #64748b;
+            font-size: 0.8rem;
+            display: block;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .username {
+            font-weight: 800;
+            color: #1e293b;
+            font-size: 1rem;
+        }
+
+        .user-id {
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .timestamp {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .amount {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #1e293b;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .status-badge {
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            min-width: 90px;
+            text-align: center;
+        }
+
+        .status-pending {
+            background: #fef9c3;
+            color: #a16207;
+        }
+
+        .status-accepted {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .btn-view {
+            padding: 8px 25px;
+            border-radius: 8px;
+            border: 1px solid #dbeafe;
+            background: white;
+            color: #3b82f6;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-view:hover {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        /* Pagination */
+        .pagination-container {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 5px;
+        }
+
+        .page-item {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .page-item:hover {
+            background: #f8fafc;
+        }
+
+        .page-item.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .page-item.disabled {
+            background: #f1f5f9;
+            color: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Dark Mode */
+        body.dark-mode .page-title {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .filter-btn {
+            background: #1e293b;
+            border-color: #334155;
+            color: #94a3b8;
+        }
+
+        body.dark-mode .filter-btn:hover {
+            background: #334155;
+        }
+
+        body.dark-mode .search-group {
+            background: #1e293b;
+        }
+
+        body.dark-mode .search-input {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f8fafc;
+        }
+
+        body.dark-mode .topup-card {
+            background: #1e293b;
+        }
+
+        body.dark-mode .topup-card:hover {
+            border-color: #334155;
+        }
+
+        body.dark-mode .topup-id-badge {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        body.dark-mode .topup-id-num {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .username {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .amount {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .page-item {
+            background: #1e293b;
+            border-color: #334155;
+            color: #94a3b8;
+        }
+
+        body.dark-mode .btn-view {
+            background: #1e293b;
+            border-color: #334155;
+            color: #38bdf8;
+        }
+
+        body.dark-mode .btn-view:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+
+<body>
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2" href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-primary gap-3 ms-4 hov p-2 active" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_badge.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_send_notification.html">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./manage_providers.html">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./import_products.html">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./api_clients.html">
+                        <i class="bi bi-braces-asterisk"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_theme.html">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./modal_texts.html">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_category_explorer.html">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_social_links.html">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admins_manager.html">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./twofa_settings.html">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="content" class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+
+        <div class="container-fluid p-4">
+            <!-- Header -->
+            <div class="page-header">
+                <h1 class="page-title">طلبات شحن الرصيد</h1>
+                <div class="filter-tabs">
+                    <div class="filter-btn active" onclick="filterByStatus('all')">الكل</div>
+                    <div class="filter-btn pending" onclick="filterByStatus('pending')">معلق</div>
+                    <div class="filter-btn accepted" onclick="filterByStatus('accepted')">مقبول</div>
+                    <div class="filter-btn rejected" onclick="filterByStatus('rejected')">مرفوض</div>
+                </div>
+            </div>
+
+            <!-- Search Group -->
+            <div class="search-group">
+                <div class="search-input-wrapper">
+                    <input type="text" id="searchInput" class="search-input text-end"
+                        placeholder="بحث: رقم الطلب أو اسم المستخدم أو ID المستخدم أو ...">
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn-reset" onclick="resetFilters()">إعادة تعيين</button>
+                    <button class="btn-search" onclick="applyFilters()">
+                        بحث/فلترة <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Request List -->
+            <div id="topupRequestsList">
+                <!-- Dynamic Content -->
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <div class="pagination">
+                    <div class="page-item">التالي</div>
+                    <div class="page-item active">1</div>
+                    <div class="page-item disabled">السابق</div>
+                </div>
+                <div class="pagination-info">عرض 5 من أصل 5 طلب (صفحة 1/1)</div>
+            </div>
+        </div>
+
+
+        <!-- Footer -->
+        <footer class="mt-auto py-4 px-5 border-top bg-white d-flex justify-content-between align-items-center">
+            <div class="text-muted fw-bold">V 1.2</div>
+            <div class="text-muted">
+                © 2026 جميع الحقوق محفوظة - برمجة وتصميم
+                <a href="#" class="text-primary text-decoration-none fw-bold ms-1">ahminix</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // Mock Data
+        const topupRequests = [
+            { id: 5, method: 'زين كاش', username: 'ahmed_99', userId: 142, date: '2026-03-09 11:30:22', amount: 50, status: 'pending' },
+            { id: 4, method: 'آسيا سيل', username: 'sara_dev', userId: 88, date: '2026-03-08 15:45:10', amount: 25, status: 'accepted' },
+            { id: 3, method: 'طريقة دفع 1', username: 'demo', userId: 1, date: '2026-03-05 02:27:49', amount: 10, status: 'pending' },
+            { id: 2, method: 'طريقة دفع 1', username: 'demo', userId: 1, date: '2026-03-05 02:27:15', amount: 15, status: 'rejected' },
+            { id: 1, method: 'طريقة دفع 1', username: 'demo', userId: 1, date: '2026-03-05 02:26:34', amount: 5, status: 'accepted' }
+        ];
+
+        let currentStatusFilter = 'all';
+
+        function getStatusText(status) {
+            switch (status) {
+                case 'pending': return 'معلق';
+                case 'accepted': return 'مقبول';
+                case 'rejected': return 'مرفوض';
+                default: return '';
+            }
+        }
+
+        function renderTopups(data) {
+            const list = document.getElementById('topupRequestsList');
+            list.innerHTML = data.map(req => `
+                <div class="topup-card" dir="rtl">
+                    <div class="topup-id-badge">
+                        <span class="topup-id-num">#${req.id}</span>
+                        <span class="topup-method">${req.method}</span>
+                    </div>
+
+                    <div class="user-details text-end" style="flex: 1;">
+                        <span class="username">${req.username} / <span class="user-id">ID: ${req.userId}</span></span>
+                        <span class="timestamp">تاريخ: ${req.date}</span>
+                    </div>
+
+                    <div class="amount">$${req.amount}</div>
+
+                    <div class="status-badge status-${req.status}">${getStatusText(req.status)}</div>
+
+                    <a href="#" class="btn-view">عرض</a>
+                </div>
+            `).join('');
+        }
+
+        function filterByStatus(status) {
+            currentStatusFilter = status;
+
+            // Update UI
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.classList.contains(status) || (status === 'all' && btn.innerText.trim() === 'الكل')) {
+                    btn.classList.add('active');
+                }
+            });
+
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            const filtered = topupRequests.filter(req => {
+                const matchesStatus = currentStatusFilter === 'all' || req.status === currentStatusFilter;
+                const matchesSearch = !searchTerm ||
+                    req.username.toLowerCase().includes(searchTerm) ||
+                    req.id.toString().includes(searchTerm) ||
+                    req.userId.toString().includes(searchTerm);
+
+                return matchesStatus && matchesSearch;
+            });
+
+            renderTopups(filtered);
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            filterByStatus('all');
+        }
+
+        // Initial Render
+        renderTopups(topupRequests);
+    </script>
+</body>
+
+</html>

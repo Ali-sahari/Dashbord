@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المستخدمون المدينون - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-bottom: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .page-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #1a2332;
+            margin: 0;
+        }
+
+        .header-icon {
+            font-size: 1.5rem;
+            color: #475569;
+        }
+
+        /* Info Card Styling */
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            margin-bottom: 2rem;
+            border: 1px solid #f1f5f9;
+        }
+
+        .info-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin: 0;
+            text-align: right;
+            font-weight: 500;
+        }
+
+        /* Table Card Styling */
+        .table-card {
+            background: white;
+            border-radius: 15px;
+            padding: 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            border: 1px solid #f1f5f9;
+            overflow: hidden;
+        }
+
+        .luxury-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .luxury-table th {
+            padding: 20px 15px;
+            background: #fff;
+            text-align: center;
+            font-weight: 800;
+            color: #1a2332;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #f8fafc;
+        }
+
+        .luxury-table td {
+            padding: 25px 15px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #475569;
+            border-bottom: 1px solid #f8fafc;
+            vertical-align: middle;
+            font-weight: 700;
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Dark Mode */
+        body.dark-mode .info-card,
+        body.dark-mode .table-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark-mode .luxury-table th {
+            background: #1e293b;
+            color: #f8fafc;
+            border-bottom-color: #334155;
+        }
+
+        body.dark-mode .luxury-table td {
+            color: #94a3b8;
+            border-bottom-color: #334155;
+        }
+
+        body.dark-mode .page-title {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .info-text {
+            color: #cbd5e1;
+        }
+    </style>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2" href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-primary gap-3 ms-4 hov p-2 mt-3 active" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_badge.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./manage_providers.html">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./import_products.html">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./api_clients.html">
+                        <i class="bi bi-braces-asterisk"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_theme.html">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./modal_texts.html">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-4" href="./admin_category_explorer.html">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_social_links.html">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admins_manager.html">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./twofa_settings.html">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="content" class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none"><i class="fa-solid fa-bell"></i></button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none"><i
+                        class="fa-solid fa-moon"></i></button>
+            </div>
+        </nav>
+
+        <div class="container-fluid p-4">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">المستخدمون الذين لديهم رصيد مدين مفرّع</h1>
+                <div class="header-icon">
+                    <i class="bi bi-dash-circle"></i>
+                </div>
+            </div>
+
+            <!-- Info Card -->
+            <div class="info-card">
+                <p class="info-text">
+                    يعرض هذا الجدول جميع المستخدمين الذين تم تفعيل خيار <strong>السماح بالرصيد المدين</strong> لديهم، مع
+                    بيان سقف الدين، والمبلغ المستخدم من هذا السقف، والمبلغ المتبقي.
+                </p>
+            </div>
+
+            <!-- Overdraft Table Card -->
+            <div class="table-card">
+                <table class="luxury-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">المستخدم</th>
+                            <th style="width: 15%;">الرصيد الحالي</th>
+                            <th style="width: 15%;">سقف الدين المسموح</th>
+                            <th style="width: 20%;">المبلغ المستخدم من سقف الدين</th>
+                            <th style="width: 20%;">المتبقي من سقف الدين</th>
+                            <th style="width: 10%;">إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="overdraft-body">
+                        <!-- Content rendered via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <footer class="mt-auto py-4 px-5 border-top bg-white d-flex justify-content-between align-items-center">
+                <div class="text-muted fw-bold">V 1.2</div>
+                <div class="text-muted">
+                    © 2026 جميع الحقوق محفوظة - برمجة وتصميم
+                    <a href="#" class="text-primary text-decoration-none fw-bold ms-1">ahminix</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // --- Overdraft Management Logic ---
+        let overdraftUsers = [
+            { id: 4, name: "khalid_v", balance: 250.00, limit: 1000.00, remaining: 750.00 }
+        ];
+
+        function renderOverdraft() {
+            const body = document.getElementById('overdraft-body');
+            body.innerHTML = '';
+
+            if (overdraftUsers.length === 0) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td colspan="6" class="empty-state">
+                        لا يوجد حالياً أي مستخدم مفعّل لديه الرصيد المدين.
+                    </td>
+                `;
+                body.appendChild(tr);
+            } else {
+                overdraftUsers.forEach(u => {
+                    const usedAmount = u.limit - u.remaining;
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${u.name}</td>
+                        <td>$${u.balance.toFixed(2)}</td>
+                        <td>$${u.limit.toFixed(2)}</td>
+                        <td class="text-danger">$${usedAmount.toFixed(2)}</td>
+                        <td class="text-success">$${u.remaining.toFixed(2)}</td>
+                        <td>
+                            <button class="btn btn-sm btn-light border" onclick="manageOverdraft(${u.id})">
+                                <i class="bi bi-gear"></i>
+                            </button>
+                        </td>
+                    `;
+                    body.appendChild(tr);
+                });
+            }
+        }
+
+        window.manageOverdraft = (id) => {
+            Swal.fire({
+                title: 'إدارة الرصيد المدين',
+                text: 'يمكنك تعديل سقف الدين لهذا المستخدم',
+                input: 'number',
+                inputAttributes: { step: '0.01' },
+                inputValue: overdraftUsers.find(u => u.id === id).limit,
+                showCancelButton: true,
+                confirmButtonText: 'حفظ'
+            }).then(result => {
+                if (result.isConfirmed) {
+                    const newLimit = parseFloat(result.value);
+                    if (!isNaN(newLimit) && newLimit >= 0) {
+                        const idx = overdraftUsers.findIndex(u => u.id === id);
+                        const oldUsed = overdraftUsers[idx].limit - overdraftUsers[idx].remaining;
+                        overdraftUsers[idx].limit = newLimit;
+                        overdraftUsers[idx].remaining = Math.max(0, newLimit - oldUsed);
+                        renderOverdraft();
+                        Swal.fire('تم العفو', 'تم تحديث سقف الدين بنجاح', 'success');
+                    }
+                }
+            });
+        }
+
+        renderOverdraft();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة العضويات المميزة (VIP) - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            margin-top: 1rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #0d6efd;
+        }
+
+        .btn-quick-manage {
+            background: transparent;
+            border: 1px solid #cbd5e1;
+            color: #64748b;
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .btn-quick-manage:hover {
+            border-color: #94a3b8;
+            background: #f8fafc;
+        }
+
+        /* Form Card Styling */
+        .form-card {
+            background: white;
+            border-radius: 12px;
+            padding: 35px 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.02);
+            margin-bottom: 2rem;
+            border: 1px solid #fcecc9;
+            /* Light orange/tan border from mockup */
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #1a2332;
+            margin-bottom: 30px;
+        }
+
+        .form-header i {
+            color: #8b5cf6;
+            font-size: 1.5rem;
+        }
+
+        .input-label-custom {
+            display: block;
+            text-align: right;
+            font-weight: 800;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .input-group-custom {
+            background: #f1f5f9;
+            border-radius: 10px;
+            height: 48px;
+            margin-bottom: 20px;
+        }
+
+        .input-group-custom input {
+            background: transparent;
+            border: none;
+            width: 100%;
+            height: 100%;
+            padding: 0 15px;
+            font-weight: 700;
+            color: #1e293b;
+            outline: none;
+            text-align: right;
+        }
+
+        .input-group-custom input::placeholder {
+            color: #94a3b8;
+            opacity: 0.7;
+        }
+
+        /* File Upload */
+        .file-upload-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .file-input-wrapper {
+            background: #f1f5f9;
+            border-radius: 8px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            padding: 0 0 0 10px;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .file-input-wrapper .file-btn {
+            background: #f8fafc;
+            border-left: 1px solid #edf2f7;
+            border-radius: 0;
+            height: 100%;
+            padding: 0 15px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .file-input-wrapper .file-name {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 600;
+            flex: 1;
+            text-align: right;
+            padding-right: 15px;
+        }
+
+        .hidden-checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .hidden-checkbox-wrapper input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .btn-add-membership {
+            background: #8ec4b0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 45px;
+            font-weight: 800;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-add-membership:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* Table Card */
+        .luxury-table-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+            margin-bottom: 2rem;
+            border: 1px solid #f1f5f9;
+        }
+
+        .luxury-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .luxury-table th {
+            padding: 20px 15px;
+            font-weight: 800;
+            color: #1a2332;
+            text-align: center;
+            border: 1px solid #f1f5f9;
+            font-size: 1.1rem;
+            background: white;
+        }
+
+        .luxury-table td {
+            padding: 20px 15px;
+            text-align: center;
+            font-weight: 700;
+            color: #1e293b;
+            border: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+
+        .table-input-cell {
+            background: #f5f7f9;
+            border-radius: 10px;
+            border: none;
+            width: 100%;
+            height: 54px;
+            text-align: center;
+            font-weight: 800;
+            color: #1a2332;
+            outline: none;
+            font-size: 1.1rem;
+        }
+
+        .badge-primary-custom {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .status-checkbox {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            border: 1px solid #cbd5e1;
+        }
+
+        /* Image Cell Style */
+        .image-cell-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            direction: rtl;
+        }
+
+        .badge-preview-card {
+            width: 90px;
+            height: 90px;
+            background: white;
+            border: 1px solid #f1f5f9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .badge-preview-card img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .upload-actions-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .upload-compact-bar {
+            background: #f5f7f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            padding: 6px;
+            gap: 6px;
+        }
+
+        .btn-upload-white {
+            background: white;
+            border: 1px solid #edf2f7;
+            border-radius: 6px;
+            padding: 4px 15px;
+            color: #94a3b8;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .icon-more-box {
+            background: white;
+            border: 1px solid #edf2f7;
+            border-radius: 6px;
+            padding: 4px 10px;
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        .hint-text-small {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-weight: 700;
+            text-align: right;
+            line-height: 1.4;
+        }
+
+        /* Footer Button */
+        .footer-action-wrapper {
+            padding: 20px 0 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-save-changes {
+            background: #80b3ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            padding: 15px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(128, 179, 255, 0.3);
+        }
+
+        .btn-save-changes:hover {
+            opacity: 0.9;
+        }
+
+        /* Dark Mode */
+        body.dark-mode .page-title {
+            color: #3b82f6;
+        }
+
+        body.dark-mode .form-card,
+        body.dark-mode .luxury-table-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark-mode .form-header {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .input-group-custom,
+        body.dark-mode .file-input-wrapper {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        body.dark-mode .input-group-custom input {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .luxury-table th {
+            color: #f8fafc;
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark-mode .luxury-table td {
+            color: #94a3b8;
+            border-color: #334155;
+        }
+
+        body.dark-mode .btn-quick-manage {
+            border-color: #334155;
+            color: #94a3b8;
+        }
+
+        body.dark-mode .file-input-wrapper .file-btn {
+            background: #1e293b;
+            border-color: #334155;
+            color: #cbd5e1;
+        }
+    </style>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 " href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 pe-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 pe-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 pe-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 pe-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow" me-1"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-primary gap-3 ms-4 hov p-2 active mt-3" href="./admin_badge.html">
+                        <i class="bi bi-shield"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 pe-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 me-4 hov p-2"
+                        href="#">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-braces-asterisk" me-1"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 pe-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 me-4 hov p-2"
+                        href="#">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="content" class="main-content d-flex flex-column min-vh-100">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none"><i class="fa-solid fa-bell"></i></button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none"><i
+                        class="fa-solid fa-moon"></i></button>
+            </div>
+        </nav>
+
+        <div class="container-fluid p-4">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">إدارة العضويات المميزة (VIP)</h1>
+                <button class="btn-quick-manage">إدارة سريعة للعضويات</button>
+            </div>
+
+            <!-- Add Membership Card -->
+            <div class="form-card">
+                <div class="form-header ">
+                    <i class="bi bi-plus-circle-fill "></i> إضافة عضوية جديدة
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <label class="input-label-custom">اسم العضوية</label>
+                        <div class="input-group-custom">
+                            <input type="text" id="membership-name" placeholder="مثال: VIP Gold">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="input-label-custom">المبلغ المطلوب ($)</label>
+                        <div class="input-group-custom">
+                            <input type="number" id="membership-amount" placeholder="0.00">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="input-label-custom">نسبة الربح (%)</label>
+                        <div class="input-group-custom">
+                            <input type="number" id="membership-profit" placeholder="0.0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row align-items-center mt-3">
+                    <div class="col-md-4">
+                        <label class="input-label-custom">صورة الشارة</label>
+                        <div class="file-upload-row">
+                            <div class="file-input-wrapper">
+                                <label for="file-input" class="file-btn">اختيار ملف</label>
+                                <span class="file-name" id="selected-file-name">لم يتم اختيار أي ملف</span>
+                                <input type="file" id="file-input" class="d-none" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="hidden-checkbox-wrapper justify-content-center">
+                            <span>مخفية (لا تُفتح تلقائياً)</span>
+                            <input type="checkbox" id="membership-hidden">
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-start">
+                        <button class="btn-add-membership" id="add-btn">إضافة</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Card -->
+            <div class="luxury-table-card">
+                <div class="table-responsive">
+                    <table class="luxury-table">
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>المبلغ المطلوب ($)</th>
+                                <th>نسبة الربح (%)</th>
+                                <th>مخفية؟</th>
+                                <th>صورة الشارة</th>
+                                <th>إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="memberships-table-body">
+                            <!-- Dynamic Content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Footer Action -->
+            <div class="footer-action-wrapper">
+                <button class="btn-save-changes" id="save-changes-btn">حفظ التغييرات</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-auto py-4 px-5 border-top bg-white d-flex justify-content-between align-items-center">
+            <div class="text-muted fw-bold">V 1.2</div>
+            <div class="text-muted">
+                © 2026 جميع الحقوق محفوظة - برمجة وتصميم
+                <a href="#" class="text-primary text-decoration-none fw-bold ms-1">ahminix</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // --- Static Data Simulation ---
+        let memberships = [
+            { name: "VIP1", amount: 100.00, profit: 4.5, hidden: false, image: "https://i.ibb.co/vzR0jK3/vip1.png" }
+        ];
+
+        function renderTable() {
+            const body = document.getElementById('memberships-table-body');
+            body.innerHTML = '';
+
+            memberships.forEach((m, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <input type="text" class="table-input-cell" value="${m.name}" onchange="updateMember(${index}, 'name', this.value)">
+                    </td>
+                    <td>
+                        <input type="text" class="table-input-cell" value="${m.amount.toFixed(2)}" onchange="updateMember(${index}, 'amount', parseFloat(this.value))">
+                    </td>
+                    <td>
+                        <input type="text" class="table-input-cell" value="${m.profit.toFixed(1)}" onchange="updateMember(${index}, 'profit', parseFloat(this.value))">
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <input type="checkbox" class="status-checkbox" ${m.hidden ? 'checked' : ''} onchange="updateMember(${index}, 'hidden', this.checked)">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="image-cell-container">
+                             <div class="upload-actions-wrapper">
+                                <div class="upload-compact-bar">
+                                    <div class="icon-more-box">...</div>
+                                    <label class="btn-upload-white" onclick="simulateFileClick()">اختيار ملف</label>
+                                </div>
+                                <span class="hint-text-small">رفع صورة جديدة<br>(يُستبدل الحالية).</span>
+                            </div>
+                            <div class="badge-preview-card">
+                                <img src="${m.image}" alt="VIP">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="#" class="badge-primary-custom" style="padding: 12px 20px; font-size: 1rem;">الأساسية للمستخدمين الجدد</a>
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function updateMember(index, key, value) {
+            memberships[index][key] = value;
+        }
+
+        function simulateFileClick() {
+            Swal.fire({
+                title: 'رفع صورة جديدة',
+                text: 'اختر صورة الشارة من جهازك',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'اختيار',
+                cancelButtonText: 'إلغاء'
+            });
+        }
+
+        // --- Event Listeners ---
+        const fileInput = document.getElementById('file-input');
+        const fileNameSpan = document.getElementById('selected-file-name');
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                fileNameSpan.innerText = e.target.files[0].name;
+            }
+        });
+
+        document.getElementById('add-btn').addEventListener('click', () => {
+            const name = document.getElementById('membership-name').value;
+            const amount = parseFloat(document.getElementById('membership-amount').value);
+            const profit = parseFloat(document.getElementById('membership-profit').value);
+            const hidden = document.getElementById('membership-hidden').checked;
+
+            if (!name || isNaN(amount) || isNaN(profit)) {
+                Swal.fire('خطأ!', 'يرجى ملء جميع الحقول المطلوبة بشكل صحيح.', 'error');
+                return;
+            }
+
+            memberships.push({
+                name,
+                amount,
+                profit,
+                hidden,
+                image: "https://via.placeholder.com/50x50?text=VIP"
+            });
+
+            Swal.fire('تمت الإضافة!', `تم إضافة عضوية ${name} بنجاح.`, 'success');
+            renderTable();
+
+            // Reset form
+            document.getElementById('membership-name').value = '';
+            document.getElementById('membership-amount').value = '';
+            document.getElementById('membership-profit').value = '';
+            document.getElementById('membership-hidden').checked = false;
+            fileNameSpan.innerText = 'لم يتم اختيار أي ملف';
+        });
+
+        document.getElementById('save-changes-btn').addEventListener('click', () => {
+            Swal.fire({
+                title: 'جاري الحفظ...',
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: () => { Swal.showLoading(); }
+            }).then(() => {
+                Swal.fire('تم الحفظ!', 'تم تحديث جميع التغييرات بنجاح.', 'success');
+            });
+        });
+
+        // Initialize
+        renderTable();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سجل أرباح المنتجات - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .page-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #1a2332;
+            text-align: right;
+            margin-bottom: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Filter Section Refined */
+        .card-filter {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.02);
+            margin-bottom: 2.5rem;
+            border: 1px solid #f1f5f9;
+        }
+
+        .filter-label {
+            display: block;
+            text-align: right;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 8px;
+            padding-right: 5px;
+        }
+
+        .filter-input {
+            background: #f1f4f7;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            color: #1e293b;
+            width: 100%;
+            outline: none;
+            text-align: center;
+            transition: all 0.2s;
+            height: 44px;
+        }
+
+        .filter-input::placeholder {
+            color: #b0bfc9;
+            opacity: 0.8;
+        }
+
+        .filter-input:focus {
+            background: #fff;
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.1);
+        }
+
+        .search-wrapper {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        .filter-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-filter-apply {
+            background: #80b3ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0 25px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-filter-apply:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn-filter-reset {
+            background: #fff;
+            color: #94a3b8;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        /* Stat Cards Refined */
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1.5px solid transparent;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.02);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .stat-card-icon {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .stat-card-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .stat-card-value {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .stat-card-desc {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #b0bfc9;
+            width: 100%;
+        }
+
+        /* Card Custom Colors */
+        .card-net-profit {
+            border-color: #d1fae5;
+        }
+
+        .card-net-profit .stat-card-title,
+        .card-net-profit .stat-card-value,
+        .card-net-profit .stat-card-icon {
+            color: #10b981;
+        }
+
+        .card-total-cost {
+            border-color: #fee2e2;
+        }
+
+        .card-total-cost .stat-card-title,
+        .card-total-cost .stat-card-value,
+        .card-total-cost .stat-card-icon {
+            color: #ef4444;
+        }
+
+        .card-total-sales {
+            border-color: #ccfbf1;
+        }
+
+        .card-total-sales .stat-card-title,
+        .card-total-sales .stat-card-value,
+        .card-total-sales .stat-card-icon {
+            color: #06b6d4;
+        }
+
+        .card-order-count {
+            border-color: #dbeafe;
+        }
+
+        .card-order-count .stat-card-title,
+        .card-order-count .stat-card-value,
+        .card-order-count .stat-card-icon {
+            color: #3b82f6;
+        }
+
+        .card-today-profit {
+            border-color: #dbeafe;
+        }
+
+        .card-today-profit .stat-card-title,
+        .card-today-profit .stat-card-value,
+        .card-today-profit .stat-card-icon {
+            color: #3b82f6;
+        }
+
+        .card-month-profit {
+            border-color: #fef3c7;
+        }
+
+        .card-month-profit .stat-card-title {
+            color: #f59e0b;
+        }
+
+        .card-month-profit .stat-card-value {
+            color: #f59e0b;
+        }
+
+        .card-month-profit .stat-card-icon {
+            color: #f59e0b;
+        }
+
+        .card-year-profit {
+            border-color: #fef3c7;
+        }
+
+        .card-year-profit .stat-card-title {
+            color: #fbbf24;
+        }
+
+        .card-year-profit .stat-card-value {
+            color: #fbbf24;
+        }
+
+        .card-year-profit .stat-card-icon {
+            color: #fbbf24;
+        }
+
+        /* Search Table Wrapper */
+        .search-table-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.01);
+            overflow: hidden;
+        }
+
+        .search-table-input {
+            border: 1px solid #f1f5f9;
+            background: #f8fafc;
+            padding: 12px 15px 12px 45px;
+            border-radius: 10px;
+            width: 100%;
+            outline: none;
+            text-align: right;
+            font-size: 0.95rem;
+            color: #1e293b;
+        }
+
+        .search-table-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        /* Table Refined */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
+            border: 1px solid #f1f5f9;
+            margin-bottom: 3rem;
+        }
+
+        .luxury-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .luxury-table th {
+            padding: 18px 15px;
+            background: #fff;
+            text-align: center;
+            font-weight: 800;
+            color: #1a2332;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .luxury-table td {
+            padding: 18px 15px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #4b5563;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+            font-weight: 700;
+        }
+
+        .luxury-table tr.total-row {
+            background: #effdff;
+        }
+
+        .luxury-table tr.total-row td {
+            color: #10b981;
+            font-weight: 900;
+            border-color: #d1f7ff;
+        }
+
+        .profit-pos {
+            color: #10b981;
+        }
+
+        .profit-neg {
+            color: #ef4444;
+        }
+
+        /* Dark Mode Adjustments */
+        body.dark-mode .card-filter,
+        body.dark-mode .stat-card,
+        body.dark-mode .table-container {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark-mode .filter-input,
+        body.dark-mode .search-table-input {
+            background: #0f172a;
+            color: #cbd5e1;
+            border-color: #334155 !important;
+        }
+
+        body.dark-mode .luxury-table th {
+            background: #1b2537;
+            color: #f8fafc;
+            border-bottom-color: #334155;
+        }
+
+        body.dark-mode .luxury-table td {
+            color: #94a3b8;
+            border-bottom-color: #334155;
+        }
+
+        body.dark-mode .page-title {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .search-table-wrapper {
+            background: #1e293b;
+        }
+
+        body.dark-mode .filter-label {
+            color: #f8fafc;
+        }
+    </style>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 " href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-primary gap-3 ms-4 hov p-2 active mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_badge.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 pe-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 me-4 hov p-2"
+                        href="#">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-braces-asterisk" me-1"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 pe-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 me-4 hov p-2"
+                        href="#">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 me-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="content" class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none"><i class="fa-solid fa-bell"></i></button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none"><i
+                        class="fa-solid fa-moon"></i></button>
+            </div>
+        </nav>
+
+        <div class="container-fluid p-4">
+            <div class="d-flex justify-content-end align-items-center mb-1">
+                <h1 class="page-title">سجل أرباح المنتجات</h1>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="card-filter">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="filter-label">وضع التاريخ</label>
+                        <select class="filter-input" id="date-mode">
+                            <option>هذا الشهر</option>
+                            <option>اليوم</option>
+                            <option>آخر 7 أيام</option>
+                            <option>مخصص</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="filter-label">من</label>
+                        <input type="text" class="filter-input" placeholder="2026/03/01">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="filter-label">إلى</label>
+                        <input type="text" class="filter-input" placeholder="2026/03/09">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="filter-label">بحث باسم المنتج</label>
+                        <div class="search-wrapper">
+                            <input type="text" class="filter-input" placeholder="مثال: Netflix">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn-filter-apply"><i class="fa-solid fa-filter"></i> تطبيق الفلاتر</button>
+                    <button class="btn-filter-reset"><i class="fa-solid fa-rotate-right"></i> إعادة تعيين</button>
+                </div>
+            </div>
+
+            <!-- Stat Cards Row 1 -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="stat-card card-net-profit">
+                        <i class="fa-solid fa-money-bill-trend-up stat-card-icon"></i>
+                        <div class="stat-card-title">إجمالي الأرباح الصافية</div>
+                        <div class="stat-card-value">$0.0000</div>
+                        <div class="stat-card-desc">الأرباح بعد خصم التكاليف (حسب الفلتر)</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card card-total-cost">
+                        <i class="fa-solid fa-money-bill-transfer stat-card-icon"></i>
+                        <div class="stat-card-title">إجمالي التكلفة</div>
+                        <div class="stat-card-value">$0.0000</div>
+                        <div class="stat-card-desc">تكلفة الشراء (حسب الفلتر)</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card card-total-sales">
+                        <i class="fa-solid fa-building-columns stat-card-icon"></i>
+                        <div class="stat-card-title">إجمالي المبيعات</div>
+                        <div class="stat-card-value">$0.0000</div>
+                        <div class="stat-card-desc">المبالغ المستلمة (حسب الفلتر)</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card card-order-count">
+                        <i class="fa-solid fa-box-open stat-card-icon"></i>
+                        <div class="stat-card-title">عدد الطلبات</div>
+                        <div class="stat-card-value">0</div>
+                        <div class="stat-card-desc">طلبات مكتملة (حسب الفلتر)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stat Cards Row 2 -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-4">
+                    <div class="stat-card card-today-profit">
+                        <i class="fa-solid fa-calendar-day stat-card-icon"></i>
+                        <div class="stat-card-title">ربح اليوم</div>
+                        <div class="stat-card-value">$0.0000</div>
+                        <div class="stat-card-desc">2026-03-09</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card card-month-profit">
+                        <i class="fa-solid fa-calendar-check stat-card-icon"></i>
+                        <div class="stat-card-title">ربح الشهر الحالي</div>
+                        <div class="stat-card-value">$0.0000</div>
+                        <div class="stat-card-desc">2026-03</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card card-year-profit">
+                        <i class="fa-solid fa-calendar stat-card-icon"></i>
+                        <div class="stat-card-title">ربح السنة الحالية</div>
+                        <div class="stat-card-value">$0.0000</div>
+                        <div class="stat-card-desc">2026</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search table -->
+            <div class="search-table-wrapper">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" class="search-table-input" placeholder="بحث سريع داخل الجدول...">
+            </div>
+
+            <!-- Table Section -->
+            <div class="table-container">
+                <table class="luxury-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">#</th>
+                            <th style="width: 15%;">اسم المنتج</th>
+                            <th style="width: 15%;">الفئة / الكمية</th>
+                            <th style="width: 10%;">سعر الشراء الأصلي</th>
+                            <th style="width: 10%;">سعر البيع</th>
+                            <th style="width: 10%;">عدد الطلبات</th>
+                            <th style="width: 10%;">إجمالي الكمية</th>
+                            <th style="width: 10%;">إجمالي المبيعات</th>
+                            <th style="width: 10%;">إجمالي الربح</th>
+                            <th style="width: 5%;">نسبة الربح</th>
+                        </tr>
+                    </thead>
+                    <tbody id="profit-table-body">
+                        <!-- Dynamic rows -->
+                        <tr class="total-row">
+                            <td colspan="4" class="text-start pe-4">الإجماليات:</td>
+                            <td>-</td>
+                            <td>0</td>
+                            <td>-</td>
+                            <td>$0.0000</td>
+                            <td>$0.0000</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <footer class="mt-auto py-4 px-5 border-top bg-white d-flex justify-content-between align-items-center">
+                <div class="text-muted fw-bold">V 1.2</div>
+                <div class="text-muted">
+                    © 2026 جميع الحقوق محفوظة - برمجة وتصميم
+                    <a href="#" class="text-primary text-decoration-none fw-bold ms-1">ahminix</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // Mock Data for Profit Log (Enhanced with dates for filtering)
+        let rawSalesData = [
+            { id: 1, name: "Netflix Premium 1 Month", category: "Accounts / 1 Item", cost: 2.50, price: 4.99, orders: 15, qty: 15, date: "2026-03-09" },
+            { id: 2, name: "Spotify Premium 12 Months", category: "Key / 1 Item", cost: 12.00, price: 25.00, orders: 8, qty: 8, date: "2026-03-08" },
+            { id: 3, name: "PlayStation Gift Card 50$", category: "Cards / 1 Item", cost: 45.00, price: 52.50, orders: 20, qty: 20, date: "2026-03-05" },
+            { id: 4, name: "YouTube Premium 6 Months", category: "Accounts / 1 Item", cost: 5.00, price: 12.00, orders: 12, qty: 12, date: "2026-02-28" },
+            { id: 5, name: "Xbox Game Pass Ultimate", category: "Key / 1 Item", cost: 8.50, price: 15.00, orders: 10, qty: 10, date: "2026-03-09" },
+            { id: 6, name: "Disney+ Subscription", category: "Account / 1 Item", cost: 3.00, price: 7.50, orders: 5, qty: 5, date: "2026-03-01" },
+            { id: 7, name: "Crunchyroll Mega Fan", category: "Account / 1 Item", cost: 4.00, price: 9.00, orders: 18, qty: 18, date: "2026-03-09" }
+        ];
+
+        let filteredData = [...rawSalesData];
+
+        function calculateAndRender() {
+            const tableBody = document.getElementById('profit-table-body');
+            const totalRow = tableBody.querySelector('.total-row');
+
+            tableBody.querySelectorAll('tr:not(.total-row)').forEach(row => row.remove());
+
+            let totalCostVal = 0;
+            let totalSalesVal = 0;
+            let totalProfitVal = 0;
+            let totalOrdersCount = 0;
+
+            if (filteredData.length === 0) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td colspan="10" class="text-center py-5 text-muted">لا توجد بيانات تطابق الفلتر الحالي</td>`;
+                tableBody.insertBefore(tr, totalRow);
+            } else {
+                filteredData.forEach((item, index) => {
+                    const totalSales = item.price * item.qty;
+                    const totalCost = item.cost * item.qty;
+                    const totalProfit = totalSales - totalCost;
+                    const margin = totalSales > 0 ? ((totalProfit / totalSales) * 100).toFixed(1) : "0.0";
+
+                    totalSalesVal += totalSales;
+                    totalCostVal += totalCost;
+                    totalProfitVal += totalProfit;
+                    totalOrdersCount += item.orders;
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td class="text-start">${item.name}</td>
+                        <td>${item.category}</td>
+                        <td>$${item.cost.toFixed(2)}</td>
+                        <td>$${item.price.toFixed(2)}</td>
+                        <td>${item.orders}</td>
+                        <td>${item.qty}</td>
+                        <td>$${totalSales.toFixed(4)}</td>
+                        <td class="profit-pos">$${totalProfit.toFixed(4)}</td>
+                        <td class="profit-pos">${margin}%</td>
+                    `;
+                    tableBody.insertBefore(tr, totalRow);
+                });
+            }
+
+            // Update Total Row
+            totalRow.cells[2].innerText = totalOrdersCount;
+            totalRow.cells[4].innerText = `$${totalSalesVal.toFixed(4)}`;
+            totalRow.cells[5].innerText = `$${totalProfitVal.toFixed(4)}`;
+
+            // Update Stat Cards (Row 1)
+            document.querySelector('.card-net-profit .stat-card-value').innerText = `$${totalProfitVal.toFixed(4)}`;
+            document.querySelector('.card-total-cost .stat-card-value').innerText = `$${totalCostVal.toFixed(4)}`;
+            document.querySelector('.card-total-sales .stat-card-value').innerText = `$${totalSalesVal.toFixed(4)}`;
+            document.querySelector('.card-order-count .stat-card-value').innerText = totalOrdersCount;
+
+            // Update Stat Cards (Row 2 - Logic for Demo)
+            const today = "2026-03-09";
+            const currentMonth = "2026-03";
+            const currentYear = "2026";
+
+            let todayProfit = rawSalesData.filter(d => d.date === today).reduce((acc, curr) => acc + (curr.price - curr.cost) * curr.qty, 0);
+            let monthProfit = rawSalesData.filter(d => d.date.startsWith(currentMonth)).reduce((acc, curr) => acc + (curr.price - curr.cost) * curr.qty, 0);
+            let yearProfit = rawSalesData.filter(d => d.date.startsWith(currentYear)).reduce((acc, curr) => acc + (curr.price - curr.cost) * curr.qty, 0);
+
+            document.querySelector('.card-today-profit .stat-card-value').innerText = `$${todayProfit.toFixed(4)}`;
+            document.querySelector('.card-month-profit .stat-card-value').innerText = `$${monthProfit.toFixed(4)}`;
+            document.querySelector('.card-year-profit .stat-card-value').innerText = `$${yearProfit.toFixed(4)}`;
+        }
+
+        // Apply Filters Logic
+        document.querySelector('.btn-filter-apply').addEventListener('click', () => {
+            const dateMode = document.getElementById('date-mode').value;
+            const searchName = document.querySelector('.search-wrapper input').value.toLowerCase();
+            const todayDate = new Date("2026-03-09");
+
+            filteredData = rawSalesData.filter(item => {
+                const itemDate = new Date(item.date);
+                let dateMatch = true;
+
+                if (dateMode === "اليوم") {
+                    dateMatch = item.date === "2026-03-09";
+                } else if (dateMode === "هذا الشهر") {
+                    dateMatch = item.date.startsWith("2026-03");
+                } else if (dateMode === "آخر 7 أيام") {
+                    const diffDays = Math.ceil(Math.abs(todayDate - itemDate) / (1000 * 60 * 60 * 24));
+                    dateMatch = diffDays <= 7;
+                }
+
+                const nameMatch = item.name.toLowerCase().includes(searchName);
+                return dateMatch && nameMatch;
+            });
+
+            calculateAndRender();
+            Swal.fire({
+                icon: 'success',
+                title: 'تم تطبيق الفلاتر',
+                text: `تم العثور على ${filteredData.length} نتائج`,
+                timer: 1500,
+                showConfirmButton: false
+            });
+        });
+
+        // Reset Logic
+        document.querySelector('.btn-filter-reset').addEventListener('click', () => {
+            document.getElementById('date-mode').value = "هذا الشهر";
+            document.querySelector('.search-wrapper input').value = "";
+            document.querySelectorAll('.filter-input')[1].value = "";
+            document.querySelectorAll('.filter-input')[2].value = "";
+
+            filteredData = [...rawSalesData];
+            calculateAndRender();
+            Swal.fire({ icon: 'info', title: 'تمت إعادة التعيين', timer: 1000, showConfirmButton: false });
+        });
+
+        // Search Table Live logic
+        document.querySelector('.search-table-input').addEventListener('input', function (e) {
+            const term = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#profit-table-body tr:not(.total-row)');
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(term) ? '' : 'none';
+            });
+        });
+
+        calculateAndRender();
+    </script>
+</body>
+
+</html>

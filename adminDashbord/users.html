@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة المستخدمين - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .page-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #1a2332;
+            text-align: right;
+            margin-bottom: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Filter Card Styling */
+        .filter-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            margin-bottom: 1.5rem;
+            border: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .results-count {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #94a3b8;
+            font-weight: 700;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .filter-main-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-grow: 1;
+            justify-content: flex-end;
+        }
+
+        /* Search Input Styling */
+        .search-box-wrapper {
+            position: relative;
+            width: 50%;
+            max-width: 400px;
+        }
+
+        .search-box-wrapper input {
+            background: #f1f4f7;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 10px 15px 10px 45px;
+            font-size: 0.9rem;
+            color: #1e293b;
+            width: 100%;
+            outline: none;
+            text-align: right;
+            transition: all 0.2s;
+            height: 44px;
+        }
+
+        .search-box-wrapper input::placeholder {
+            color: #cbd5e1;
+        }
+
+        .search-box-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        /* Sort Select Styling */
+        .sort-box-wrapper {
+            position: relative;
+            width: 30%;
+            max-width: 250px;
+        }
+
+        .sort-select {
+            background: #f1f4f7;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 10px 40px 10px 15px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            width: 100%;
+            outline: none;
+            text-align: right;
+            transition: all 0.2s;
+            height: 44px;
+            appearance: none;
+            font-weight: 600;
+        }
+
+        .sort-box-wrapper .bi-filter-left {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1.2rem;
+        }
+
+        .btn-apply-filter {
+            background: #80b3ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0 25px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            flex-direction: row-reverse;
+        }
+
+        .btn-apply-filter:hover {
+            opacity: 0.9;
+        }
+
+        /* Users Table Styling */
+        .users-table-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            border: 1px solid #f1f5f9;
+            overflow: hidden;
+        }
+
+        .luxury-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .luxury-table th {
+            padding: 15px;
+            background: #fff;
+            text-align: center;
+            font-weight: 800;
+            color: #1a2332;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #f8fafc;
+        }
+
+        .luxury-table td {
+            padding: 20px 15px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #475569;
+            border-bottom: 1px solid #f8fafc;
+            vertical-align: middle;
+            font-weight: 700;
+        }
+
+        /* Column Specifics */
+        .col-id {
+            color: #1e293b;
+        }
+
+        .col-username {
+            color: #475569;
+            font-weight: 700;
+        }
+
+        .col-email {
+            color: #475569;
+        }
+
+        .col-balance {
+            color: #1e293b;
+            font-weight: 800;
+        }
+
+        .col-orders {
+            line-height: 1.4;
+        }
+
+        .order-count {
+            display: block;
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        .expenses-val {
+            display: block;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .col-date {
+            color: #475569;
+        }
+
+        /* Actions Styling */
+        .actions-group {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 6px;
+            width: 155px;
+            margin: 0 auto;
+        }
+
+        .btn-action {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            border: none;
+            transition: all 0.2s;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .btn-edit {
+            background: white;
+            border: 1px solid #e2e8f0;
+            color: #94a3b8;
+        }
+
+        .btn-ban {
+            background: #ff8b8b;
+        }
+
+        .btn-del {
+            border: 1px solid #ff8b8b;
+            color: #ff8b8b;
+            background: white;
+        }
+
+        .btn-wallet {
+            background: #80b3ff;
+        }
+
+        .btn-notify {
+            background: #ffdf80;
+            color: #1e293b;
+            margin-right: 38px;
+        }
+
+        /* Modal Styles */
+        .modal-content {
+            border-radius: 20px;
+            border: none;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            background: #f8fafc;
+            border-bottom: 1px solid #f1f5f9;
+            padding: 20px 25px;
+        }
+
+        .modal-title {
+            font-weight: 800;
+            color: #1a2332;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .form-label {
+            font-weight: 700;
+            color: #4b5563;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            font-size: 0.9rem;
+        }
+
+        .form-control:focus {
+            background: white;
+            border-color: #80b3ff;
+            box-shadow: 0 0 0 3px rgba(128, 179, 255, 0.1);
+        }
+
+        .btn-modal-save {
+            background: #80b3ff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            font-weight: 800;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        /* Dark Mode */
+        body.dark-mode .page-title {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .filter-card,
+        body.dark-mode .users-table-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark-mode .search-box-wrapper input,
+        body.dark-mode .sort-select {
+            background: #0f172a;
+            color: #cbd5e1;
+            border-color: #334155 !important;
+        }
+
+        body.dark-mode .luxury-table th {
+            background: #1e293b;
+            color: #f8fafc;
+            border-bottom-color: #334155;
+        }
+
+        body.dark-mode .luxury-table td {
+            color: #94a3b8;
+            border-bottom-color: #334155;
+        }
+
+        body.dark-mode .modal-content {
+            background: #1e293b;
+            color: #f8fafc;
+        }
+
+        body.dark-mode .modal-header {
+            background: #1b2537;
+            border-bottom-color: #334155;
+        }
+
+        body.dark-mode .form-control {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f8fafc;
+        }
+
+        body.dark-mode .form-label {
+            color: #f8fafc;
+        }
+    </style>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2" href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-primary gap-3 ms-4 hov p-2 active"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_badge.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./manage_providers.html">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./import_products.html">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./api_clients.html">
+                        <i class="bi bi-braces-asterisk"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_theme.html">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./modal_texts.html">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-4" href="./admin_category_explorer.html">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_social_links.html">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admins_manager.html">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./twofa_settings.html">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="content" class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none"><i class="fa-solid fa-bell"></i></button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none"><i
+                        class="fa-solid fa-moon"></i></button>
+            </div>
+        </nav>
+
+        <div class="container-fluid p-4">
+            <h1 class="page-title">إدارة المستخدمين</h1>
+
+            <!-- Filter Bar -->
+            <div class="filter-card">
+                <div class="results-count">
+                    <i class="bi bi-people"></i> إجمالي النتائج: <span id="res-count">4</span>
+                </div>
+                <div class="filter-main-group">
+                    <div class="sort-box-wrapper">
+                        <i class="bi bi-filter-left"></i>
+                        <select class="sort-select">
+                            <option>الأحدث تسجيلاً</option>
+                            <option>الأقدم تسجيلاً</option>
+                            <option>الأعلى رصيداً</option>
+                        </select>
+                    </div>
+                    <div class="search-box-wrapper">
+                        <input type="text" id="user-search" placeholder="بحث بالاسم أو البريد أو ID...">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <button class="btn-apply-filter" id="apply-filters">
+                        تطبيق <i class="bi bi-text-left"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="users-table-card">
+                <table class="luxury-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">المعرّف</th>
+                            <th style="width: 15%;">اسم المستخدم</th>
+                            <th style="width: 25%;">البريد الإلكتروني</th>
+                            <th style="width: 15%;">الرصيد (USD)</th>
+                            <th style="width: 15%;">الطلبات / المصروفات</th>
+                            <th style="width: 15%;">تاريخ التسجيل</th>
+                            <th style="width: 10%;">إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-body">
+                        <!-- Content via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <footer class="mt-auto py-4 px-5 border-top bg-white d-flex justify-content-between align-items-center">
+                <div class="text-muted fw-bold">V 1.2</div>
+                <div class="text-muted">
+                    © 2026 جميع الحقوق محفوظة - برمجة وتصميم
+                    <a href="#" class="text-primary text-decoration-none fw-bold ms-1">ahminix</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Modals Section -->
+    <!-- Edit User Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">تعديل بيانات المستخدم</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="edit-user-id">
+                    <div class="mb-3">
+                        <label class="form-label">اسم المستخدم</label>
+                        <input type="text" class="form-control" id="edit-username">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">البريد الإلكتروني</label>
+                        <input type="email" class="form-control" id="edit-email">
+                    </div>
+                    <button class="btn-modal-save" id="btn-save-edit">حفظ التعديلات</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wallet Modal -->
+    <div class="modal fade" id="walletModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">شحن / خصم من المحفظة</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="wallet-user-id">
+                    <div class="mb-3 text-center">
+                        <p class="mb-1 text-muted">الرصيد الحالي</p>
+                        <h3 class="fw-bold text-primary" id="current-bal-display">$ 0.00</h3>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">المبلغ (USD)</label>
+                        <input type="number" step="0.01" class="form-control" id="wallet-amount" placeholder="0.00">
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-success flex-grow-1 fw-bold p-3" style="border-radius:10px"
+                            id="btn-wallet-add">إضافة</button>
+                        <button class="btn btn-danger flex-grow-1 fw-bold p-3" style="border-radius:10px"
+                            id="btn-wallet-sub">خصم</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Modal -->
+    <div class="modal fade" id="notifyModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">إرسال إشعار مباشر</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="notify-user-id">
+                    <div class="mb-3">
+                        <label class="form-label">عنوان الإشعار</label>
+                        <input type="text" class="form-control" id="notify-title" placeholder="أدخل العنوان...">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">نص الرسالة</label>
+                        <textarea class="form-control" id="notify-msg" rows="4"
+                            placeholder="اكتب رسالتك هنا..."></textarea>
+                    </div>
+                    <button class="btn-modal-save" id="btn-send-notify">إرسال الآن <i
+                            class="bi bi-send ms-2"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // --- User Management Logic ---
+        let users = [
+            { id: 1, name: "demo", email: "demo@ahminix.com", balance: 1.00, orders: 4, expenses: 0.00, date: "2026-03-05" },
+            { id: 2, name: "ahmed_user", email: "ahmed@gmail.com", balance: 55.50, orders: 12, expenses: 120.00, date: "2026-03-01" },
+            { id: 3, name: "sara_shop", email: "sara@outlook.com", balance: 10.00, orders: 2, expenses: 15.20, date: "2026-02-28" },
+            { id: 4, name: "khalid_v", email: "khalid@ahminix.com", balance: 250.00, orders: 45, expenses: 1450.00, date: "2026-02-15" }
+        ];
+
+        let displayData = [...users];
+        const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+        const walletModal = new bootstrap.Modal(document.getElementById('walletModal'));
+        const notifyModal = new bootstrap.Modal(document.getElementById('notifyModal'));
+
+        function renderUsers(data = displayData) {
+            const body = document.getElementById('users-body');
+            document.getElementById('res-count').innerText = data.length;
+            body.innerHTML = '';
+
+            data.forEach(u => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="col-id">${u.id}</td>
+                    <td class="col-username">${u.name}</td>
+                    <td class="col-email">${u.email}</td>
+                    <td class="col-balance">$ ${u.balance.toFixed(2)}</td>
+                    <td class="col-orders">
+                        <span class="order-count">${u.orders} طلب</span>
+                        <span class="expenses-val">$ ${u.expenses.toFixed(2)}</span>
+                    </td>
+                    <td class="col-date">${u.date}</td>
+                    <td>
+                        <div class="actions-group">
+                            <button class="btn-action btn-edit" title="تعديل" onclick="openEdit(${u.id})"><i class="bi bi-pencil-square"></i></button>
+                            <button class="btn-action btn-ban" title="حظر" onclick="banUser(${u.id})"><i class="bi bi-slash-circle"></i></button>
+                            <button class="btn-action btn-del" title="حذف" onclick="deleteUser(${u.id})"><i class="bi bi-dash-circle"></i></button>
+                            <button class="btn-action btn-wallet" title="المحفظة" onclick="openWallet(${u.id})"><i class="bi bi-cash-stack"></i></button>
+                            <button class="btn-action btn-notify" title="إرسال إشعار" onclick="openNotify(${u.id})"><i class="bi bi-megaphone"></i></button>
+                        </div>
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        // --- Search & Filter ---
+        function applyFilters() {
+            const term = document.getElementById('user-search').value.toLowerCase();
+            const sortBy = document.querySelector('.sort-select').value;
+
+            let filtered = users.filter(u =>
+                u.name.toLowerCase().includes(term) ||
+                u.email.toLowerCase().includes(term) ||
+                u.id.toString().includes(term)
+            );
+
+            // Sorting logic
+            if (sortBy === "الأقدم تسجيلاً") {
+                filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+            } else if (sortBy === "الأعلى رصيداً") {
+                filtered.sort((a, b) => b.balance - a.balance);
+            } else {
+                // Default: الأحدث تسجيلاً
+                filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+            }
+
+            displayData = filtered;
+            renderUsers(displayData);
+        }
+
+        document.getElementById('apply-filters').addEventListener('click', () => {
+            applyFilters();
+            Swal.fire({
+                icon: 'success',
+                title: 'تطبيق التصفية',
+                text: `تم العثور على ${displayData.length} نتائج`,
+                timer: 1000,
+                showConfirmButton: false
+            });
+        });
+
+        document.getElementById('user-search').addEventListener('input', applyFilters);
+        document.querySelector('.sort-select').addEventListener('change', applyFilters);
+
+        // --- Action Functions ---
+
+        // Edit
+        window.openEdit = (id) => {
+            const u = users.find(x => x.id === id);
+            document.getElementById('edit-user-id').value = u.id;
+            document.getElementById('edit-username').value = u.name;
+            document.getElementById('edit-email').value = u.email;
+            editModal.show();
+        };
+
+        document.getElementById('btn-save-edit').addEventListener('click', () => {
+            const id = parseInt(document.getElementById('edit-user-id').value);
+            const userIdx = users.findIndex(u => u.id === id);
+            users[userIdx].name = document.getElementById('edit-username').value;
+            users[userIdx].email = document.getElementById('edit-email').value;
+
+            editModal.hide();
+            renderUsers();
+            Swal.fire({ icon: 'success', title: 'تم التحديث', timer: 1500, showConfirmButton: false });
+        });
+
+        // Wallet
+        window.openWallet = (id) => {
+            const u = users.find(x => x.id === id);
+            document.getElementById('wallet-user-id').value = u.id;
+            document.getElementById('current-bal-display').innerText = `$ ${u.balance.toFixed(2)}`;
+            document.getElementById('wallet-amount').value = '';
+            walletModal.show();
+        };
+
+        const handleWallet = (action) => {
+            const id = parseInt(document.getElementById('wallet-user-id').value);
+            const amount = parseFloat(document.getElementById('wallet-amount').value);
+            if (isNaN(amount) || amount <= 0) {
+                Swal.fire('خطأ', 'يرجى إدخال مبلغ صحيح', 'error');
+                return;
+            }
+
+            const userIdx = users.findIndex(u => u.id === id);
+            if (action === 'add') {
+                users[userIdx].balance += amount;
+            } else {
+                if (users[userIdx].balance < amount) {
+                    Swal.fire('خطأ', 'الرصيد غير كافٍ للخصم', 'error');
+                    return;
+                }
+                users[userIdx].balance -= amount;
+            }
+
+            walletModal.hide();
+            renderUsers();
+            Swal.fire({ icon: 'success', title: 'تم تحديث المحفظة', timer: 1500, showConfirmButton: false });
+        };
+
+        document.getElementById('btn-wallet-add').addEventListener('click', () => handleWallet('add'));
+        document.getElementById('btn-wallet-sub').addEventListener('click', () => handleWallet('sub'));
+
+        // Notify
+        window.openNotify = (id) => {
+            document.getElementById('notify-user-id').value = id;
+            document.getElementById('notify-title').value = '';
+            document.getElementById('notify-msg').value = '';
+            notifyModal.show();
+        };
+
+        document.getElementById('btn-send-notify').addEventListener('click', () => {
+            const title = document.getElementById('notify-title').value;
+            const msg = document.getElementById('notify-msg').value;
+
+            if (!title || !msg) {
+                Swal.fire('تنبيه', 'يرجى كتابة العنوان والرسالة', 'warning');
+                return;
+            }
+
+            notifyModal.hide();
+            Swal.fire({ icon: 'success', title: 'تم الإرسال', text: 'تم إرسال الإشعار للمستخدم بنجاح', timer: 2000, showConfirmButton: false });
+        });
+
+        // Ban & Delete
+        window.banUser = (id) => {
+            Swal.fire({
+                title: 'حظر مستخدم؟',
+                text: "سيتم منع هذا المستخدم من الوصول للمتجر",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ff8b8b',
+                confirmButtonText: 'نعم، حظر',
+                cancelButtonText: 'تراجع'
+            }).then(res => {
+                if (res.isConfirmed) {
+                    Swal.fire('تم الحظر', 'تم تقييد حساب المستخدم بنجاح', 'success');
+                }
+            });
+        };
+
+        window.deleteUser = (id) => {
+            Swal.fire({
+                title: 'حذف مستخدم نهائياً؟',
+                text: "لا يمكن استعادة البيانات بعد الحذف!",
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonColor: '#ff8b8b',
+                confirmButtonText: 'نعم، حذف',
+                cancelButtonText: 'إلغاء'
+            }).then(res => {
+                if (res.isConfirmed) {
+                    users = users.filter(u => u.id !== id);
+                    renderUsers();
+                    Swal.fire('تم الحذف', 'تم مسح المستخدم من قاعدة البيانات', 'success');
+                }
+            });
+        };
+
+        renderUsers();
+    </script>
+</body>
+
+</html>

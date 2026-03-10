@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة العملات - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Base page refinements */
+        body {
+            background-color: #f7f9fb;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a2332;
+            text-align: right;
+            margin-bottom: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Form Card Styling - Highly Fidelity to Mockup */
+        .cur-form-card {
+            background: white;
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.02);
+            margin-bottom: 2.5rem;
+            border: 1px solid #f1f5f9;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .cur-form-header {
+            background: #fcfdfe;
+            padding: 12px 25px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .cur-form-body {
+            padding: 25px 30px;
+        }
+
+        .label-style {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #4b5563;
+            margin-bottom: 12px;
+            display: block;
+            text-align: center;
+        }
+
+        .input-box {
+            background: #f1f5f9;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            color: #1e293b;
+            width: 100%;
+            outline: none;
+            text-align: center;
+            transition: all 0.2s;
+            height: 42px;
+        }
+
+        .input-box::placeholder {
+            color: #94a3b8;
+            opacity: 0.7;
+        }
+
+        .input-box:focus {
+            background: #fff;
+            border-color: #818cf8;
+            box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.1);
+        }
+
+        /* Input group strictly matching mockup */
+        .price-input-group {
+            display: flex;
+            align-items: center;
+            background: #f1f5f9;
+            border-radius: 6px;
+            overflow: hidden;
+            flex-direction: row;
+            height: 42px;
+        }
+
+        .price-icon {
+            padding: 0 15px;
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 1.1rem;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            min-width: 42px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+        }
+
+        .price-input-group input {
+            border: none;
+            background: transparent;
+            padding: 5px 15px;
+            width: 100%;
+            outline: none;
+            text-align: center;
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 0.9rem;
+        }
+
+        .btn-save-cur {
+            background: #7caeff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0 25px;
+            font-weight: 800;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 48px;
+            justify-content: center;
+            transition: all 0.2s;
+            width: 100%;
+            flex-direction: row-reverse;
+        }
+
+        .btn-save-cur:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* Checkbox Styling */
+        .check-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .custom-check-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            justify-content: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .check-sq {
+            width: 18px;
+            height: 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .check-sq:hover {
+            border-color: #80b3ff;
+        }
+
+        .check-sq.active {
+            background-color: #80b3ff;
+            border-color: #80b3ff;
+        }
+
+        .check-sq i {
+            color: white;
+            font-size: 0.7rem;
+            display: none;
+        }
+
+        .check-sq.active i {
+            display: block;
+        }
+
+        .check-text {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-weight: 700;
+            text-align: right;
+            line-height: 1.2;
+        }
+
+        /* Table Area Refinements */
+        .cur-table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+            border: 1px solid #f1f5f9;
+        }
+
+        .luxury-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .luxury-table th {
+            padding: 15px 20px;
+            background: #fff;
+            text-align: right;
+            font-weight: 800;
+            color: #1e293b;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .luxury-table td {
+            padding: 15px 20px;
+            text-align: right;
+            font-size: 0.85rem;
+            color: #475569;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+
+        .col-code {
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        .col-name {
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .price-badge-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .price-val-box {
+            background: #f1f5f9;
+            border-radius: 6px;
+            padding: 8px 15px;
+            min-width: 120px;
+            font-weight: 700;
+            color: #94adca;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+
+        .teal-dollar-btn {
+            background: #62b99a;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            border: none;
+        }
+
+        .vis-badge {
+            background: white;
+            border: 1px solid #dcfce7;
+            color: #10b981;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        .vis-badge.hidden-v {
+            border-color: #fee2e2;
+            color: #ef4444;
+        }
+
+        .del-btn-circle {
+            width: 35px;
+            height: 35px;
+            border: 1px solid #fee2e2;
+            color: #ef4444;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .del-btn-circle:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* Dark Mode Adjustments */
+        body.dark-mode {
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        body.dark-mode .page-title {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .cur-form-card,
+        body.dark-mode .cur-table-container {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark-mode .cur-form-header {
+            background: #1b2537;
+            color: #f8fafc;
+            border-bottom-color: #334155;
+        }
+
+        body.dark-mode .label-style {
+            color: #94a3b8;
+        }
+
+        body.dark-mode .input-box {
+            background: #0f172a;
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .price-input-group {
+            background: #0f172a;
+        }
+
+        body.dark-mode .price-input-group input {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .price-icon {
+            background: #1e293b;
+            color: #f8fafc;
+            border-color: #334155;
+        }
+
+        body.dark-mode .luxury-table th {
+            background: #1e293b;
+            color: #f8fafc;
+            border-bottom-color: #334155;
+        }
+
+        body.dark-mode .luxury-table td {
+            color: #cbd5e1;
+            border-bottom-color: #334155;
+        }
+    </style>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2" href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-primary gap-3 ms-4 hov p-2 mt-3 active" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vip_members.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_send_notification.html">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./manage_providers.html">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./import_products.html">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./api_clients.html">
+                        <i class="bi bi-braces-asterisk"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_theme.html">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./modal_texts.html">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_category_explorer.html">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_social_links.html">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admins_manager.html">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./twofa_settings.html">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="content" class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none"><i class="fa-solid fa-bell"></i></button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none"><i
+                        class="fa-solid fa-moon"></i></button>
+            </div>
+        </nav>
+
+        <div class="container-fluid p-4">
+            <h1 class="page-title">إدارة العملات</h1>
+
+            <!-- Form Section -->
+            <div class="cur-form-card">
+                <div class="cur-form-header">
+                    + إضافة / تحديث عملة جديدة
+                </div>
+                <div class="cur-form-body">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-2">
+                            <label class="label-style">الرمز (مثال: USD)</label>
+                            <input type="text" class="input-box" id="in-code" placeholder="EGP">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="label-style">اسم العملة</label>
+                            <input type="text" class="input-box" id="in-name" placeholder="الجنيه المصري">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="label-style">السعر مقابل USD</label>
+                            <div class="price-input-group">
+                                <input type="number" id="in-price" placeholder="51.5">
+                                <div class="price-icon" style="border-radius: 6px 0 0 6px;">$</div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="label-style">الرمز (Symbol)</label>
+                            <input type="text" class="input-box" id="in-symbol" placeholder="ج.م">
+                        </div>
+                        <div class="col-md-3">
+                            <div class="check-container">
+                                <label class="label-style">مخفية من القائمة؟</label>
+                                <div class="custom-check-row" id="toggle-hide">
+                                    <div class="check-sq" id="check-icon"><i class="bi bi-check"></i></div>
+                                    <span class="check-text">إخفاء من اختيار العملة للمستخدمين</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn-save-cur" id="btn-save">
+                                حفظ <i class="bi bi-box-arrow-in-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="cur-table-container">
+                <table class="luxury-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;">الرمز</th>
+                            <th style="width: 30%;">الاسم</th>
+                            <th style="width: 25%;">السعر مقابل USD</th>
+                            <th style="width: 10%;">Symbol</th>
+                            <th style="width: 15%;">الظهور في القائمة</th>
+                            <th style="width: 10%;">إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Content via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <div class="d-flex justify-content-between align-items-center mt-5 text-muted small p-2"
+                style="border-top:1px solid #f1f5f9;">
+                <div>V 1.2</div>
+                <div>© 2026 جميع الحقوق محفوظة - برمجة وتصميم <a href="#"
+                        class="text-primary text-decoration-none fw-bold">ahminix</a></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // --- Currency Logic ---
+        let currencies = [
+            { code: "AED", name: "درهم اماراتي - بنك مشرق", price: "3.750", sym: "د.إ", vis: true, locked: false },
+            { code: "AED.", name: "درهم اماراتي - ADIB", price: "3.900", sym: "د.إ", vis: true, locked: false },
+            { code: "EGP", name: "جنيه مصري", price: "50.00", sym: "ج.م", vis: true, locked: false },
+            { code: "IQD", name: "دينار عراقي - زين كاش", price: "155.000", sym: "ع.د", vis: true, locked: false },
+            { code: "IQD.", name: "دينار عراقي - آسيا سيل", price: "170.000", sym: "ع.د", vis: true, locked: false },
+            { code: "JOD", name: "دينار اردني", price: "0.730", sym: "د.أ", vis: true, locked: false },
+            { code: "SAR", name: "ريال سعودي - راجحي", price: "4.000", sym: "ريال", vis: true, locked: false },
+            { code: "SAR.", name: "ريال سعودي - كريمي", price: "3.800", sym: "ريال", vis: true, locked: false },
+            { code: "SYP", name: "ليرة سورية - سيريتل كاش", price: "128,000", sym: "ل.س", vis: true, locked: false },
+            { code: "SYP_admin", name: "ليرة سورية - أدمن", price: "119,000", sym: "ل.س", vis: false, locked: true },
+            { code: ".SYP", name: "ليرة سورية - شام كاش", price: "120,000", sym: "ل.س", vis: true, locked: false },
+            { code: "TRY", name: "ليرة تركية", price: "44.50", sym: "₺", vis: true, locked: false },
+            { code: "USD", name: "الدولار الأمريكي", price: "1.0000", sym: "$", vis: true, locked: true },
+            { code: "YER", name: "الريال اليمني", price: "542,000", sym: "ريال", vis: true, locked: false }
+        ];
+
+        let isHidden = false;
+
+        function render() {
+            const body = document.getElementById('table-body');
+            body.innerHTML = '';
+            currencies.forEach((c, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="col-code">${c.code}</td>
+                    <td class="col-name">${c.name}</td>
+                    <td>
+                        <div class="price-badge-row">
+                            <div class="price-val-box">${c.price}</div>
+                            <div class="teal-dollar-btn"><i class="fa-solid fa-dollar-sign"></i></div>
+                        </div>
+                    </td>
+                    <td class="fw-bold">${c.sym}</td>
+                    <td>
+                        ${c.locked && c.code !== 'SYP_admin' ? '-' : `<span class="vis-badge ${c.vis ? '' : 'hidden-v'}" onclick="toggleVis(${idx})">${c.vis ? 'ظاهرة' : 'مخفية'}</span>`}
+                    </td>
+                    <td>
+                        ${c.locked ? '-' : `<button class="del-btn-circle" onclick="delCur(${idx})"><i class="bi bi-trash3"></i></button>`}
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        const toggleHide = document.getElementById('toggle-hide');
+        const checkIcon = document.getElementById('check-icon');
+
+        toggleHide.addEventListener('click', () => {
+            isHidden = !isHidden;
+            if (isHidden) {
+                checkIcon.classList.add('active');
+            } else {
+                checkIcon.classList.remove('active');
+            }
+        });
+
+        document.getElementById('btn-save').addEventListener('click', () => {
+            const code = document.getElementById('in-code').value;
+            const name = document.getElementById('in-name').value;
+            const price = document.getElementById('in-price').value;
+            const symbol = document.getElementById('in-symbol').value;
+
+            if (!code || !name || !price || !symbol) {
+                Swal.fire({ icon: 'error', title: 'عذراً', text: 'يرجى ملء جميع البيانات', confirmButtonText: 'فهمت' });
+                return;
+            }
+
+            currencies.unshift({ code, name, price, sym: symbol, vis: !isHidden, locked: false });
+            render();
+            Swal.fire({ icon: 'success', title: 'تم الحفظ', text: 'تمت إضافة العملة بنجاح', timer: 1500, showConfirmButton: false });
+
+            ['in-code', 'in-name', 'in-price', 'in-symbol'].forEach(id => document.getElementById(id).value = '');
+            if (isHidden) {
+                isHidden = false;
+                document.getElementById('check-icon').classList.remove('active');
+            }
+        });
+
+        window.toggleVis = (i) => {
+            currencies[i].vis = !currencies[i].vis;
+            render();
+        };
+
+        window.delCur = (i) => {
+            Swal.fire({
+                title: 'هل أنت متأكد؟',
+                text: "سيتم حذف هذه العملة نهائياً!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'نعم، احذف',
+                cancelButtonText: 'تراجع'
+            }).then((res) => {
+                if (res.isConfirmed) {
+                    currencies.splice(i, 1);
+                    render();
+                }
+            });
+        };
+
+        render();
+    </script>
+</body>
+
+</html>

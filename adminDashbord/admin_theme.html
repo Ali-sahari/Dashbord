@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة التصميم - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2" href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_badge.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_send_notification.html">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./manage_providers.html">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./import_products.html">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./api_clients.html">
+                        <i class="bi bi-braces-asterisk"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-primary gap-3 ms-4 hov p-2 active"
+                        href="./admin_theme.html">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./modal_texts.html">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_category_explorer.html">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_social_links.html">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admins_manager.html">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./twofa_settings.html">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <div id="content" class="main-content d-flex flex-column min-vh-100" style="background-color: #f8fafc;">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none" onclick="showNotifications()"><i
+                        class="fa-solid fa-bell"></i></button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none"><i
+                        class="fa-solid fa-moon"></i></button>
+            </div>
+        </nav>
+
+        <div class="p-4 dashboard-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-start">
+                        <!-- Main Theme Settings Card -->
+                        <div class="theme-card shadow-sm border-0 mb-4">
+                            <!-- Section 1: Default Display Mode -->
+                            <form action="{{ route('admin.theme.update_mode') }}" method="POST" class="mb-5">
+                                @csrf
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div class="text-start">
+                                        <h2 class="theme-section-title">الوضع الافتراضي للموقع (للزوار الجدد)</h2>
+                                        <p class="theme-section-desc">
+                                            يحدد هذا الإعداد وضع العرض الافتراضي للموقع (فاتح أو داكن) للزوار الجدد فقط.
+                                            إذا غير الزائر الوضع من محول الثيم، يُحفظ اختياره في ملف تعريف الارتباط ولا
+                                            يتأثر بهذا الإعداد لاحقاً.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="theme-radio-group">
+                                        <div class="theme-radio-item">
+                                            <input class="form-check-input" type="radio" name="displayMode"
+                                                id="lightMode" value="light" {{ $displayMode=='light' ? 'checked' : ''
+                                                }}>
+                                            <span class="me-2">الوضع الفاتح (Light)</span>
+                                        </div>
+                                        <div class="theme-radio-item">
+                                            <input class="form-check-input" type="radio" name="displayMode"
+                                                id="darkMode">
+                                            <span class="me-2">الوضع الداكن (Dark)</span>
+                                        </div>
+                                    </div>
+                                    <button class="theme-btn-save">
+                                        <i class="fa-solid fa-save"></i>
+                                        حفظ الإعداد
+                                    </button>
+                                </div>
+                        </div>
+
+                        <div class="theme-divider"></div>
+
+                        <!-- Section 2: Site Colors -->
+                        <div class="mb-5">
+                            <h2 class="theme-section-title mb-4">ألوان الموقع</h2>
+
+                            <!-- Table Header -->
+                            <div class="row theme-table-header text-center">
+                                <div class="col-3 text-start">الاسم</div>
+                                <div class="col-4">القيمة</div>
+                                <div class="col-2">اختيار</div>
+                                <div class="col-3">إجراء</div>
+                            </div>
+
+                            <!-- Color Rows -->
+                            <div class="theme-row text-center">
+                                <div class="col-3 theme-label text-start">لون الموقع الرئيسي</div>
+                                <div class="col-4">
+                                    <input type="text" class="theme-input text-center" value="#005685">
+                                </div>
+                                <div class="col-2">
+                                    <div class="color-picker-box mx-auto" style="background-color: #72a1b9;"></div>
+                                </div>
+                                <div class="col-3 d-flex gap-2 justify-content-center">
+                                    <button class="theme-btn-save"><i class="fa-solid fa-floppy-disk"></i>
+                                        حفظ</button>
+                                    <button class="theme-btn-reset"><i class="fa-solid fa-rotate-right"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="theme-row text-center">
+                                <div class="col-3 theme-label text-start">لون رصيد المستخدم</div>
+                                <div class="col-4">
+                                    <input type="text" class="theme-input text-center" value="#005685">
+                                </div>
+                                <div class="col-2">
+                                    <div class="color-picker-box mx-auto" style="background-color: #72a1b9;"></div>
+                                </div>
+                                <div class="col-3 d-flex gap-2 justify-content-center">
+                                    <button class="theme-btn-save"><i class="fa-solid fa-floppy-disk"></i>
+                                        حفظ</button>
+                                    <button class="theme-btn-reset"><i class="fa-solid fa-rotate-right"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="theme-row text-center">
+                                <div class="col-3 theme-label text-start">لون عناوين الأقسام</div>
+                                <div class="col-4">
+                                    <input type="text" class="theme-input text-center" value="#005685">
+                                </div>
+                                <div class="col-2">
+                                    <div class="color-picker-box mx-auto" style="background-color: #72a1b9;"></div>
+                                </div>
+                                <div class="col-3 d-flex gap-2 justify-content-center">
+                                    <button class="theme-btn-save"><i class="fa-solid fa-floppy-disk"></i>
+                                        حفظ</button>
+                                    <button class="theme-btn-reset"><i class="fa-solid fa-rotate-right"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="theme-row text-center">
+                                <div class="col-3 theme-label text-start">لون عناوين المنتجات</div>
+                                <div class="col-4">
+                                    <input type="text" class="theme-input text-center" value="#005685">
+                                </div>
+                                <div class="col-2">
+                                    <div class="color-picker-box mx-auto" style="background-color: #72a1b9;"></div>
+                                </div>
+                                <div class="col-3 d-flex gap-2 justify-content-center">
+                                    <button class="theme-btn-save"><i class="fa-solid fa-floppy-disk"></i>
+                                        حفظ</button>
+                                    <button class="theme-btn-reset"><i class="fa-solid fa-rotate-right"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="theme-row text-center">
+                                <div class="col-3 theme-label text-start">لون أسعار المنتجات</div>
+                                <div class="col-4">
+                                    <input type="text" class="theme-input text-center" value="#005685">
+                                </div>
+                                <div class="col-2">
+                                    <div class="color-picker-box mx-auto" style="background-color: #72a1b9;"></div>
+                                </div>
+                                <div class="col-3 d-flex gap-2 justify-content-center">
+                                    <button class="theme-btn-save"><i class="fa-solid fa-floppy-disk"></i>
+                                        حفظ</button>
+                                    <button class="theme-btn-reset"><i class="fa-solid fa-rotate-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="theme-divider"></div>
+
+                        <!-- Section 3: Section & Product Layout -->
+                        <div>
+                            <h2 class="theme-section-title mb-4 text-start">تخطيط كروت الأقسام والمنتجات</h2>
+
+                            <!-- Table Header -->
+                            <div class="row theme-table-header text-center">
+                                <div class="col-4">الإعداد</div>
+                                <div class="col-5">القيمة</div>
+                                <div class="col-3">إجراء</div>
+                            </div>
+
+                            <!-- Layout Rows -->
+                            <div class="theme-row text-center">
+                                <div class="col-4 theme-label text-start">عدد كروت الأقسام بالسطر (كمبيوتر)</div>
+                                <div class="col-5">
+                                    <select class="form-select theme-select">
+                                        <option>4 بالسطر</option>
+                                    </select>
+                                    <div class="default-val-hint">الافتراضي: 4</div>
+                                </div>
+                                <div class="col-3 d-flex gap-2 justify-content-center">
+                                    <button class="theme-btn-save"><i class="fa-solid fa-save"></i> حفظ</button>
+                                    <button class="theme-btn-reset"><i class="fa-solid fa-rotate-right"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="theme-row text-center">
+                                <div class="col-4 theme-label text-start">عدد كروت الأقسام بالسطر (هاتف)</div>
+                                <div class="col-5">
+                                    <select class="form-select theme-select">
+                                        <option>3 بالسطر</option>
+                                    </select>
+                                    <div class="default-val-hint">الافتراضي: 3</div>
+                                </div>
+                                <div class="col-3 d-flex gap-2 justify-content-center">
+                                    <button class="theme-btn-save"><i class="fa-solid fa-save"></i> حفظ</button>
+                                    <button class="theme-btn-reset"><i class="fa-solid fa-rotate-right"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="theme-row text-center">
+                                <div class="col-4 theme-label text-start">شكل صور الأقسام</div>
+                                <div class="col-5">
+                                    <select class="form-select theme-select">
+                                        <option>مربع (1:1)</option>
+                                    </select>
+                                    <div class="default-val-hint">الافتراضي: 1:1</div>
+                                </div>
+                                <div class="col-3 d-flex gap-2 justify-content-center">
+                                    <button class="theme-btn-save"><i class="fa-solid fa-save"></i> حفظ</button>
+                                    <button class="theme-btn-reset"><i class="fa-solid fa-rotate-right"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="theme-row text-center">
+                                <div class="col-4 theme-label text-start">عدد كروت المنتجات بالسطر (كمبيوتر)</div>
+                                <div class="col-5">
+                                    <select class="form-select theme-select">
+                                        <option>4 بالسطر</option>
+                                    </select>
+                                    <div class="default-val-hint">الافتراضي: 4</div>
+                                </div>
+                                <div class="col-3 d-flex gap-2 justify-content-center">
+                                    <button class="theme-btn-save"><i class="fa-solid fa-save"></i> حفظ</button>
+                                    <button class="theme-btn-reset"><i class="fa-solid fa-rotate-right"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="theme-row text-center">
+                                <div class="col-4 theme-label text-start">عدد كروت المنتجات بالسطر (هاتف)</div>
+                                <div class="col-5">
+                                    <select class="form-select theme-select">
+                                        <option>3 بالسطر</option>
+                                    </select>
+                                    <div class="default-val-hint">الافتراضي: 3</div>
+                                </div>
+                                <div class="col-3 d-flex gap-2 justify-content-center">
+                                    <button class="theme-btn-save"><i class="fa-solid fa-save"></i> حفظ</button>
+                                    <button class="theme-btn-reset"><i class="fa-solid fa-rotate-right"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="theme-row text-center">
+                                <div class="col-4 theme-label text-start">شكل صور المنتجات</div>
+                                <div class="col-5">
+                                    <select class="form-select theme-select">
+                                        <option>مربع (1:1)</option>
+                                    </select>
+                                    <div class="default-val-hint">الافتراضي: 1:1</div>
+                                </div>
+                                <div class="col-3 d-flex gap-2 justify-content-center">
+                                    <button class="theme-btn-save"><i class="fa-solid fa-save"></i> حفظ</button>
+                                    <button class="theme-btn-reset"><i class="fa-solid fa-rotate-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logo Change Card -->
+                    <div class="theme-card shadow-sm border-0">
+                        <!-- Section 0: Logo Change -->
+                        <div class="mb-2">
+                            <div class="text-start mb-4">
+                                <h2 class="theme-section-title d-flex align-items-center justify-content-start gap-2">
+                                    تغيير اللوغو
+                                    <i class="fa-regular fa-image" style="font-size: 1.2rem;"></i>
+                                </h2>
+                            </div>
+
+                            <div class="logo-upload-container">
+                                <!-- Preview Box (Right side in RTL) -->
+                                <div class="logo-preview-box">
+                                    <div class="logo-preview-title">اللوغو الحالي</div>
+                                    <img src="slide_1772665693_7918.webp" alt="Current Logo" class="current-logo-img">
+                                </div>
+
+                                <!-- Upload Controls (Left side in RTL) -->
+                                <div class="logo-upload-controls">
+                                    <div class="upload-label">
+                                        <i class="fa-solid fa-upload" style="color: #94a3b8; font-size: 0.9rem;"></i>
+                                        <span class="fw-bold">اختر صورة</span>
+                                        <span class="upload-hint fw-bold">(PNG / JPG / WEBP) ≥ 6MB</span>
+                                    </div>
+
+                                    <div class="custom-file-input-wrapper">
+                                        <div class="file-input-btn">اختيار ملف</div>
+                                        <input type="text" class="file-input-path" value="لم يتم اختيار أي ملف"
+                                            readonly>
+                                    </div>
+
+                                    <div class="d-flex justify-content-end">
+                                        <button class="theme-btn-logo-save">
+                                            <span>حفظ اللوغو</span>
+                                            <i class="fa-solid fa-arrow-down-to-bracket"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Slider Image Card -->
+                    <div class="theme-card shadow-sm border-0 mb-4">
+                        <div class="text-start mb-4">
+                            <h2
+                                class="theme-section-title d-flex align-items-center justify-content-start gap-2 text-pink">
+                                إضافة صورة للسلايدر
+                                <i class="fa-solid fa-square-plus" style="font-size: 1.2rem;"></i>
+                            </h2>
+                        </div>
+
+                        <div class="row g-4 align-items-start mb-4">
+                            <!-- Col Image (Right in RTL) -->
+                            <div class="col-md-5">
+                                <label class="theme-label mb-2 d-flex align-items-center justify-content-start gap-2">
+                                    <i class="fa-solid fa-image" style="color: #94a3b8; font-size: 0.8rem;"></i>
+                                    <span>الصورة</span>
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="custom-file-input-wrapper mb-0">
+                                    <div class="file-input-btn">اختيار ملف</div>
+                                    <input type="text" class="file-input-path" value="لم يتم اختيار أي ملف" readonly>
+                                </div>
+                            </div>
+                            <!-- Col Order (Middle) -->
+                            <div class="col-md-2">
+                                <label class="theme-label mb-2 d-flex align-items-center justify-content-start gap-2">
+                                    <i class="fa-solid fa-bars-staggered"
+                                        style="color: #94a3b8; font-size: 0.8rem;"></i>
+                                    <span>الترتيب</span>
+                                </label>
+                                <input type="text" class="theme-input text-center w-100" placeholder=".">
+                            </div>
+                            <!-- Col Link (Left in RTL) -->
+                            <div class="col-md-5">
+                                <label class="theme-label mb-2 d-flex align-items-center justify-content-start gap-2">
+                                    <i class="fa-solid fa-link" style="color: #94a3b8; font-size: 0.8rem;"></i>
+                                    <span>رابط الصورة (اختياري)</span>
+                                </label>
+                                <input type="text" class="theme-input w-100 text-end"
+                                    placeholder="https://example.com/offer">
+                                <div class="text-end mt-1" style="font-size: 0.75rem; color: #94a3b8;">اتركه فارغاً
+                                    إذا لا يوجد رابط.</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button class="theme-btn-logo-save" style="background-color: #70acec !important;">
+                                <span>إضافة</span>
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Slider Images Management (100% Fidelity Rebuild - Refined) -->
+                    <div class="card shadow-sm border-0 mb-4 overflow-hidden">
+                        <div class="card-header bg-white py-3 border-bottom-0">
+                            <h5 class="mb-0 d-flex align-items-center gap-2 fw-bold text-dark">
+                                <i class="bi bi-folder2 fs-4"></i>
+                                <span>صور السلايدر</span>
+                            </h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <!-- Horizontal Labels Header Row -->
+                            <div class="row g-0 fw-bold py-2 border-bottom text-center align-items-center"
+                                style="font-size: 1rem; color: #1e293b; background-color: #fff;">
+                                <div class="col-1">#</div>
+                                <div class="col-2">الصورة</div>
+                                <div class="col-1">الترتيب</div>
+                                <div class="col-4">الرابط</div>
+                                <div class="col-4">تحكم</div>
+                            </div>
+
+                            <!-- Slider Item Item Container -->
+                            <div class="slider-items-wrapper">
+
+                                <!-- Slider Row 10 -->
+                                <div class="row g-0 align-items-center py-4 border-bottom text-center bg-white">
+                                    <!-- 1. Index -->
+                                    <div class="col-1 fw-bold text-muted fs-5">10</div>
+
+                                    <!-- 2. Thumbnail -->
+                                    <div class="col-2 px-1">
+                                        <div class="rounded-4 d-flex align-items-center justify-content-center overflow-hidden mx-auto"
+                                            style="width: 150px; height: 75px; background-color: #05070a;">
+                                            <img src="slide_1772665693_7918.webp" alt="Slider 10" class="img-fluid"
+                                                style="max-height: 55px;">
+                                        </div>
+                                    </div>
+
+                                    <!-- 3. Standalone Order Input (No Labels) -->
+                                    <div class="col-1 px-1">
+                                        <input type="text" class="form-control border-0 text-center fw-bold" value="0"
+                                            style="background-color: #f8f9fa; border-radius: 8px; color: #334155;">
+                                    </div>
+
+                                    <!-- 4. URL Input -->
+                                    <div class="col-4 px-3">
+                                        <input type="text" class="form-control border-0" value="https://..."
+                                            style="background-color: #f8f9fa; border-radius: 8px; color: #334155;">
+                                    </div>
+
+                                    <!-- 5. Action Column (Strict Vertical Stacks) -->
+                                    <div class="col-4 px-3">
+                                        <div class="row g-2 align-items-center justify-content-center">
+                                            <!-- Stack 1: Standalone Switch over Update -->
+                                            <div class="col-6 d-flex flex-column align-items-center gap-2">
+                                                <!-- Fixed Checkbox Switch -->
+                                                <div class="form-check form-switch d-flex align-items-center gap-5 m-0"
+                                                    dir="ltr">
+                                                    <input class="form-check-input" type="checkbox" checked
+                                                        style="width: 40px; height: 20px; cursor: pointer; background-image: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%273%27 fill=%27%23fff%27/%3e%3c/svg%3e');">
+                                                    <label class="form-check-label text-muted fw-bold small m-0"
+                                                        style="cursor: pointer;">مفعل</label>
+                                                </div>
+                                                <button
+                                                    class="btn btn-sm text-white w-100 fw-bold d-flex align-items-center justify-content-center gap-2 py-2 shadow-sm"
+                                                    style="background-color: #72c1a8; border-radius: 8px;">
+                                                    <i class="bi bi-check2-circle fs-6"></i> تحديث
+                                                </button>
+                                            </div>
+
+                                            <!-- Stack 2: Delete over Replace Group -->
+                                            <div class="col-6 d-flex flex-column align-items-center gap-2">
+                                                <button
+                                                    class="btn btn-sm text-white w-100 fw-bold d-flex align-items-center justify-content-center gap-2 py-2 shadow-sm"
+                                                    style="background-color: #f8acac; border-radius: 8px;">
+                                                    <i class="bi bi-trash3 fs-6"></i> حذف
+                                                </button>
+
+                                                <div class="input-group input-group-sm w-100 shadow-sm" dir="ltr">
+                                                    <span
+                                                        class="input-group-text bg-white border-0 text-primary fw-bold"
+                                                        style="border: 1px solid #70acec !important; color: #70acec !important; border-radius: 8px 0 0 8px; font-size: 0.75rem; cursor: pointer;">
+                                                        <i class="bi bi-arrow-repeat me-1"></i> استبدال
+                                                    </span>
+                                                    <input type="text" class="form-control text-muted border-start-0"
+                                                        value="لم يتم اختيار أي ملف" readonly
+                                                        style="font-size: 0.75rem; background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 0 8px 8px 0;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Slider Row 11 -->
+                                <div class="row g-0 align-items-center py-4 border-bottom text-center bg-white">
+                                    <!-- 1. Index -->
+                                    <div class="col-1 fw-bold text-muted fs-5">11</div>
+
+                                    <!-- 2. Thumbnail -->
+                                    <div class="col-2 px-1">
+                                        <div class="rounded-4 d-flex align-items-center justify-content-center overflow-hidden mx-auto"
+                                            style="width: 150px; height: 75px; background-color: #05070a;">
+                                            <img src="slide_1772665693_7918.webp" alt="Slider 11" class="img-fluid"
+                                                style="max-height: 55px;">
+                                        </div>
+                                    </div>
+
+                                    <!-- 3. Standalone Order Input -->
+                                    <div class="col-1 px-1">
+                                        <input type="text" class="form-control border-0 text-center fw-bold" value="1"
+                                            style="background-color: #f8f9fa; border-radius: 8px; color: #334155;">
+                                    </div>
+
+                                    <!-- 4. URL Input -->
+                                    <div class="col-4 px-3">
+                                        <input type="text" class="form-control border-0" value="https://..."
+                                            style="background-color: #f8f9fa; border-radius: 8px; color: #334155;">
+                                    </div>
+
+                                    <!-- 5. Action Column -->
+                                    <div class="col-4 px-3">
+                                        <div class="row g-2 align-items-center justify-content-center">
+                                            <!-- Stack 1: Standalone Switch over Update -->
+                                            <div class="col-6 d-flex flex-column align-items-center gap-2">
+                                                <div class="form-check form-switch d-flex align-items-center gap-5 m-0"
+                                                    dir="ltr">
+                                                    <input class="form-check-input" type="checkbox" checked
+                                                        style="width: 40px; height: 20px; cursor: pointer; background-image: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%273%27 fill=%27%23fff%27/%3e%3c/svg%3e');">
+                                                    <label class="form-check-label text-muted fw-bold small m-0"
+                                                        style="cursor: pointer;">مفعل</label>
+                                                </div>
+                                                <button
+                                                    class="btn btn-sm text-white w-100 fw-bold d-flex align-items-center justify-content-center gap-2 py-2 shadow-sm"
+                                                    style="background-color: #72c1a8; border-radius: 8px;">
+                                                    <i class="bi bi-check2-circle fs-6"></i> تحديث
+                                                </button>
+                                            </div>
+
+                                            <!-- Stack 2: Delete over Replace Group -->
+                                            <div class="col-6 d-flex flex-column align-items-center gap-2">
+                                                <button
+                                                    class="btn btn-sm text-white w-100 fw-bold d-flex align-items-center justify-content-center gap-2 py-2 shadow-sm"
+                                                    style="background-color: #f8acac; border-radius: 8px;">
+                                                    <i class="bi bi-trash3 fs-6"></i> حذف
+                                                </button>
+
+                                                <div class="input-group input-group-sm w-100 shadow-sm" dir="ltr">
+                                                    <span
+                                                        class="input-group-text bg-white border-0 text-primary fw-bold"
+                                                        style="border: 1px solid #70acec !important; color: #70acec !important; border-radius: 8px 0 0 8px; font-size: 0.75rem; cursor: pointer;">
+                                                        <i class="bi bi-arrow-repeat me-1"></i> استبدال
+                                                    </span>
+                                                    <input type="text" class="form-control text-muted border-start-0"
+                                                        value="لم يتم اختيار أي ملف" readonly
+                                                        style="font-size: 0.75rem; background-color: #f8f9fa; border-color: #dee2e6; border-radius: 0 8px 8px 0;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- News Strip Text Management (100% Fidelity Refinement) -->
+                    <div class="card shadow-sm border-0 mb-4 overflow-hidden">
+                        <div class="card-header bg-white py-3 border-bottom text-end  ">
+                            <h5 style="font-size: 0.9rem !important;" class="mb-0 d-flex   gap-2 fw-bold text-dark">
+                                <span>نص شريط الأخبار</span>
+                                <i style="font-size: 0.9rem !important;"
+                                    class="bi bi-layout-text-sidebar-reverse fs-4"></i>
+                            </h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <!-- Horizontal Labels -->
+                            <div class="row g-0 fw-bold py-2 border-bottom text-center align-items-center"
+                                style="font-size: 1rem; color: #1e293b; background-color: #fff;">
+                                <div class="col-md-1">#</div>
+                                <div class="col-1"> النص</div>
+                                <div class="col-7">تحكم</div>
+                            </div>
+
+                            <div class="news-items-wrapper">
+                                <!-- News Row 1 -->
+                                <div class="row g-0 align-items-start py-4 border-bottom bg-white">
+                                    <!-- 1. Index -->
+                                    <div class="col-1 text-center fw-bold text-muted pt-1 fs-5 mt-3">1</div>
+
+                                    <!-- 2. Content Column (Two Lines) -->
+                                    <div class="col-4 px-3">
+                                        <div class="d-flex flex-column gap-3 text-end mt-4">
+                                            <!-- Line 1: Bold Text -->
+                                            <div class="fw-bold text-dark" style="font-size: 1.15rem;">اطلب متجرك
+                                                الآن من Ahminix</div>
+                                            <!-- Line 2: Subtle Input Field -->
+                                            <div class="">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 3. Controls Column -->
+                                    <div class="col-7 px-3">
+                                        <input type="text" class="form-control border-0 py-2 shadow-none w-100"
+                                            value="اطلب متجرك الآن من Ahminix"
+                                            style="background-color: #f2f4f7; border-radius: 10px; color: #475569; font-size: 0.95rem;">
+                                        <div class="d-flex flex-column align-items-center gap-3">
+                                            <!-- Line 1 Controls: Switch & Update -->
+                                            <div class="d-flex  gap-3 w-100 mt-2">
+                                                <!-- Switch Group (Blue Switch + Label) -->
+                                                <div class="form-check form-switch d-flex align-items-center gap-2 m-0 p-0"
+                                                    dir="ltr">
+                                                    <label class="form-check-label text-muted fw-bold small me-2"
+                                                        style="cursor: pointer;">مفعل</label>
+                                                    <input class="form-check-input" type="checkbox" checked
+                                                        style="width: 38px; height: 19px; cursor: pointer; margin: 0; background-color: #70acec; border-color: #70acec;">
+                                                </div>
+                                                <!-- Update Button (Small Green) -->
+                                                <button
+                                                    class="btn btn-sm text-white fw-bold d-flex align-items-center gap-1 px-3 py-1-5 shadow-sm"
+                                                    style="background-color: #72c1a8; border-radius: 8px; font-size: 0.85rem;">
+                                                    <i class="bi bi-check2-circle fs-6"></i> تحديث
+                                                </button>
+                                            </div>
+                                            <!-- Line 2 Control: Delete Button (Pink) -->
+                                            <div class="d-flex  w-100 pe-5">
+                                                <button
+                                                    class="btn btn-sm text-white fw-bold d-flex align-items-center gap-2 px-4 py-1-5 shadow-sm"
+                                                    style="background-color: #f8acac; border-radius: 8px; font-size: 0.85rem;">
+                                                    <i class="bi bi-trash3 fs-6"></i> حذف
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Welcome Message Settings Card (1:1 Fidelity Rebuild - Strict RTL) -->
+                    <div class="card shadow-sm border-0 mb-4 overflow-hidden" dir="rtl" style="text-align: right;">
+                        <div class="card-header bg-white py-4 border-bottom-0">
+                            <h5 class="mb-0 d-flex align-items-center gap-2 fw-bold text-dark">
+                                <i class="bi bi-magic fs-4"></i>
+                                <span>إعداد رسالة الترحيب</span>
+                            </h5>
+                            <p class="text-muted small mt-3 mb-0 lh-lg" style="font-size: 0.85rem; max-width: 95%;">
+                                من هذه الصفحة يمكنك كتابة نص <strong>رسالة الترحيب</strong> التي تظهر للزائر عند دخول
+                                الموقع للمرة الأولى. يتيح لك المحرر التحكم في نوع الفقرة، حجم الخط، لون النص والخلفية،
+                                المحاذاة، وإضافة الروابط داخل النص.
+                            </p>
+                        </div>
+                        <div class="card-body px-4 pt-2 pb-4">
+                            <!-- Rich Text Editor Simulation -->
+                            <div class="mb-5">
+                                <label class="theme-label mb-3 d-flex align-items-center gap-2 fw-bold text-dark">
+                                    <i class="bi bi-chat-left-text fs-5" style="color: #94a3b8;"></i>
+                                    <span>نص رسالة الترحيب</span>
+                                </label>
+
+                                <div class="editor-container border rounded-3 overflow-hidden">
+                                    <!-- Toolbar -->
+                                    <div class="editor-toolbar d-flex flex-wrap align-items-center gap-1 p-2 border-bottom"
+                                        style="background-color: #fcfdfe;">
+                                        <div class="d-flex align-items-center border rounded bg-white px-2 py-1 gap-2"
+                                            style="cursor: pointer; min-width: 140px;">
+                                            <span class="small fw-bold text-muted">فقرة عادية</span>
+                                            <i class="bi bi-chevron-down small text-muted"></i>
+                                        </div>
+
+                                        <div class="d-flex align-items-center border rounded bg-white px-2 py-1 gap-2 me-2"
+                                            style="cursor: pointer; min-width: 160px;">
+                                            <span class="small fw-bold text-muted">حجم الخط (px)</span>
+                                            <i class="bi bi-chevron-down small text-muted"></i>
+                                        </div>
+
+                                        <div class="vr mx-2 bg-secondary opacity-25"></div>
+
+                                        <div class="btn-group" dir="rtl">
+                                            <button
+                                                class="btn btn-sm btn-outline-light text-dark border d-flex align-items-center gap-1 px-3">
+                                                <i class="bi bi-type-bold"></i> <span class="small fw-bold">عريض</span>
+                                            </button>
+                                            <button
+                                                class="btn btn-sm btn-outline-light text-dark border d-flex align-items-center gap-1 px-3">
+                                                <i class="bi bi-type-italic"></i> <span
+                                                    class="small fw-bold">مائل</span>
+                                            </button>
+                                            <button
+                                                class="btn btn-sm btn-outline-light text-dark border d-flex align-items-center gap-1 px-3">
+                                                <i class="bi bi-type-underline"></i> <span class="small fw-bold">تحته
+                                                    خط</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="vr mx-1 bg-secondary opacity-25"></div>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-light text-dark border d-flex align-items-center gap-2 px-3">
+                                            <div
+                                                style="width: 18px; height: 18px; background-color: #334155; border-radius: 3px;">
+                                            </div>
+                                            <span class="small fw-bold">لون النص</span>
+                                        </button>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-light text-dark border d-flex align-items-center gap-2 px-3"
+                                            style="background-color: #f7fee7;">
+                                            <div
+                                                style="width: 18px; height: 18px; background-color: #bef264; border-radius: 3px;">
+                                            </div>
+                                            <span class="small fw-bold">خلفية النص</span>
+                                        </button>
+
+                                        <div class="vr mx-2 bg-secondary opacity-25"></div>
+
+                                        <div class="btn-group" dir="rtl">
+                                            <button
+                                                class="btn btn-sm btn-outline-light text-dark border bg-white px-3"><i
+                                                    class="bi bi-text-right"></i> يمين</button>
+                                            <button
+                                                class="btn btn-sm btn-outline-light text-dark border bg-white px-3"><i
+                                                    class="bi bi-text-center"></i> وسط</button>
+                                            <button
+                                                class="btn btn-sm btn-outline-light text-dark border bg-white px-3"><i
+                                                    class="bi bi-text-left"></i> يسار</button>
+                                        </div>
+
+                                        <div class="vr mx-2 bg-secondary opacity-25"></div>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-light text-dark border bg-white px-3 d-flex align-items-center gap-2">
+                                            <i class="bi bi-link-45deg"></i> <span class="small fw-bold">رابط</span>
+                                        </button>
+                                    </div>
+
+                                    <!-- Editor Canvas -->
+                                    <div class="editor-canvas p-4 bg-white" style="min-height: 220px;">
+                                        <h4 class="fw-bold text-dark mb-4">أهلاً وسهلاً بك في النسخة التجريبية</h4>
+                                        <div class="d-inline-block px-2 py-1 text-white fw-bold"
+                                            style="background-color: #1e293b; border-radius: 4px;">
+                                            اطلب متجرك الآن من Ahminix
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="text-muted mt-3 mb-0 text-end" style="font-size: 0.8rem;">
+                                    اكتب نص رسالة الترحيب، ثم استخدم أزرار شريط الأدوات لتنسيق العناوين والفقرات، ضبط
+                                    حجم الخط، تغيير الألوان، ضبط المحاذاة، وإضافة الروابط حسب ما تراه مناسباً.
+                                </p>
+                            </div>
+
+                            <!-- Configuration Controls Row -->
+                            <div class="row align-items-start g-3 mb-5 mt-4">
+                                <!-- Enable Switch (Right aligned in RTL) -->
+                                <div class="col-md-5 d-flex align-items-center gap-5 pt-3">
+                                    <span class="fw-bold text-muted small">تفعيل رسالة الترحيب</span>
+                                    <div class="form-check form-switch p-0 m-0">
+                                        <input class="form-check-input me-0" type="checkbox" checked
+                                            style="width: 48px; height: 24px; cursor: pointer; float: none; background-color: #70acec; border-color: #70acec;">
+                                    </div>
+                                </div>
+
+                                <!-- Auto Close Setting (Centered) -->
+                                <div class="col-md-7 text-center d-flex flex-column align-items-center">
+                                    <label class="fw-bold d-flex align-items-center gap-2 mb-2 text-dark">
+                                        <i class="bi bi-hourglass-split"></i>
+                                        <span>الإغلاق التلقائي (بالثواني)</span>
+                                    </label>
+                                    <div class="w-100" style="max-width: 400px;">
+                                        <input type="text" class="form-control text-center border-0 shadow-none py-3"
+                                            value="0"
+                                            style="background-color: #f2f4f7; border-radius: 12px; font-size: 1.1rem; color: #475569;">
+                                        <p class="text-muted mt-2 mb-0 lh-base" style="font-size: 0.75rem;">
+                                            إذا كانت القيمة 0 فلن تُغلق الرسالة تلقائياً، وستظل ظاهرة حتى يضغط الزائر زر
+                                            الإغلاق.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Footer Button -->
+                            <div class="d-flex justify-content-start mt-4">
+                                <button
+                                    class="btn btn-primary px-4 py-2-5 d-flex align-items-center gap-2 shadow-sm border-0"
+                                    style="background-color: #70acec; border-radius: 12px; font-weight: 600;">
+                                    <i class="bi bi-save2 fs-5"></i>
+                                    <span>حفظ إعدادات رسالة الترحيب</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+
+</body>
+
+</html>

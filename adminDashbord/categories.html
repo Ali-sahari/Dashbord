@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الأقسام - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* Modern Floating Card Style */
+        .card-floating {
+            background: white;
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04);
+            margin-bottom: 25px;
+        }
+
+        /* Form Labels */
+        .form-label-premium {
+            font-weight: 700;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .input-premium {
+            background-color: #f4f6f9;
+            border: none !important;
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-weight: 600;
+            color: #1e293b;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .input-premium:focus {
+            background-color: #edf2f7;
+            box-shadow: none;
+        }
+
+        /* Custom File Upload Styling (Matches Reference Image) */
+        .custom-file-wrapper {
+            display: flex;
+            background-color: #f4f6f9;
+            border-radius: 12px;
+            overflow: hidden;
+            align-items: stretch;
+            height: 52px;
+        }
+
+        .file-name-display {
+            flex-grow: 1;
+            padding: 14px 18px;
+            color: #94a3b8;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: right;
+        }
+
+        .btn-browse {
+            background-color: white;
+            border: 1px solid #f1f5f9;
+            color: #94a3b8;
+            font-weight: 700;
+            padding: 0 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 4px;
+            border-radius: 10px;
+        }
+
+        .btn-browse:hover {
+            background-color: #f8fafc;
+        }
+
+        /* Teal Add Button (Matches Reference Image) */
+        .btn-add-teal {
+            background-color: #8ac4a7;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 800;
+            padding: 10px 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-add-teal:hover {
+            background-color: #7ab396;
+            transform: translateY(-1px);
+        }
+
+        .circle-plus-icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1.5px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        /* Header Layout Adjustments */
+        .header-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        /* Table Card Styling */
+        .table-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
+        }
+
+        .table-custom th {
+            color: #1e293b;
+            font-weight: 800;
+            border: none;
+            padding: 18px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .table-custom td {
+            vertical-align: middle;
+            text-align: center;
+            padding: 18px;
+            border-top: 1px solid #f8fafc;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .cat-image-circle {
+            width: 50px;
+            height: 50px;
+            background-color: #0f172a;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .cat-image-circle i {
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* Status & Action Badges */
+        .premium-badge {
+            font-weight: 800;
+            padding: 7px 15px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .badge-success-premium {
+            background-color: #e6f7ef;
+            color: #2d9d78;
+        }
+
+        .badge-danger-premium {
+            background-color: #fef2f2;
+            color: #ef4444;
+        }
+
+        .btn-action-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: 1px solid #f1f5f9;
+            background: transparent;
+            color: #94a3b8;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .active-row-btns .btn-toggle-main {
+            border: 1px solid #8ac4a7;
+            color: #8ac4a7;
+            background: white;
+            border-radius: 10px;
+            padding: 8px 18px;
+            font-weight: 800;
+            font-size: 0.85rem;
+        }
+
+        /* Search Section Refinement */
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        .search-pill {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            padding: 5px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 400px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .search-pill input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .search-pill input::placeholder {
+            color: #cbd5e1;
+        }
+
+        .btn-pill-search {
+            background: #60a5fa;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 6px 20px;
+            font-weight: 800;
+        }
+
+        /* Dark Mode Consistency */
+        body.dark-mode {
+            background-color: #0f172a !important;
+        }
+
+        body.dark-mode .card-floating,
+        body.dark-mode .table-card,
+        body.dark-mode footer,
+        body.dark-mode .bg-white {
+            background-color: #1e293b !important;
+        }
+
+        body.dark-mode .input-premium,
+        body.dark-mode .custom-file-wrapper,
+        body.dark-mode .search-pill {
+            background-color: #0f172a !important;
+            border-color: #334155 !important;
+            color: #f8fafc !important;
+        }
+
+        body.dark-mode .form-label-premium,
+        body.dark-mode .table-custom td {
+            color: #cbd5e1 !important;
+        }
+
+        body.dark-mode .table-custom th {
+            color: white !important;
+        }
+
+        body.dark-mode .table-custom td {
+            border-top-color: #334155 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2" href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-primary gap-3 ms-4 hov p-2 active" href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vip_members.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_send_notification.html">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./manage_providers.html">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./import_products.html">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./api_clients.html">
+                        <i class="bi bi-braces-asterisk"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_theme.html">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./modal_texts.html">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_category_explorer.html">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_social_links.html">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admins_manager.html">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./twofa_settings.html">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="content" class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+
+        <div class="container-fluid px-5 py-4" style="min-height: calc(100vh - 60px);">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h3 class="fw-bold text-end" style="color: #1e293b;">إدارة الأقسام</h3>
+                </div>
+            </div>
+
+            <!-- Enhanced Add Category Card -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card card-floating p-5">
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label-premium">اسم القسم</label>
+                                <input type="text" class="input-premium" id="catNameInput" placeholder="أدخل اسم القسم">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label-premium">قسم رئيسي (اختياري)</label>
+                                <select class="input-premium" id="parentCatSelect">
+                                    <option value="">- لا يوجد -</option>
+                                    <option value="قسم رئيسي تجريبي 1">قسم رئيسي تجريبي 1</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-5">
+                            <div class="col-12">
+                                <label class="form-label-premium">صورة القسم</label>
+                                <div class="custom-file-wrapper" onclick="document.getElementById('fileInput').click()">
+                                    <div class="btn-browse">اختيار ملف</div>
+                                    <div class="file-name-display" id="fileNameDisplay">لم يتم اختيار أي ملف</div>
+                                    <input type="file" id="fileInput" style="display: none;"
+                                        onchange="updateFileName(this)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 text-start">
+                                <button class="btn btn-add-teal" id="addCategoryBtn">
+                                    <div class="circle-plus-icon">+</div>
+                                    <span>إضافة</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search & Filter Area -->
+            <div class="row mb-3 align-items-center">
+                <div class="col-md-6 order-md-1 order-2">
+                    <div class="text-muted fw-bold small text-end text-md-start">
+                        <i class="bi bi-archive-fill me-1"></i> إجمالي النتائج: <span id="totalBadgeCount">8</span>
+                    </div>
+                </div>
+                <div class="col-md-6 order-md-2 order-1 mb-3 mb-md-0">
+                    <div class="search-pill ms-auto">
+                        <i class="bi bi-search text-muted"></i>
+                        <input type="text" id="catSearchInput" placeholder="ابحث عن قسم...">
+                        <button class="btn btn-pill-search" id="catSearchBtn">بحث</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Table Card -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-card">
+                        <div class="table-responsive">
+                            <table class="table table-custom mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>اسم القسم</th>
+                                        <th>القسم الرئيسي</th>
+                                        <th>الحالة</th>
+                                        <th>الصورة</th>
+                                        <th>إجراءات</th>
+                                        <th>تفعيل المنتجات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="catTableBody">
+                                    <!-- Dynamic Rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Category Modal -->
+        <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content"
+                    style="border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
+                    <div class="modal-header border-0 p-4 pb-0">
+                        <h5 class="fw-bold" style="color: #1e293b;">تعديل القسم</h5>
+                        <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="mb-3">
+                            <label class="form-label-premium">اسم القسم</label>
+                            <input type="text" class="input-premium" id="editCatNameInput">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label-premium">قسم رئيسي (اختياري)</label>
+                            <select class="input-premium" id="editParentCatSelect">
+                                <option value="">- لا يوجد -</option>
+                                <option value="قسم رئيسي تجريبي 1">قسم رئيسي تجريبي 1</option>
+                            </select>
+                        </div>
+                        <div class="text-start d-flex gap-2 justify-content-end">
+                            <button type="button" class="btn btn-light fw-bold" data-bs-dismiss="modal"
+                                style="border-radius: 10px; padding: 10px 25px;">إلغاء</button>
+                            <button type="button" class="btn btn-add-teal" id="saveEditBtn">
+                                <span>حفظ التعديلات</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-auto py-4 px-5 border-top bg-white d-flex justify-content-between align-items-center">
+            <div class="text-muted fw-bold">V 1.2</div>
+            <div class="text-muted">
+                © 2026 جميع الحقوق محفوظة - برمجة وتصميم
+                <a href="#" class="text-primary text-decoration-none fw-bold ms-1">ahminix</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // File Input Display
+        function updateFileName(input) {
+            const display = document.getElementById('fileNameDisplay');
+            display.innerText = input.files[0] ? input.files[0].name : "لم يتم اختيار أي ملف";
+            display.style.color = input.files[0] ? "#1e293b" : "#94a3b8";
+        }
+
+        // --- Dynamic Category Logic ---
+        let categories = [
+            { id: 8, name: "قسم فرعي تجريبي 4", parent: "قسم رئيسي تجريبي 1", status: true, hasImg: true, isProductsEnabled: false },
+            { id: 7, name: "قسم فرعي تجريبي 3", parent: "قسم رئيسي تجريبي 1", status: true, hasImg: true, isProductsEnabled: false },
+            { id: 6, name: "قسم فرعي تجريبي 2", parent: "قسم رئيسي تجريبي 1", status: true, hasImg: true, isProductsEnabled: false },
+            { id: 5, name: "قسم فرعي تجريبي 1", parent: "قسم رئيسي تجريبي 1", status: true, hasImg: true, isProductsEnabled: true },
+            { id: 4, name: "قسم رئيسي تجريبي 4", parent: "-", status: true, hasImg: true, isProductsEnabled: true },
+            { id: 3, name: "قسم رئيسي تجريبي 3", parent: "-", status: true, hasImg: true, isProductsEnabled: true },
+            { id: 2, name: "قسم رئيسي تجريبي 2", parent: "-", status: true, hasImg: true, isProductsEnabled: true },
+            { id: 1, name: "قسم رئيسي تجريبي 1", parent: "-", status: true, hasImg: true, isProductsEnabled: true }
+        ];
+
+        const tableBody = document.getElementById('catTableBody');
+        const badgeCount = document.getElementById('totalBadgeCount');
+
+        function render() {
+            const query = document.getElementById('catSearchInput').value.toLowerCase();
+            const filtered = categories.filter(c => c.name.toLowerCase().includes(query));
+
+            tableBody.innerHTML = "";
+            filtered.forEach((c, index) => {
+                const statusBadge = c.status
+                    ? `<div class="d-flex flex-column align-items-center gap-1">
+                        <span class="premium-badge badge-success-premium"><i class="bi bi-patch-check-fill"></i> مفعلة</span>
+                        <button onclick="toggleStatus(${index})" class="btn btn-link text-danger p-0 small text-decoration-none fw-bold" style="font-size: 0.75rem;">إخفاء القسم</button>
+                       </div>`
+                    : `<div class="d-flex flex-column align-items-center gap-1">
+                        <span class="premium-badge badge-danger-premium"><i class="bi bi-eye-slash-fill"></i> مخفي</span>
+                        <button onclick="toggleStatus(${index})" class="btn btn-link text-success p-0 small text-decoration-none fw-bold" style="font-size: 0.75rem;">إظهار القسم</button>
+                       </div>`;
+
+                const toggleProdBtn = c.isProductsEnabled
+                    ? `<button onclick="toggleProducts(${index})" class="btn-toggle-main" style="border-color: #fca5a5; color: #ef4444;">تعطيل الكل</button>`
+                    : `<button onclick="toggleProducts(${index})" class="btn-toggle-main">تفعيل الكل</button>`;
+
+                const row = `
+                    <tr>
+                        <td class="fw-bold">${c.name}</td>
+                        <td class="text-muted">${c.parent}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <div class="cat-image-circle"><i class="fa-solid fa-mountain"></i></div>
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <button onclick="editCategory(${index})" class="btn-action-icon" title="تعديل"><i class="bi bi-pencil-square"></i></button>
+                                <button onclick="deleteCategory(${index})" class="btn-action-icon" title="حذف"><i class="bi bi-trash3-fill"></i></button>
+                            </div>
+                        </td>
+                        <td class="active-row-btns">
+                            ${toggleProdBtn}
+                        </td>
+                    </tr>
+                `;
+                tableBody.insertAdjacentHTML('beforeend', row);
+            });
+            badgeCount.innerText = filtered.length;
+        }
+
+        // Add Logic
+        document.getElementById('addCategoryBtn').addEventListener('click', () => {
+            const nameInput = document.getElementById('catNameInput');
+            const parentSelect = document.getElementById('parentCatSelect');
+
+            if (nameInput.value.trim() === "") {
+                alert("يرجى إدخال اسم القسم");
+                return;
+            }
+
+            categories.unshift({
+                id: categories.length + 1,
+                name: nameInput.value,
+                parent: parentSelect.value || "-",
+                status: true,
+                hasImg: true,
+                isProductsEnabled: false
+            });
+
+            nameInput.value = "";
+            parentSelect.value = "";
+            document.getElementById('fileNameDisplay').innerText = "لم يتم اختيار أي ملف";
+            render();
+        });
+
+        // Deletion
+        function deleteCategory(index) {
+            if (confirm(`هل أنت متأكد من حذف قسم "${categories[index].name}"؟`)) {
+                categories.splice(index, 1);
+                render();
+            }
+        }
+
+        // Editing Logic
+        let currentEditIndex = null;
+        const editModal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
+
+        function editCategory(index) {
+            currentEditIndex = index;
+            const cat = categories[index];
+            document.getElementById('editCatNameInput').value = cat.name;
+            document.getElementById('editParentCatSelect').value = cat.parent === "-" ? "" : cat.parent;
+            editModal.show();
+        }
+
+        document.getElementById('saveEditBtn').addEventListener('click', () => {
+            const newName = document.getElementById('editCatNameInput').value;
+            const newParent = document.getElementById('editParentCatSelect').value;
+
+            if (newName.trim() === "") {
+                alert("يرجى إدخال اسم القسم");
+                return;
+            }
+
+            categories[currentEditIndex].name = newName;
+            categories[currentEditIndex].parent = newParent || "-";
+
+            editModal.hide();
+            render();
+        });
+
+        // Status Toggle
+        function toggleStatus(index) {
+            categories[index].status = !categories[index].status;
+            render();
+        }
+
+        // Products Toggle
+        function toggleProducts(index) {
+            categories[index].isProductsEnabled = !categories[index].isProductsEnabled;
+            render();
+        }
+
+        // Search Logic
+        document.getElementById('catSearchInput').addEventListener('input', render);
+        document.getElementById('catSearchBtn').addEventListener('click', render);
+
+        // Initial Run
+        render();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة العضويات المميزة (VIP) - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-header {
+            margin-bottom: 2.5rem;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #1a2332;
+        }
+
+        /* Providers Table Card */
+        .providers-card {
+            background: white;
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+            margin-bottom: 2rem;
+            border: 1px solid #edf2f7;
+            overflow: hidden;
+        }
+
+        .luxury-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 0;
+        }
+
+        .luxury-table th {
+            padding: 20px 15px;
+            font-weight: 800;
+            color: #1a2332;
+            text-align: center;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 1.05rem;
+            background: #fff;
+        }
+
+        .luxury-table td {
+            padding: 15px;
+            text-align: center;
+            font-weight: 700;
+            color: #1e293b;
+            border-bottom: 1px solid #f8fafc;
+            vertical-align: middle;
+        }
+
+        .luxury-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* API Token Style */
+        .token-box-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .token-input-masked {
+            background: white;
+            border: 1px solid #edf2f7;
+            border-radius: 4px;
+            padding: 6px 12px;
+            color: #64748b;
+            font-family: inherit;
+            font-size: 0.9rem;
+            width: 80px;
+            text-align: center;
+        }
+
+        .btn-edit-yellow {
+            background: #facc15;
+            color: #1a2332;
+            border: none;
+            border-radius: 4px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-edit-yellow:hover {
+            opacity: 0.9;
+        }
+
+        /* Badges Style - Based on Mockup */
+        .status-badge-red {
+            border: 1px solid #fecdd3;
+            background: rgba(255, 241, 242, 0.5);
+            color: #fb7185;
+            border-radius: 10px;
+            padding: 6px 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-width: 140px;
+        }
+
+        .status-badge-green {
+            border: 1px solid #bcf0da;
+            background: rgba(243, 250, 247, 0.5);
+            color: #059669;
+            border-radius: 10px;
+            padding: 6px 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-width: 140px;
+        }
+
+        .status-badge-red i,
+        .status-badge-green i {
+            font-size: 1.1rem;
+        }
+
+        .action-badge-delete {
+            border: 1px solid #fecdd3;
+            background: transparent;
+            color: #fb7185;
+            border-radius: 10px;
+            padding: 6px 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-add-provider {
+            background: #1e293b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-add-provider:hover {
+            background: #0f172a;
+            transform: translateY(-2px);
+        }
+
+        /* Dark Mode Updates */
+        body.dark-mode .status-badge-green {
+            background: rgba(5, 150, 105, 0.1);
+            border-color: #065f46;
+        }
+
+        body.dark-mode .btn-add-provider {
+            background: #334155;
+        }
+
+        /* Dark Mode Updates */
+        body.dark-mode .providers-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark-mode .luxury-table th {
+            background: #1e293b;
+            color: #f1f5f9;
+            border-color: #334155;
+        }
+
+        body.dark-mode .luxury-table td {
+            color: #cbd5e1;
+            border-color: #334155;
+        }
+
+        body.dark-mode .token-input-masked {
+            background: #0f172a;
+            border-color: #334155;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+
+<body>
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2" href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_badge.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-primary gap-3 ms-4 hov p-2 active" href="./manage_providers.html">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./import_products.html">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./api_clients.html">
+                        <i class="bi bi-braces-asterisk"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_theme.html">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./modal_texts.html">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-4" href="./admin_category_explorer.html">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_social_links.html">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admins_manager.html">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./twofa_settings.html">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <div id="content" class="main-content d-flex flex-column min-vh-100">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none" onclick="showNotifications()"><i
+                        class="fa-solid fa-bell"></i></button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none"><i
+                        class="fa-solid fa-moon"></i></button>
+            </div>
+        </nav>
+
+        <div class="container-fluid p-4">
+            <!-- Page Header -->
+            <div class="page-header d-flex justify-content-between align-items-center">
+                <h1 class="page-title m-0">إدارة المزودين الخارجيين</h1>
+                <button class="btn-add-provider" onclick="addProvider()">
+                    <i class="bi bi-plus-lg"></i> إضافة مزود جديد
+                </button>
+            </div>
+
+            <!-- Providers Card -->
+            <div class="providers-card">
+                <div class="table-responsive">
+                    <table class="luxury-table">
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>API Token</th>
+                                <th>الرصيد</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="providers-table-body">
+                            <!-- Dynamic Content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-auto py-4 px-5 border-top bg-white d-flex justify-content-between align-items-center">
+            <div class="text-muted fw-bold">V 1.2</div>
+            <div class="text-muted">
+                © 2026 جميع الحقوق محفوظة - برمجة وتصميم
+                <a href="#" class="text-primary text-decoration-none fw-bold ms-1">ahminix</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // --- Providers Data ---
+        let providers = [
+            { id: 1, name: "SMM Panel 1", token: "55f6e8d2a1b3c4d5e6f7", balance: 154.20, status: "active", showToken: false },
+            { id: 2, name: "Demo Provider", token: "adh678s9d0f1g2h3j4k5", balance: 0.00, status: "disabled", showToken: false }
+        ];
+
+        function renderTable() {
+            const body = document.getElementById('providers-table-body');
+            body.innerHTML = '';
+
+            if (providers.length === 0) {
+                body.innerHTML = '<tr><td colspan="5" class="text-center p-5 text-muted">لا يوجد مزودين حالياً</td></tr>';
+                return;
+            }
+
+            providers.forEach((p, index) => {
+                const tr = document.createElement('tr');
+                const statusBadgeClass = p.status === 'active' ? 'status-badge-green' : 'status-badge-red';
+                const statusIcon = p.status === 'active' ? 'bi-toggle-on' : 'bi-toggle-off';
+                const statusText = p.status === 'active' ? 'نشط' : 'معطل';
+
+                const displayToken = p.showToken ? p.token : '********';
+                const eyeIcon = p.showToken ? 'bi-eye-slash' : 'bi-eye';
+
+                tr.innerHTML = `
+                    <td style="text-align: right; padding-right: 40px;">${p.name}</td>
+                    <td>
+                        <div class="token-box-wrapper">
+                            <button class="btn-edit-yellow" onclick="editToken(${index})" title="تعديل">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn-edit-yellow bg-light border" onclick="toggleTokenVisibility(${index})" title="إظهار/إخفاء">
+                                <i class="bi ${eyeIcon}"></i>
+                            </button>
+                            <span class="token-input-masked" style="width: auto; min-width: 100px;">${displayToken}</span>
+                        </div>
+                    </td>
+                    <td class="text-primary fw-bold">
+                         <div class="d-flex align-items-center justify-content-center gap-2">
+                            <span>${p.balance.toFixed(2)} $</span>
+                            <i class="bi bi-arrow-clockwise text-muted cursor-pointer" onclick="syncBalance(${index})" title="تحديث الرصيد"></i>
+                         </div>
+                    </td>
+                    <td>
+                        <div class="${statusBadgeClass}" onclick="toggleStatus(${index})">
+                             <i class="bi ${statusIcon}"></i> <span>${statusText}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="action-badge-delete" onclick="deleteProvider(${index})">
+                            <i class="bi bi-trash"></i> <span>حذف</span>
+                        </div>
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function toggleTokenVisibility(index) {
+            providers[index].showToken = !providers[index].showToken;
+            renderTable();
+        }
+
+        function addProvider() {
+            Swal.fire({
+                title: 'إضافة مزود جديد',
+                html: `
+                    <div class="text-start mb-2" dir="rtl"><label class="fw-bold small">اسم المزود:</label></div>
+                    <input id="swal-name" class="swal2-input m-0 mb-3" placeholder="مثال: SMM Peak">
+                    <div class="text-start mb-2" dir="rtl"><label class="fw-bold small">API Token:</label></div>
+                    <input id="swal-token" class="swal2-input m-0 mb-3" placeholder="ادخل التوكن">
+                    <div class="text-start mb-2" dir="rtl"><label class="fw-bold small">الرصيد الافتتاحي ($):</label></div>
+                    <input id="swal-balance" type="number" step="0.01" class="swal2-input m-0" placeholder="0.00">
+                `,
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: 'إضافة',
+                cancelButtonText: 'إلغاء',
+                customClass: {
+                    confirmButton: 'btn-add-provider',
+                    cancelButton: 'btn btn-light'
+                },
+                preConfirm: () => {
+                    const name = document.getElementById('swal-name').value;
+                    const token = document.getElementById('swal-token').value;
+                    const balance = document.getElementById('swal-balance').value || 0;
+                    if (!name || !token) {
+                        Swal.showValidationMessage('يرجى ملء جميع الحقول');
+                        return false;
+                    }
+                    return { name, token, balance: parseFloat(balance) };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    providers.push({
+                        id: Date.now(),
+                        name: result.value.name,
+                        token: result.value.token,
+                        balance: result.value.balance,
+                        status: 'active',
+                        showToken: false
+                    });
+                    renderTable();
+                    Swal.fire({
+                        title: 'تمت الإضافة!',
+                        text: 'تم إضافة المزود بنجاح.',
+                        icon: 'success',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+        function deleteProvider(index) {
+            Swal.fire({
+                title: 'هل أنت متأكد؟',
+                text: `سيتم حذف المزود "${providers[index].name}" نهائياً!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#f43f5e',
+                cancelButtonColor: '#94a3b8',
+                confirmButtonText: 'نعم، احذف',
+                cancelButtonText: 'إلغاء'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    providers.splice(index, 1);
+                    renderTable();
+                    Swal.fire('تم الحذف!', 'تم حذف المزود بنجاح.', 'success');
+                }
+            });
+        }
+
+        function toggleStatus(index) {
+            const p = providers[index];
+            const newStatus = p.status === 'active' ? 'disabled' : 'active';
+            const actionText = newStatus === 'active' ? 'تفعيل' : 'تعطيل';
+
+            Swal.fire({
+                title: 'تغيير الحالة',
+                text: `هل تريد ${actionText} مزود "${p.name}"؟`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: actionText,
+                cancelButtonText: 'إلغاء'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    p.status = newStatus;
+                    renderTable();
+                    Swal.fire('تم!', `تم ${actionText} المزود بنجاح.`, 'success');
+                }
+            });
+        }
+
+        function editToken(index) {
+            Swal.fire({
+                title: 'تعديل API Token',
+                input: 'text',
+                inputValue: providers[index].token,
+                inputLabel: 'ادخل الـ Token الجديد',
+                showCancelButton: true,
+                confirmButtonText: 'حفظ',
+                cancelButtonText: 'إلغاء'
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    providers[index].token = result.value;
+                    renderTable();
+                    Swal.fire('تم الحفظ!', 'تم تحديث الـ Token بنجاح.', 'success');
+                }
+            });
+        }
+
+        function syncBalance(index) {
+            Swal.fire({
+                title: 'جاري التحديث...',
+                html: 'يتم الآن جلب الرصيد من المزود...',
+                timer: 1000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                }
+            }).then(() => {
+                providers[index].balance = Math.random() * 500; // Simulated update
+                renderTable();
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'تم تحديث الرصيد بنجاح',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            });
+        }
+
+        function showNotifications() {
+            Swal.fire({
+                title: 'الإشعارات',
+                html: '<div class="text-end small"><p>• تمت محاولة فاشلة للاتصال بمزود SMM Peak</p><p>• رصيد المزود Demo منخفض جداً</p></div>',
+                icon: 'info',
+                confirmButtonText: 'إغلاق'
+            });
+        }
+
+        // Initial render
+        renderTable();
+    </script>
+</body>
+
+</html>

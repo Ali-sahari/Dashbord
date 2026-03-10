@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة التصميم - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2" href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_badge.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./manage_providers.html">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./import_products.html">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./api_clients.html">
+                        <i class="bi bi-braces-asterisk"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_theme.html">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./modal_texts.html">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-4" href="./admin_category_explorer.html">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-primary gap-3 ms-4 hov p-2 active mt-3" href="./admin_social_links.html">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admins_manager.html">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./twofa_settings.html">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <div id="content" class="main-content d-flex flex-column min-vh-100" style="background-color: #f8fafc;">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none"><i class="fa-solid fa-bell"></i></button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none"><i
+                        class="fa-solid fa-moon"></i></button>
+            </div>
+        </nav>
+
+        <div class="p-4 container-fluid">
+            <h1 class="fw-bold mb-4 text-end" style="font-size: 1.5rem; color: #1e293b;">إدارة وسائل التواصل</h1>
+
+            <div class="social-links-card">
+                <!-- قسم الحارس (Guard) -->
+                <div class="guard-section container-fluid px-0">
+                    <div class="row align-items-start">
+                        <div class="col-md-8 ">
+                            <div class="guard-title">زر التواصل العائم في الموقع</div>
+                            <div class="guard-desc">يتيح هذا الإعداد إظهار أو إخفاء زر التواصل العائم في واجهة الموقع
+                                الرئيسية.</div>
+                            <div class="mt-2 text-muted " style="font-size: 0.85rem;">
+                                <div class="form-check form-switch p-0 d-flex gap-2">
+                                    <input class="form-check-input ms-0" type="checkbox" id="mainContactToggle" checked>
+                                    <p class="mt-1">عرض زر التواصل العائم في الموقع</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- الهيدر الخاص بالجدول (Bootstrap Grid) -->
+                <div class="social-table-header-grid border-bottom py-3">
+                    <div class="row text-center fw-bold text-dark" style="font-size: 1rem;">
+                        <div class="col-1">ترتيب</div>
+                        <div class="col-2">الاسم</div>
+                        <div class="col-4">الرابط</div>
+                        <div class="col-1">أيقونة</div>
+                        <div class="col-2">تفعيل</div>
+                        <div class="col-2">إجراءات</div>
+                    </div>
+                </div>
+
+                <!-- قائمة الروابط -->
+                <div class="social-list container-fluid px-0" id="socialLinksList">
+                    <!-- واتساب 1 -->
+                    <div class="social-row row align-items-center py-3 border-bottom mx-0" data-id="1">
+                        <div class="col-1 d-flex flex-column align-items-center gap-1">
+                            <div class="sort-controls d-flex   gap-1">
+                                <button class="sort-btn-fidelity move-up"><i class="bi bi-arrow-up"></i></button>
+                                <button class="sort-btn-fidelity move-down"><i class="bi bi-arrow-down"></i></button>
+                            </div>
+                            <span class="social-order-num text-muted small fw-bold">#1</span>
+                        </div>
+                        <div class="col-2 fw-bold text-dark text-center social-name">واتساب 1</div>
+                        <div class="col-4 text-end">
+                            <a href="https://wa.me/96181420882"
+                                class="social-link-text text-primary text-decoration-underline small social-link">https://wa.me/96181420882</a>
+                        </div>
+                        <div class="col-1 d-flex justify-content-center align-items-center gap-2">
+                            <i class="bi bi-whatsapp fs-5 text-success"></i>
+                            <span class="badge bg-success rounded-circle p-1" style="font-size: 0.6rem;">1</span>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <div class="form-check form-switch p-0">
+                                <input class="form-check-input ms-0" type="checkbox" checked>
+                            </div>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <button
+                                class="btn btn-edit-social btn-sm border-primary text-primary bg-white shadow-none px-3 py-2">تعديل
+                                <i class="bi bi-pencil-square"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- واتساب 2 -->
+                    <div class="social-row row align-items-center py-3 border-bottom mx-0" data-id="2">
+                        <div class="col-1 d-flex flex-column align-items-center gap-1">
+                            <div class="sort-controls d-flex  gap-1">
+                                <button class="sort-btn-fidelity move-up"><i class="bi bi-arrow-up"></i></button>
+                                <button class="sort-btn-fidelity move-down"><i class="bi bi-arrow-down"></i></button>
+                            </div>
+                            <span class="social-order-num text-muted small fw-bold">#2</span>
+                        </div>
+                        <div class="col-2 fw-bold text-dark text-center social-name">واتساب 2</div>
+                        <div class="col-4 text-end">
+                            <a href="https://wa.me/963949315401"
+                                class="social-link-text text-primary text-decoration-underline small social-link">https://wa.me/963949315401</a>
+                        </div>
+                        <div class="col-1 d-flex justify-content-center align-items-center gap-2">
+                            <i class="bi bi-whatsapp fs-5 text-success"></i>
+                            <span class="badge bg-success rounded-circle p-1" style="font-size: 0.6rem;">2</span>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <div class="form-check form-switch p-0">
+                                <input class="form-check-input ms-0" type="checkbox" checked>
+                            </div>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <button
+                                class="btn btn-edit-social btn-sm border-primary text-primary bg-white shadow-none px-3 py-2">تعديل
+                                <i class="bi bi-pencil-square"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- مجموعة واتساب -->
+                    <div class="social-row row align-items-center py-3 border-bottom mx-0" data-id="3">
+                        <div class="col-1 d-flex flex-column align-items-center gap-1">
+                            <div class="sort-controls d-flex  gap-1">
+                                <button class="sort-btn-fidelity move-up"><i class="bi bi-arrow-up"></i></button>
+                                <button class="sort-btn-fidelity move-down"><i class="bi bi-arrow-down"></i></button>
+                            </div>
+                            <span class="social-order-num text-muted small fw-bold">#3</span>
+                        </div>
+                        <div class="col-2 fw-bold text-dark text-center social-name">مجموعة واتساب</div>
+                        <div class="col-4 text-end social-link"></div>
+                        <div class="col-1 d-flex justify-content-center align-items-center gap-2">
+                            <i class="bi bi-whatsapp fs-5 text-success"></i>
+                            <i class="bi bi-people-fill text-muted fs-6"></i>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <div class="form-check form-switch p-0">
+                                <input class="form-check-input ms-0" type="checkbox">
+                            </div>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <button
+                                class="btn btn-edit-social btn-sm border-primary text-primary bg-white shadow-none px-3 py-2">تعديل
+                                <i class="bi bi-pencil-square"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- تلغرام دعم -->
+                    <div class="social-row row align-items-center py-3 border-bottom mx-0" data-id="4">
+                        <div class="col-1 d-flex flex-column align-items-center gap-1">
+                            <div class="sort-controls d-flex  gap-1">
+                                <button class="sort-btn-fidelity move-up"><i class="bi bi-arrow-up"></i></button>
+                                <button class="sort-btn-fidelity move-down"><i class="bi bi-arrow-down"></i></button>
+                            </div>
+                            <span class="social-order-num text-muted small fw-bold">#4</span>
+                        </div>
+                        <div class="col-2 fw-bold text-dark text-center social-name">تلغرام دعم</div>
+                        <div class="col-4 text-end social-link"></div>
+                        <div class="col-1 d-flex justify-content-center align-items-center gap-2">
+                            <i class="fa-brands fa-telegram fs-5 text-info"></i>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <div class="form-check form-switch p-0">
+                                <input class="form-check-input ms-0" type="checkbox">
+                            </div>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <button
+                                class="btn btn-edit-social btn-sm border-primary text-primary bg-white shadow-none px-3 py-2">تعديل
+                                <i class="bi bi-pencil-square"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- جروب تلغرام -->
+                    <div class="social-row row align-items-center py-3 border-bottom mx-0" data-id="5">
+                        <div class="col-1 d-flex flex-column align-items-center gap-1">
+                            <div class="sort-controls d-flex  gap-1">
+                                <button class="sort-btn-fidelity move-up"><i class="bi bi-arrow-up"></i></button>
+                                <button class="sort-btn-fidelity move-down"><i class="bi bi-arrow-down"></i></button>
+                            </div>
+                            <span class="social-order-num text-muted small fw-bold">#5</span>
+                        </div>
+                        <div class="col-2 fw-bold text-dark text-center social-name">جروب تلغرام</div>
+                        <div class="col-4 text-end social-link"></div>
+                        <div class="col-1 d-flex justify-content-center align-items-center gap-2">
+                            <i class="fa-brands fa-telegram fs-5 text-info"></i>
+                            <i class="bi bi-people-fill text-muted fs-6"></i>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <div class="form-check form-switch p-0">
+                                <input class="form-check-input ms-0" type="checkbox">
+                            </div>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <button
+                                class="btn btn-edit-social btn-sm border-primary text-primary bg-white shadow-none px-3 py-2">تعديل
+                                <i class="bi bi-pencil-square"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- فيسبوك -->
+                    <div class="social-row row align-items-center py-3 border-bottom mx-0" data-id="6">
+                        <div class="col-1 d-flex flex-column align-items-center gap-1">
+                            <div class="sort-controls d-flex  gap-1">
+                                <button class="sort-btn-fidelity move-up"><i class="bi bi-arrow-up"></i></button>
+                                <button class="sort-btn-fidelity move-down"><i class="bi bi-arrow-down"></i></button>
+                            </div>
+                            <span class="social-order-num text-muted small fw-bold">#6</span>
+                        </div>
+                        <div class="col-2 fw-bold text-dark text-center social-name">فيسبوك</div>
+                        <div class="col-4 text-end social-link"></div>
+                        <div class="col-1 d-flex justify-content-center align-items-center gap-2">
+                            <i class="fa-brands fa-facebook fs-5 text-primary"></i>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <div class="form-check form-switch p-0">
+                                <input class="form-check-input ms-0" type="checkbox">
+                            </div>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <button
+                                class="btn btn-edit-social btn-sm border-primary text-primary bg-white shadow-none px-3 py-2">تعديل
+                                <i class="bi bi-pencil-square"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- إنستغرام -->
+                    <div class="social-row row align-items-center py-3 border-bottom mx-0" data-id="7">
+                        <div class="col-1 d-flex flex-column align-items-center gap-1">
+                            <div class="sort-controls d-flex  gap-1">
+                                <button class="sort-btn-fidelity move-up"><i class="bi bi-arrow-up"></i></button>
+                                <button class="sort-btn-fidelity move-down"><i class="bi bi-arrow-down"></i></button>
+                            </div>
+                            <span class="social-order-num text-muted small fw-bold">#7</span>
+                        </div>
+                        <div class="col-2 fw-bold text-dark text-center social-name">إنستغرام</div>
+                        <div class="col-4 text-end social-link"></div>
+                        <div class="col-1 d-flex justify-content-center align-items-center gap-2">
+                            <i class="fa-brands fa-instagram fs-5 text-danger"></i>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <div class="form-check form-switch p-0">
+                                <input class="form-check-input ms-0" type="checkbox">
+                            </div>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <button
+                                class="btn btn-edit-social btn-sm border-primary text-primary bg-white shadow-none px-3 py-2">تعديل
+                                <i class="bi bi-pencil-square"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- تيك توك -->
+                    <div class="social-row row align-items-center py-3 border-bottom mx-0" data-id="8">
+                        <div class="col-1 d-flex flex-column align-items-center gap-1">
+                            <div class="sort-controls d-flex  gap-1">
+                                <button class="sort-btn-fidelity move-up"><i class="bi bi-arrow-up"></i></button>
+                                <button class="sort-btn-fidelity move-down"><i class="bi bi-arrow-down"></i></button>
+                            </div>
+                            <span class="social-order-num text-muted small fw-bold">#8</span>
+                        </div>
+                        <div class="col-2 fw-bold text-dark text-center social-name">تيك توك</div>
+                        <div class="col-4 text-end social-link"></div>
+                        <div class="col-1 d-flex justify-content-center align-items-center gap-2">
+                            <i class="fa-brands fa-tiktok fs-5 text-dark"></i>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <div class="form-check form-switch p-0">
+                                <input class="form-check-input ms-0" type="checkbox">
+                            </div>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <button
+                                class="btn btn-edit-social btn-sm border-primary text-primary bg-white shadow-none px-3 py-2">تعديل
+                                <i class="bi bi-pencil-square"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- يوتيوب -->
+                    <div class="social-row row align-items-center py-3 mx-0" data-id="9">
+                        <div class="col-1 d-flex flex-column align-items-center gap-1">
+                            <div class="sort-controls d-flex  gap-1">
+                                <button class="sort-btn-fidelity move-up"><i class="bi bi-arrow-up"></i></button>
+                                <button class="sort-btn-fidelity move-down"><i class="bi bi-arrow-down"></i></button>
+                            </div>
+                            <span class="social-order-num text-muted small fw-bold">#9</span>
+                        </div>
+                        <div class="col-2 fw-bold text-dark text-center social-name">يوتيوب</div>
+                        <div class="col-4 text-end social-link"></div>
+                        <div class="col-1 d-flex justify-content-center align-items-center gap-2">
+                            <i class="fa-brands fa-youtube fs-5 text-danger"></i>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <div class="form-check form-switch p-0">
+                                <input class="form-check-input ms-0" type="checkbox">
+                            </div>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <button
+                                class="btn btn-edit-social btn-sm border-primary text-primary bg-white shadow-none px-3 py-2">تعديل
+                                <i class="bi bi-pencil-square"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fidelity-footer-text mt-4 text-muted small text-end pt-3 border-top">* ترتيب العناصر هنا هو
+                    الترتيب المستخدم في زر التواصل العائم في أسفل الصفحة.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Social Link Modal -->
+    <div class="modal fade" id="editSocialModal" tabindex="-1" aria-labelledby="editSocialModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+                <div class="modal-header border-0 p-4 pb-0" dir="rtl">
+                    <h5 class="modal-title fw-bold" id="editSocialModalLabel" style="color: #1e293b;">تعديل وسيلة التواصل</h5>
+                    <button type="button" class="btn-close ms-0 me-auto shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4" dir="rtl">
+                    <form id="editSocialForm">
+                        <input type="hidden" id="editRowId">
+                        <div class="mb-3">
+                            <label for="editSocialName" class="form-label fw-bold text-muted small">الاسم</label>
+                            <input type="text" class="form-control shadow-none border-light-subtle" id="editSocialName" style="border-radius: 10px; background: #f8fafc; height: 50px;">
+                        </div>
+                        <div class="mb-4">
+                            <label for="editSocialLink" class="form-label fw-bold text-muted small">الرابط</label>
+                            <input type="url" class="form-control shadow-none border-light-subtle" id="editSocialLink" style="border-radius: 10px; background: #f8fafc; height: 50px;">
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary border-0 py-3 fw-bold" style="background-color: #7ab3ff; border-radius: 12px; font-size: 1rem;">حفظ التغييرات</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+
+</body>
+
+</html>

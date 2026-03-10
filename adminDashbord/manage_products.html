@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة المنتجات - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* Modern Floating Card Style */
+        .card-floating {
+            background: white;
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04);
+            margin-bottom: 25px;
+        }
+
+        /* Filter Section Styling (Refined) */
+        .filter-card {
+            padding: 15px 25px;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            margin-bottom: 30px;
+        }
+
+        .filter-select {
+            background-color: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-weight: 600;
+            color: #1e293b;
+            outline: none;
+            width: 100%;
+            cursor: pointer;
+            font-size: 0.9rem;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left 15px center;
+            padding-left: 40px;
+        }
+
+        .filter-input-wrapper {
+            display: flex;
+            align-items: stretch;
+            background-color: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .filter-input-wrapper input {
+            border: none;
+            background: transparent;
+            padding: 12px 15px;
+            font-weight: 600;
+            color: #1e293b;
+            width: 100%;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .filter-search-icon-btn {
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1e293b;
+            font-size: 1.1rem;
+        }
+
+        .btn-search-blue {
+            background-color: #7bb5fc;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.2s;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .btn-search-blue:hover {
+            background-color: #60a5fa;
+            transform: translateY(-1px);
+        }
+
+        /* Action Buttons */
+        .btn-add-primary {
+            background-color: #7bb5fc;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .btn-bulk-edit {
+            background-color: white;
+            color: #7bb5fc;
+            border: 1px solid #7bb5fc;
+            border-radius: 10px;
+            font-weight: 700;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        /* Premium Table Styling */
+        .table-custom {
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        .table-custom thead th {
+            border: none;
+            color: #1e293b;
+            font-weight: 800;
+            padding: 15px 20px;
+            text-align: center;
+            background: #ffffff;
+        }
+
+        .table-custom tbody tr {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s;
+        }
+
+        .table-custom tbody tr:hover {
+            transform: scale(1.005);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .table-custom td {
+            padding: 18px 20px;
+            vertical-align: middle;
+            text-align: center;
+            border: none;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .table-custom td:first-child {
+            border-radius: 0 15px 15px 0;
+        }
+
+        .table-custom td:last-child {
+            border-radius: 15px 0 0 15px;
+        }
+
+        /* Badges */
+        .badge-premium {
+            padding: 6px 15px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 800;
+        }
+
+        .badge-active {
+            background-color: #ecfdf5;
+            color: #10b981;
+        }
+
+        .badge-visibility {
+            background-color: #f8fafc;
+            color: #94a3b8;
+            border: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            justify-content: center;
+        }
+
+        .badge-source {
+            background-color: #475569;
+            color: white;
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+        }
+
+        /* Action Icons */
+        .btn-action-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 1.1rem;
+        }
+
+        .btn-edit {
+            background-color: #fef9c3;
+            color: #ca8a04;
+        }
+
+        .btn-delete {
+            background-color: #fee2e2;
+            color: #ef4444;
+        }
+
+        .btn-action-icon:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* Dark Mode Consistency */
+        body.dark-mode {
+            background-color: #0f172a !important;
+        }
+
+        body.dark-mode .card-floating,
+        body.dark-mode footer,
+        body.dark-mode .table-custom thead th,
+        body.dark-mode .table-custom tbody tr {
+            background-color: #1e293b !important;
+            color: #cbd5e1 !important;
+        }
+
+        body.dark-mode .table-custom td {
+            color: #cbd5e1 !important;
+        }
+
+        body.dark-mode .filter-input-group,
+        body.dark-mode .filter-select {
+            background-color: #0f172a !important;
+            border-color: #334155 !important;
+            color: #cbd5e1 !important;
+        }
+
+        body.dark-mode .badge-visibility {
+            background-color: #0f172a !important;
+            border-color: #334155 !important;
+        }
+
+        body.dark-mode th {
+            color: white !important;
+        }
+
+        /* Modal Premium Styling */
+        .modal-content-premium {
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header-premium {
+            border-bottom: 1px solid #f1f5f9;
+            padding: 25px;
+        }
+
+        .modal-body-premium {
+            padding: 25px;
+        }
+
+        .modal-footer-premium {
+            border-top: 1px solid #f1f5f9;
+            padding: 20px 25px;
+        }
+
+        .form-label-premium {
+            font-weight: 700;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .input-premium {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 12px;
+            padding: 12px 15px;
+            font-weight: 600;
+            color: #1e293b;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .input-premium:focus {
+            background-color: white;
+            border-color: #7bb5fc !important;
+            box-shadow: 0 0 0 4px rgba(123, 181, 252, 0.1);
+        }
+
+        body.dark-mode .modal-content-premium {
+            background-color: #1e293b;
+            color: #f8fafc;
+        }
+
+        body.dark-mode .modal-header-premium,
+        body.dark-mode .modal-footer-premium {
+            border-color: #334155;
+        }
+
+        body.dark-mode .input-premium {
+            background-color: #0f172a;
+            border-color: #334155 !important;
+            color: #f8fafc;
+        }
+
+        /* Checkbox Styling */
+        .form-check-input-premium {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+        }
+
+        .form-check-input-premium:checked {
+            background-color: #7bb5fc;
+            border-color: #7bb5fc;
+        }
+    </style>
+</head>
+
+<body>    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2" href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-primary gap-3 ms-4 hov p-2 mt-3 active" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vip_members.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_send_notification.html">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./manage_providers.html">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./import_products.html">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./api_clients.html">
+                        <i class="bi bi-braces-asterisk"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_theme.html">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./modal_texts.html">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_category_explorer.html">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_social_links.html">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admins_manager.html">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./twofa_settings.html">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="content" class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+
+        <div class="container-fluid px-5 py-4" style="min-height: calc(100vh - 60px);">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h3 class="fw-bold text-end" style="color: #1e293b;">إدارة المنتجات</h3>
+                </div>
+            </div>
+
+            <!-- Search & Filter Card -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card card-floating filter-card">
+                        <div class="row g-3 align-items-center">
+                            <!-- Right Side (In RTL) -->
+                            <div class="col-xl-2 col-md-4">
+                                <select class="filter-select">
+                                    <option>كل الفئات</option>
+                                </select>
+                            </div>
+                            <div class="col-xl-2 col-md-4">
+                                <select class="filter-select">
+                                    <option>كل المنتجات</option>
+                                </select>
+                            </div>
+                            <div class="col-xl-2 col-md-4">
+                                <select class="filter-select">
+                                    <option>اختر المزوّد</option>
+                                </select>
+                            </div>
+                            <!-- Center/Left Side -->
+                            <div class="col-xl-4 col-md-8">
+                                <div class="filter-input-wrapper">
+                                    <input type="text" id="productSearchInput" placeholder="ابحث باسم">
+                                    <div class="filter-search-icon-btn">
+                                        <i class="bi bi-search"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Far Left (In RTL) -->
+                            <div class="col-xl-2 col-md-4">
+                                <button class="btn btn-search-blue" id="searchBtn">
+                                    <i class="bi bi-search"></i> بحث
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons Section -->
+            <div class="row mb-4">
+                <div class="col-12 d-flex gap-3 align-items-center">
+                    <button class="btn btn-bulk-edit" onclick="openBulkEditModal()">
+                        <i class="bi bi-grid-3x3-gap"></i> تعديل جماعي (<span id="selectedCount">0</span>)
+                    </button>
+                    <a href="./add_product.html" class="btn btn-add-primary">
+                        <i class="bi bi-plus-circle"></i> إضافة منتج جديد
+                    </a>
+                </div>
+            </div>
+
+            <!-- Products Table Section -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table class="table table-custom">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" class="form-check-input form-check-input-premium"
+                                            id="selectAll">
+                                    </th>
+                                    <th>#</th>
+                                    <th>الاسم</th>
+                                    <th>السعر</th>
+                                    <th>أصلي</th>
+                                    <th>القسم</th>
+                                    <th>المصدر</th>
+                                    <th>الحالة</th>
+                                    <th>الظهور</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productTableBody">
+                                <!-- Dynamic Content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Product Modal -->
+        <div class="modal fade" id="editProductModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content modal-content-premium">
+                    <div class="modal-header modal-header-premium">
+                        <h5 class="modal-title fw-bold" style="color: #1e293b;">تعديل المنتج</h5>
+                        <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body modal-body-premium">
+                        <form id="editProductForm">
+                            <input type="hidden" id="editProductId">
+                            <div class="mb-3">
+                                <label class="form-label-premium">اسم المنتج</label>
+                                <input type="text" id="editProductName" class="input-premium"
+                                    placeholder="أدخل اسم المنتج">
+                            </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-6">
+                                    <label class="form-label-premium">السعر</label>
+                                    <input type="number" id="editProductPrice" class="input-premium" placeholder="0.00">
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label-premium">السعر الأصلي</label>
+                                    <input type="number" id="editProductOriginalPrice" class="input-premium"
+                                        placeholder="0.00">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label-premium">القسم</label>
+                                <select id="editProductCategory" class="input-premium">
+                                    <option value="قسم رئيسي تجريبي 1">قسم رئيسي تجريبي 1</option>
+                                    <option value="قسم رئيسي تجريبي 2">قسم رئيسي تجريبي 2</option>
+                                    <option value="قسم رئيسي تجريبي 3">قسم رئيسي تجريبي 3</option>
+                                    <option value="قسم رئيسي تجريبي 4">قسم رئيسي تجريبي 4</option>
+                                    <option value="قسم فرعي تجريبي 1">قسم فرعي تجريبي 1</option>
+                                </select>
+                            </div>
+                            <div class="mb-0">
+                                <label class="form-label-premium">الحالة</label>
+                                <select id="editProductStatus" class="input-premium">
+                                    <option value="نشط">نشط</option>
+                                    <option value="معلق">معلق</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer modal-footer-premium text-start d-flex gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light fw-bold" data-bs-dismiss="modal"
+                            style="border-radius: 10px; padding: 10px 25px;">إلغاء</button>
+                        <button type="button" class="btn btn-search-blue" style="width: auto;" id="saveProductBtn">
+                            <span>حفظ التعديلات</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bulk Edit Modal -->
+        <div class="modal fade" id="bulkEditModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content modal-content-premium">
+                    <div class="modal-header modal-header-premium">
+                        <h5 class="modal-title fw-bold" style="color: #1e293b;">تعديل جماعي (<span
+                                id="bulkSelectedCount">0</span>)</h5>
+                        <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body modal-body-premium">
+                        <div class="mb-3">
+                            <label class="form-label-premium">تغيير القسم إلى</label>
+                            <select id="bulkCategory" class="input-premium">
+                                <option value="">- لا يوجد تغيير -</option>
+                                <option value="قسم رئيسي تجريبي 1">قسم رئيسي تجريبي 1</option>
+                                <option value="قسم رئيسي تجريبي 2">قسم رئيسي تجريبي 2</option>
+                                <option value="قسم رئيسي تجريبي 3">قسم رئيسي تجريبي 3</option>
+                                <option value="قسم رئيسي تجريبي 4">قسم رئيسي تجريبي 4</option>
+                                <option value="قسم فرعي تجريبي 1">قسم فرعي تجريبي 1</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label-premium">تغيير الحالة إلى</label>
+                            <select id="bulkStatus" class="input-premium">
+                                <option value="">- لا يوجد تغيير -</option>
+                                <option value="نشط">نشط</option>
+                                <option value="معلق">معلق</option>
+                            </select>
+                        </div>
+                        <div class="mb-0">
+                            <label class="form-label-premium text-danger">خيارات متقدمة</label>
+                            <button class="btn btn-outline-danger w-100 fw-bold py-2" style="border-radius: 12px;"
+                                onclick="bulkDelete()">
+                                <i class="bi bi-trash3-fill me-1"></i> حذف جميع المحددة
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-footer modal-footer-premium text-start d-flex gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light fw-bold" data-bs-dismiss="modal"
+                            style="border-radius: 10px; padding: 10px 25px;">إلغاء</button>
+                        <button type="button" class="btn btn-search-blue" style="width: auto;" id="applyBulkActionBtn">
+                            <span>تطبيق التعديلات</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-auto py-4 px-5 border-top bg-white d-flex justify-content-between align-items-center">
+            <div class="text-muted fw-bold">V 1.2</div>
+            <div class="text-muted">
+                © 2026 جميع الحقوق محفوظة - برمجة وتصميم
+                <a href="#" class="text-primary text-decoration-none fw-bold ms-1">ahminix</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="main.js"></script>
+    <script>
+        // Dynamic Product Data
+        const products = [
+            { id: 5, name: "منتج تجريبي 5", price: 0, original: 0, category: "قسم رئيسي تجريبي 4", source: "يدوي", status: "نشط", visibility: true },
+            { id: 4, name: "منتج تجريبي 4", price: 0, original: 0, category: "قسم رئيسي تجريبي 3", source: "يدوي", status: "نشط", visibility: true },
+            { id: 3, name: "منتج تجريبي 3", price: 0, original: 0, category: "قسم رئيسي تجريبي 2", source: "يدوي", status: "نشط", visibility: true },
+            { id: 2, name: "منتج تجريبي 2", price: 0, original: 0, category: "قسم رئيسي تجريبي 1", source: "يدوي", status: "نشط", visibility: true },
+            { id: 1, name: "منتج تجريبي 1", price: 0, original: 0, category: "قسم فرعي تجريبي 1", source: "يدوي", status: "نشط", visibility: true }
+        ];
+
+        // Search and Filter Logic
+        const searchInput = document.getElementById('productSearchInput');
+        const searchBtn = document.getElementById('searchBtn');
+
+        function filterProducts() {
+            const term = searchInput.value.toLowerCase();
+            const filtered = products.filter(p =>
+                p.name.toLowerCase().includes(term) ||
+                p.category.toLowerCase().includes(term) ||
+                p.id.toString().includes(term)
+            );
+            renderProducts(filtered);
+        }
+
+        searchInput.addEventListener('input', filterProducts);
+        searchBtn.addEventListener('click', filterProducts);
+
+        function renderProducts(data = products) {
+            const tableBody = document.getElementById('productTableBody');
+            tableBody.innerHTML = '';
+
+            if (data.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="10" class="py-5 text-muted">لا توجد منتجات تطابق بحثك</td></tr>';
+                return;
+            }
+
+            data.forEach(p => {
+                const row = `
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="form-check-input form-check-input-premium product-checkbox" value="${p.id}" onchange="updateSelection()">
+                        </td>
+                        <td class="text-muted">${p.id}</td>
+                        <td class="fw-bold">${p.name}</td>
+                        <td>${p.price}</td>
+                        <td>${p.original}</td>
+                        <td class="text-muted">${p.category}</td>
+                        <td><span class="badge-source">${p.source}</span></td>
+                        <td><span class="badge-premium badge-active">${p.status}</span></td>
+                        <td>
+                            <div class="badge-premium badge-visibility" style="cursor: pointer;" onclick="toggleVisibility(${p.id})">
+                                <i class="bi ${p.visibility ? 'bi-eye-fill' : 'bi-eye-slash-fill'}"></i> 
+                                ${p.visibility ? 'ظاهر' : 'مخفي'}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <button class="btn-action-icon btn-edit" title="تعديل" onclick="openEditModal(${p.id})"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn-action-icon btn-delete" title="حذف" onclick="deleteProduct(${p.id})"><i class="bi bi-trash3-fill"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                tableBody.insertAdjacentHTML('beforeend', row);
+            });
+            updateSelection();
+        }
+
+        // Selection Logic
+        const selectAll = document.getElementById('selectAll');
+        const selectedCountLabel = document.getElementById('selectedCount');
+
+        selectAll.addEventListener('change', () => {
+            const checkboxes = document.querySelectorAll('.product-checkbox');
+            checkboxes.forEach(cb => cb.checked = selectAll.checked);
+            updateSelection();
+        });
+
+        function updateSelection() {
+            const selected = document.querySelectorAll('.product-checkbox:checked');
+            selectedCountLabel.innerText = selected.length;
+
+            const total = document.querySelectorAll('.product-checkbox').length;
+            selectAll.checked = total > 0 && selected.length === total;
+            selectAll.indeterminate = selected.length > 0 && selected.length < total;
+        }
+
+        // Bulk Logic
+        const bulkEditModal = new bootstrap.Modal(document.getElementById('bulkEditModal'));
+        const applyBulkActionBtn = document.getElementById('applyBulkActionBtn');
+
+        function openBulkEditModal() {
+            const selected = document.querySelectorAll('.product-checkbox:checked');
+            if (selected.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'تنبيه',
+                    text: 'يرجى اختيار منتج واحد على الأقل',
+                    confirmButtonColor: '#7bb5fc',
+                    confirmButtonText: 'حسناً'
+                });
+                return;
+            }
+            document.getElementById('bulkSelectedCount').innerText = selected.length;
+            bulkEditModal.show();
+        }
+
+        applyBulkActionBtn.addEventListener('click', () => {
+            const selectedIds = Array.from(document.querySelectorAll('.product-checkbox:checked')).map(cb => parseInt(cb.value));
+            const newCategory = document.getElementById('bulkCategory').value;
+            const newStatus = document.getElementById('bulkStatus').value;
+
+            products.forEach(p => {
+                if (selectedIds.includes(p.id)) {
+                    if (newCategory) p.category = newCategory;
+                    if (newStatus) p.status = newStatus;
+                }
+            });
+
+            bulkEditModal.hide();
+            filterProducts();
+            Swal.fire({
+                icon: 'success',
+                title: 'تم التحديث!',
+                text: 'تم تطبيق التعديلات بنجاح.',
+                confirmButtonColor: '#7bb5fc',
+                confirmButtonText: 'متابعة',
+                timer: 2000
+            });
+        });
+
+        function bulkDelete() {
+            const selectedIds = Array.from(document.querySelectorAll('.product-checkbox:checked')).map(cb => parseInt(cb.value));
+            
+            Swal.fire({
+                title: 'تأكيد الحذف',
+                text: `هل أنت متأكد من حذف ${selectedIds.length} منتج؟ لا يمكن التراجع عن هذا الإجراء!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#94a3b8',
+                confirmButtonText: 'نعم، احذفها!',
+                cancelButtonText: 'إلغاء',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    for (let i = products.length - 1; i >= 0; i--) {
+                        if (selectedIds.includes(products[i].id)) {
+                            products.splice(i, 1);
+                        }
+                    }
+                    bulkEditModal.hide();
+                    filterProducts();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'تم الحذف!',
+                        text: 'تم حذف المنتجات بنجاح.',
+                        confirmButtonColor: '#7bb5fc',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+        // Modal Logic
+        const editProductModal = new bootstrap.Modal(document.getElementById('editProductModal'));
+        const saveProductBtn = document.getElementById('saveProductBtn');
+
+        function openEditModal(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            document.getElementById('editProductId').value = product.id;
+            document.getElementById('editProductName').value = product.name;
+            document.getElementById('editProductPrice').value = product.price;
+            document.getElementById('editProductOriginalPrice').value = product.original;
+            document.getElementById('editProductCategory').value = product.category;
+            document.getElementById('editProductStatus').value = product.status;
+
+            editProductModal.show();
+        }
+
+        saveProductBtn.addEventListener('click', () => {
+            const id = parseInt(document.getElementById('editProductId').value);
+            const productIndex = products.findIndex(p => p.id === id);
+
+            if (productIndex !== -1) {
+                products[productIndex].name = document.getElementById('editProductName').value;
+                products[productIndex].price = document.getElementById('editProductPrice').value;
+                products[productIndex].original = document.getElementById('editProductOriginalPrice').value;
+                products[productIndex].category = document.getElementById('editProductCategory').value;
+                products[productIndex].status = document.getElementById('editProductStatus').value;
+
+                editProductModal.hide();
+                filterProducts();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'تم الحفظ!',
+                    text: 'تم حفظ تعديلات المنتج بنجاح.',
+                    confirmButtonColor: '#7bb5fc',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            }
+        });
+
+        function toggleVisibility(id) {
+            const product = products.find(p => p.id === id);
+            if (product) {
+                product.visibility = !product.visibility;
+                filterProducts();
+            }
+        }
+
+        function deleteProduct(id) {
+            Swal.fire({
+                title: 'تأكيد الحذف',
+                text: 'هل أنت متأكد من حذف هذا المنتج؟',
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#94a3b8',
+                confirmButtonText: 'نعم، احذف!',
+                cancelButtonText: 'إلغاء',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const index = products.findIndex(p => p.id === id);
+                    if (index !== -1) {
+                        products.splice(index, 1);
+                        filterProducts();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'تم الحذف!',
+                            text: 'تم حذف المنتج بنجاح.',
+                            confirmButtonColor: '#7bb5fc',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    }
+                }
+            });
+        }
+
+        renderProducts();
+    </script>
+</body>
+
+</html>

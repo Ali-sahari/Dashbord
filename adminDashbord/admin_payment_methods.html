@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طرق الدفع - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+    <style>
+        .card-premium {
+            background: white;
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .form-label-premium {
+            font-weight: 700;
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .input-premium {
+            background-color: #f1f5f9;
+            border: 1px solid transparent !important;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-weight: 600;
+            color: #1e293b;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .input-premium:focus {
+            background-color: white;
+            border-color: #7bb5fc !important;
+            box-shadow: 0 0 0 4px rgba(123, 181, 252, 0.1);
+            outline: none;
+        }
+
+        /* Address Row Styling */
+        .address-row {
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-remove-row {
+            background: #ffffff;
+            color: #ef4444;
+            border: 1px solid #fee2e2;
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-remove-row:hover {
+            background: #fee2e2;
+        }
+
+        .btn-add-inline {
+            background: transparent;
+            color: #94a3b8;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 5px 15px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .btn-add-inline:hover {
+            border-color: #7bb5fc;
+            color: #7bb5fc;
+        }
+
+        /* Currency Grid */
+        .currency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .currency-item {
+            background: white;
+            border: 1px solid #f1f5f9;
+            border-radius: 10px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .currency-item:hover {
+            border-color: #7bb5fc;
+        }
+
+        .currency-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #475569;
+            margin: 0;
+            text-align: right;
+            flex: 1;
+        }
+
+        .currency-item input {
+            margin-right: 10px;
+        }
+
+        .table-custom {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .table-custom thead th {
+            font-size: 0.9rem;
+            color: #1e293b;
+            font-weight: 800;
+            text-align: center;
+            padding: 18px 12px;
+            border: 1px solid #f1f5f9;
+            background: white;
+        }
+
+        .table-custom tbody td {
+            padding: 18px 12px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+            border: 1px solid #f1f5f9;
+        }
+
+        .btn-action-square {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            text-decoration: none;
+            margin: 0 4px;
+            font-size: 1.1rem;
+        }
+
+        .btn-action-square.red {
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            color: #ef4444;
+        }
+
+        .btn-action-square.blue {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            color: #0ea5e9;
+        }
+
+        .btn-action-square.yellow {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            color: #eab308;
+        }
+
+        .btn-action-square:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-reorder-outline {
+            background: #eff6ff;
+            color: #3b82f6;
+            border: 1px solid #dbeafe;
+            border-radius: 6px;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-reorder-outline:hover {
+            background: #dbeafe;
+        }
+
+        .reorder-mode tr {
+            transition: all 0.2s;
+        }
+
+        .reorder-active .column-options {
+            display: none !important;
+        }
+
+        .column-drag {
+            display: none;
+            width: 50px;
+            text-align: center;
+            vertical-align: middle;
+            color: #94a3b8;
+            cursor: move;
+        }
+
+        .reorder-active .column-drag {
+            display: table-cell;
+        }
+
+        .drag-handle {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            transition: color 0.2s;
+        }
+
+        .drag-handle:hover {
+            color: #64748b;
+        }
+
+        .sortable-ghost {
+            opacity: 0.1;
+            background: #eff6ff !important;
+            border: 2px dashed #93c5fd !important;
+        }
+
+        .sortable-chosen {
+            background: #ffffff !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: scale(1.02) rotate(0.5deg);
+            z-index: 9999;
+        }
+
+        /* Toast Styling */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1100;
+        }
+
+        .premium-toast {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: toast-fade-in 0.3s ease-out, toast-fade-out 0.3s 2.7s ease-in;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .premium-toast.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @keyframes toast-fade-in {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes toast-fade-out {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+        }
+
+        .btn-save-main {
+            background: #7bb5fc;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 0;
+            font-weight: 800;
+            width: 100%;
+            transition: all 0.2s;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(123, 181, 252, 0.2);
+        }
+
+        .btn-save-main:hover {
+            background: #60a5fa;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(123, 181, 252, 0.4);
+        }
+
+        /* Custom switch styling */
+        .form-check-input:checked {
+            background-color: #7bb5fc;
+            border-color: #7bb5fc;
+        }
+
+        /* Dark Mode Overrides for Payment Page */
+        body.dark-mode .card-premium {
+            background: #1e293b;
+        }
+
+        body.dark-mode .input-premium {
+            background: #0f172a;
+            color: white;
+            border-color: #334155 !important;
+        }
+
+        body.dark-mode .address-row {
+            background: #0f172a;
+        }
+
+        body.dark-mode .currency-item {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        body.dark-mode .currency-label {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .btn-remove-row {
+            background: #1e293b;
+            border-color: #450a0a;
+            color: #ef4444;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2" href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-primary gap-3 ms-4 hov p-2 active"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vip_members.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_send_notification.html">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./manage_providers.html">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./import_products.html">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./api_clients.html">
+                        <i class="bi bi-braces-asterisk"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_theme.html">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./modal_texts.html">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_category_explorer.html">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_social_links.html">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admins_manager.html">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./twofa_settings.html">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="content" class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+        <div class="container-fluid px-5 py-4">
+            <div class="row mb-4">
+                <div class="col-12 text-end">
+                    <h3 class="fw-bold" style="color: #1e293b;">طرق الدفع</h3>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-premium">
+                        <div class="section-title">
+                            <i class="bi bi-plus-square text-primary"></i>
+                            إضافة طريقة دفع
+                        </div>
+
+                        <form id="addPaymentForm" class="text-end">
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label-premium">اسم الطريقة</label>
+                                    <input type="text" class="input-premium" placeholder="مثلاً: زين كاش">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label-premium">الحد الأدنى (بالدولار)</label>
+                                    <input type="number" class="input-premium" placeholder="0">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="form-check form-switch d-flex align-items-center gap-2" dir="rtl">
+                                        <input class="form-check-input ms-0" type="checkbox" id="combineAddresses">
+                                        <label class="form-label-premium mb-0" for="combineAddresses">تجميع العناوين تحت
+                                            اسم واحد</label>
+                                    </div>
+                                </div>
+
+                                <label class="form-label-premium">عناوين التحويل (اسم الحفل + القيمة)</label>
+                                <div id="addressesContainer">
+                                    <div class="address-row" dir="rtl">
+                                        <input type="text" class="input-premium" placeholder="عنوان المحفظة"
+                                            style="flex: 2;">
+                                        <input type="text" class="input-premium"
+                                            placeholder="القيمة (مثلاً: عنوان التحويل / رقم الحساب)" style="flex: 3;">
+                                        <button type="button" class="btn-remove-row"><i
+                                                class="bi bi-trash3"></i></button>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end mt-2">
+                                    <button type="button" class="btn-add-inline" onclick="addAddressRow()">
+                                        <i class="bi bi-plus-circle me-1"></i> إضافة عنوان
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label-premium">الخصم</label>
+                                    <div class="d-flex align-items-center gap-2 bg-light p-2 rounded-3" dir="rtl">
+                                        <input class="form-check-input ms-0" type="checkbox" id="enableDiscount">
+                                        <label class="form-label-premium mb-0" for="enableDiscount">تفعيل الخصم</label>
+                                        <input type="number" class="input-premium ms-auto" placeholder="%"
+                                            style="width: 80px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label-premium">صورة لطريقة الدفع</label>
+                                    <div class="input-group">
+                                        <input type="file" id="methodIcon" class="d-none">
+                                        <label for="methodIcon"
+                                            class="input-premium d-flex justify-content-between align-items-center cursor-pointer"
+                                            style="padding: 10px 15px;">
+                                            <span class="text-muted small">لم يتم اختيار أي ملف</span>
+                                            <span class="btn btn-sm btn-light py-1 px-3 fw-bold"
+                                                style="border-radius: 8px;">اختيار ملف</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label-premium text-primary">الحقول المطلوبة من المستخدم</label>
+                                <div id="fieldsContainer"></div>
+                                <div class="d-flex justify-content-end mt-2">
+                                    <button type="button" class="btn-add-inline" onclick="addFieldRow()">
+                                        <i class="bi bi-plus-circle me-1"></i> إضافة حقل
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label-premium">العملات المسموحة</label>
+                                <p class="text-muted small">إذا لم تحدد عملات، سيتم اعتبار كل العملات مسموحة افتراضياً.
+                                </p>
+                                <div class="currency-grid" dir="rtl">
+                                    <div class="currency-item">
+                                        <label class="currency-label">AED - د.إ درهم إماراتي - بنك مشرق</label>
+                                        <input type="checkbox">
+                                    </div>
+                                    <div class="currency-item">
+                                        <label class="currency-label">AED - د.إ درهم إماراتي - ADIB</label>
+                                        <input type="checkbox">
+                                    </div>
+                                    <div class="currency-item">
+                                        <label class="currency-label">EGP - ج.م جنيه مصري</label>
+                                        <input type="checkbox">
+                                    </div>
+                                    <div class="currency-item">
+                                        <label class="currency-label">IQD - ع.د دينار عراقي - زين كاش</label>
+                                        <input type="checkbox">
+                                    </div>
+                                    <div class="currency-item">
+                                        <label class="currency-label">IQD - ع.د دينار عراقي - آسيا سيل</label>
+                                        <input type="checkbox">
+                                    </div>
+                                    <div class="currency-item">
+                                        <label class="currency-label">JOD - د.أ دينار أردني</label>
+                                        <input type="checkbox">
+                                    </div>
+                                    <div class="currency-item">
+                                        <label class="currency-label">SAR - ريال سعودي - راجحي</label>
+                                        <input type="checkbox">
+                                    </div>
+                                    <div class="currency-item">
+                                        <label class="currency-label">SAR - ريال سعودي - كريمي</label>
+                                        <input type="checkbox">
+                                    </div>
+                                    <div class="currency-item">
+                                        <label class="currency-label">SYP - ل.س ليرة سورية - سيريتل كاش</label>
+                                        <input type="checkbox">
+                                    </div>
+                                    <div class="currency-item">
+                                        <label class="currency-label">SYP_admin - ل.س ليرة سورية - آدمن</label>
+                                        <input type="checkbox">
+                                    </div>
+                                    <div class="currency-item">
+                                        <label class="currency-label">SYP - ل.س ليرة سورية - شام كاش</label>
+                                        <input type="checkbox">
+                                    </div>
+                                    <div class="currency-item">
+                                        <label class="currency-label">TRY - ليرة تركية</label>
+                                        <input type="checkbox">
+                                    </div>
+                                    <div class="currency-item">
+                                        <label class="currency-label">USD - $ الدولار الأمريكي</label>
+                                        <input type="checkbox">
+                                    </div>
+                                    <div class="currency-item">
+                                        <label class="currency-label">YER - ريال الريال اليمني</label>
+                                        <input type="checkbox">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-5">
+                                <label class="form-label-premium">العضويات المسموحة (VIP)</label>
+                                <p class="text-muted small">إذا لم تحدد عضويات، سيتم اعتبار كل العضويات مسموحة
+                                    افتراضياً.</p>
+                                <div class="bg-light p-3 rounded-3 d-inline-flex align-items-center gap-3" dir="rtl">
+                                    <div class="currency-item m-0" style="width: 200px;">
+                                        <label class="currency-label">VIP1 - #4</label>
+                                        <input type="checkbox">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-4 pt-4 border-top">
+                                <div class="d-flex align-items-center gap-4">
+                                    <div class="form-check form-switch d-flex align-items-center gap-2" dir="rtl">
+                                        <input class="form-check-input ms-0" type="checkbox" id="requireProof">
+                                        <label class="form-label-premium mb-0" for="requireProof">يتطلب إثبات
+                                            صورة</label>
+                                    </div>
+                                    <div class="form-check form-switch d-flex align-items-center gap-2" dir="rtl">
+                                        <input class="form-check-input ms-0" type="checkbox" id="activeMethod" checked>
+                                        <label class="form-label-premium mb-0" for="activeMethod">تفعيل الطريقة</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-save-main">
+                                <i class="bi bi-save me-1"></i> حفظ
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Payment Methods List -->
+                    <div class="card-premium">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <button id="reorderBtn" class="btn-reorder-outline" onclick="toggleReorderMode()">
+                                <i class="bi bi-sort-down"></i> ترتيب طرق الإيداع
+                            </button>
+                            <div class="section-title mb-0">
+                                قائمة طرق الدفع
+                                <i class="bi bi-list-task text-primary"></i>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-custom">
+                                <thead>
+                                    <tr>
+                                        <th class="column-drag">سحب</th>
+                                        <th>الاسم</th>
+                                        <th>عناوين المحافظ</th>
+                                        <th>الحد الأدنى</th>
+                                        <th>العملات</th>
+                                        <th>العضويات (VIP)</th>
+                                        <th>الخصم</th>
+                                        <th>الحالة</th>
+                                        <th class="column-options">خيارات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="paymentMethodsTableBody">
+                                    <!-- Dynamic Rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Container -->
+        <div id="toastContainer" class="toast-container"></div>
+
+        <footer class="mt-auto py-4 px-5 border-top bg-white d-flex justify-content-between align-items-center">
+            <div class="text-muted fw-bold">V 1.2</div>
+            <div class="text-muted">
+                © 2026 جميع الحقوق محفوظة - برمجة وتصميم
+                <a href="#" class="text-primary text-decoration-none fw-bold ms-1">ahminix</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="main.js"></script>
+    <script>
+        // Form Row Addition
+        function addAddressRow() {
+            const container = document.getElementById('addressesContainer');
+            const row = document.createElement('div');
+            row.className = 'address-row';
+            row.dir = 'rtl';
+            row.innerHTML = `
+                <input type="text" class="input-premium" placeholder="عنوان المحفظة" style="flex: 2;">
+                <input type="text" class="input-premium" placeholder="القيمة" style="flex: 3;">
+                <button type="button" class="btn-remove-row" onclick="this.parentElement.remove()">
+                    <i class="bi bi-trash3"></i>
+                </button>
+            `;
+            container.appendChild(row);
+        }
+
+        function addFieldRow() {
+            const container = document.getElementById('fieldsContainer');
+            const row = document.createElement('div');
+            row.className = 'address-row';
+            row.dir = 'rtl';
+            row.innerHTML = `
+                <input type="text" class="input-premium" placeholder="اسم الحقل (مثلاً: رقم الحساب)" style="flex: 1;">
+                <select class="input-premium" style="flex: 0.5; min-width: 100px;">
+                    <option>نص</option>
+                    <option>رقم</option>
+                    <option>صورة</option>
+                </select>
+                <button type="button" class="btn-remove-row" onclick="this.parentElement.remove()">
+                    <i class="bi bi-trash3"></i>
+                </button>
+            `;
+            container.appendChild(row);
+        }
+
+        // Data Management
+        let paymentMethods = [
+            { id: 1, name: 'طريقة دفع 1', wallet: 'xxxxxxx', minLimit: '0.00', currencies: 'كل العملات', vip: 'كل العضويات', discount: '-', status: 'مفعل' }
+        ];
+
+        let isReorderMode = false;
+        let sortableInstance = null;
+
+        function renderTable() {
+            const body = document.getElementById('paymentMethodsTableBody');
+            if (!body) return;
+            body.innerHTML = paymentMethods.map(method => `
+                <tr data-id="${method.id}">
+                    <td class="column-drag">
+                        <div class="drag-handle">
+                            <i class="bi bi-grid-3x2-vertical"></i>
+                        </div>
+                    </td>
+                    <td class="fw-bold">${method.name}</td>
+                    <td class="text-muted small">${method.wallet}</td>
+                    <td class="fw-bold text-primary">$ ${method.minLimit}</td>
+                    <td>${method.currencies}</td>
+                    <td>${method.vip}</td>
+                    <td class="text-muted">${method.discount}</td>
+                    <td><span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold" style="font-size: 0.75rem;">${method.status}</span></td>
+                    <td class="column-options">
+                        <div class="d-flex justify-content-center">
+                            <button class="btn-action-square yellow" onclick="refreshMethod(${method.id})" title="تحديث الحالة"><i class="bi bi-arrow-repeat"></i></button>
+                            <button class="btn-action-square blue" onclick="editMethod(${method.id})" title="تعديل"><i class="bi bi-pencil-square"></i></button>
+                            <button class="btn-action-square red" onclick="deleteMethod(${method.id})" title="حذف"><i class="bi bi-trash3"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'premium-toast';
+            toast.innerHTML = `<i class="bi bi-check2-circle text-success fs-5"></i> ${message}`;
+            container.appendChild(toast);
+
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function toggleReorderMode() {
+            const body = document.getElementById('paymentMethodsTableBody');
+            const btn = document.getElementById('reorderBtn');
+            const card = body.closest('.card-premium');
+            isReorderMode = !isReorderMode;
+
+            if (isReorderMode) {
+                btn.innerHTML = '<i class="bi bi-check-lg"></i> حفظ الترتيب';
+                card.classList.add('reorder-active');
+                body.classList.add('reorder-mode');
+
+                sortableInstance = new Sortable(body, {
+                    animation: 200,
+                    handle: '.drag-handle',
+                    ghostClass: 'sortable-ghost',
+                    chosenClass: 'sortable-chosen',
+                    dragClass: 'sortable-drag',
+                    onEnd: function () {
+                        const rows = Array.from(body.querySelectorAll('tr'));
+                        const newOrder = rows.map(row => parseInt(row.getAttribute('data-id')));
+
+                        const reordered = [];
+                        newOrder.forEach(id => {
+                            const found = paymentMethods.find(m => m.id === id);
+                            if (found) reordered.push(found);
+                        });
+                        paymentMethods = reordered;
+                    }
+                });
+            } else {
+                btn.innerHTML = '<i class="bi bi-sort-down"></i> ترتيب طرق الإيداع';
+                btn.classList.remove('btn-primary', 'text-white');
+                btn.classList.add('btn-reorder-outline');
+                card.classList.remove('reorder-active');
+                body.classList.remove('reorder-mode');
+
+                if (sortableInstance) {
+                    sortableInstance.destroy();
+                    sortableInstance = null;
+                }
+                showToast('تم حفظ الترتيب الجديد بنجاح');
+            }
+        }
+
+        function deleteMethod(id) {
+            Swal.fire({
+                title: 'تأكيد الحذف',
+                text: 'هل أنت متأكد من حذف طريقة الدفع هذه؟',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#94a3b8',
+                confirmButtonText: 'نعم، احذف',
+                cancelButtonText: 'إلغاء',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    paymentMethods = paymentMethods.filter(m => m.id !== id);
+                    renderTable();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'تم الحذف!',
+                        text: 'تم حذف طريقة الدفع بنجاح.',
+                        confirmButtonColor: '#7bb5fc',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+        function refreshMethod(id) {
+            const method = paymentMethods.find(m => m.id === id);
+            if (method) {
+                Swal.fire({
+                    title: 'تحديث الحالة',
+                    text: `هل تريد تغيير حالة "${method.name}"؟`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#eab308',
+                    cancelButtonColor: '#94a3b8',
+                    confirmButtonText: 'نعم، قم بالتحديث',
+                    cancelButtonText: 'إلغاء',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        method.status = method.status === 'مفعل' ? 'معطل' : 'مفعل';
+                        renderTable();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'تم التحديث!',
+                            text: `تم تغيير الحالة إلى ${method.status}`,
+                            confirmButtonColor: '#7bb5fc',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    }
+                });
+            }
+        }
+
+        function editMethod(id) {
+            const method = paymentMethods.find(m => m.id === id);
+            if (method) {
+                // In a real application, this would open a modal with populated fields
+                Swal.fire({
+                    title: 'تعديل طريقة الدفع',
+                    html: `
+                        <input id="swal-input1" class="swal2-input" placeholder="الاسم" value="${method.name}">
+                        <input id="swal-input2" class="swal2-input" placeholder="عناوين المحافظ" value="${method.wallet}">
+                        <input id="swal-input3" class="swal2-input" type="number" placeholder="الحد الأدنى" value="${method.minLimit}">
+                    `,
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    confirmButtonText: 'حفظ التغييرات',
+                    cancelButtonText: 'إلغاء',
+                    confirmButtonColor: '#0ea5e9',
+                    cancelButtonColor: '#94a3b8',
+                    reverseButtons: true,
+                    preConfirm: () => {
+                        return [
+                            document.getElementById('swal-input1').value,
+                            document.getElementById('swal-input2').value,
+                            document.getElementById('swal-input3').value
+                        ]
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        method.name = result.value[0];
+                        method.wallet = result.value[1];
+                        method.minLimit = result.value[2];
+                        renderTable();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'تم التعديل!',
+                            text: 'تم حفظ تعديلاتك بنجاح.',
+                            confirmButtonColor: '#7bb5fc',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    }
+                });
+            }
+        }
+
+        // Handle Payment Form Addition Logic
+        document.getElementById('addPaymentForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = this.querySelector('input[placeholder*="زين كاش"]').value || 'طريقة جديدة';
+            const limit = this.querySelector('input[placeholder="0"]').value || '0.00';
+
+            const newMethod = {
+                id: Date.now(),
+                name: name,
+                wallet: 'موديل جديد',
+                minLimit: limit,
+                currencies: 'كل العملات',
+                vip: 'كل العضويات',
+                discount: '-',
+                status: 'مفعل'
+            };
+
+            paymentMethods.push(newMethod);
+            renderTable();
+            this.reset();
+            showToast('تم حفظ طريقة الدفع بنجاح');
+        });
+
+        // Initialize
+        renderTable();
+    </script>
+
+</body>
+
+</html>

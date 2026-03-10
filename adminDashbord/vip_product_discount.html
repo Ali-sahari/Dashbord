@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تخصيص ربح VIP - لوحة التحكم</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS (Main) -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Base Page Title */
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 2rem;
+            margin-top: 1rem;
+            text-align: right;
+        }
+
+        /* VIP Assignment Cards */
+        .vip-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .vip-card-header {
+            font-weight: 800;
+            color: #1e293b;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            text-align: right;
+        }
+
+        .vip-label {
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            display: block;
+            text-align: right;
+        }
+
+        /* Input Group High Fidelity */
+        .vip-input-group {
+            position: relative;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+            overflow: hidden;
+            flex-direction: row-reverse;
+            /* For RTL icon on left */
+        }
+
+        .vip-input-group:focus-within {
+            background: white;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .vip-select,
+        .vip-input {
+            background: transparent !important;
+            border: none !important;
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            color: #1e293b;
+            width: 100%;
+            outline: none !important;
+            text-align: right;
+            box-shadow: none !important;
+        }
+
+        .vip-select {
+            cursor: pointer;
+            appearance: none;
+        }
+
+        .vip-icon-left {
+            padding: 0 15px;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            border-right: 1px solid #e2e8f0;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 50px;
+        }
+
+        /* Specific Buttons */
+        .btn-vip-action {
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            float: left;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            flex-direction: row-reverse;
+            /* Icon on left */
+        }
+
+        .btn-vip-save {
+            background: #8ec9b7;
+            /* Teal from mockup */
+            color: white;
+        }
+
+        .btn-vip-apply {
+            background: #7bb5fc;
+            /* Blue from mockup */
+            color: white;
+        }
+
+        .btn-vip-action:hover {
+            transform: translateY(-1px);
+            opacity: 0.95;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Filter Header Row */
+        .filter-list-row {
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .filter-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            color: #334155;
+            font-size: 1rem;
+        }
+
+        .filter-title i {
+            font-size: 1.25rem;
+            color: #64748b;
+        }
+
+        .filter-dropdown-small {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            color: #64748b;
+            outline: none;
+            min-width: 250px;
+            text-align: right;
+            cursor: pointer;
+        }
+
+        /* Dynamic Table */
+        .discounts-table-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        .discounts-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .discounts-table th {
+            background: #fcfdfe;
+            padding: 18px 20px;
+            border-bottom: 1px solid #f1f5f9;
+            font-weight: 800;
+            color: #1e293b;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+
+        .discounts-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #f8fafc;
+            color: #475569;
+            font-size: 0.9rem;
+            text-align: right;
+        }
+
+        .discounts-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .badge-vip {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+
+        .badge-silver {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+
+        .badge-gold {
+            background: #fffcf0;
+            color: #a16207;
+            border: 1px solid #fef3c7;
+        }
+
+        .badge-diamond {
+            background: #eff6ff;
+            color: #1e40af;
+            border: 1px solid #dbeafe;
+        }
+
+        .profit-val-badge {
+            font-weight: 800;
+            color: #10b981;
+            background: #ecfdf5;
+            padding: 4px 10px;
+            border-radius: 5px;
+        }
+
+        .empty-state-row {
+            padding: 50px !important;
+            text-align: center !important;
+            color: #94a3b8 !important;
+            font-weight: 700;
+        }
+
+        /* Footer Alignment */
+        .footer-custom {
+            margin-top: auto;
+            border-top: 1px solid #f1f5f9;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        /* Dark Mode Corrections */
+        body.dark-mode {
+            background-color: #0f172a;
+        }
+
+        body.dark-mode .vip-card {
+            background: #1e293b;
+            color: #f8fafc;
+        }
+
+        body.dark-mode .vip-card-header,
+        body.dark-mode .vip-label {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .vip-input-group {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        body.dark-mode .vip-select,
+        body.dark-mode .vip-input {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .vip-icon-left {
+            border-right-color: #334155;
+            color: #64748b;
+        }
+
+        body.dark-mode .filter-list-row {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark-mode .filter-title {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .filter-dropdown-small {
+            background: #0f172a;
+            border-color: #334155;
+            color: #94a3b8;
+        }
+
+        body.dark-mode .page-title {
+            color: #f8fafc;
+        }
+
+        body.dark-mode .discounts-table-container {
+            background: #1e293b;
+        }
+
+        body.dark-mode .discounts-table th {
+            background: #1e293b;
+            color: #f8fafc;
+            border-color: #334155;
+        }
+
+        body.dark-mode .discounts-table td {
+            color: #cbd5e1;
+            border-color: #334155;
+        }
+
+        body.dark-mode .discounts-table tr:hover {
+            background: #334155;
+        }
+    </style>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2" href="../index.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-primary gap-3 ms-4 hov p-2 mt-3 active" href="./vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_badge.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="#">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./manage_providers.html">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./import_products.html">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./api_clients.html">
+                        <i class="bi bi-braces-asterisk"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./admin_theme.html">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./modal_texts.html">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_category_explorer.html">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admin_social_links.html">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./admins_manager.html">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./twofa_settings.html">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="content" class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+
+        <div class="container-fluid p-4">
+            <h1 class="page-title">تخصيص نسبة ربح لمنتجات عضوية VIP معينة</h1>
+
+            <!-- Section 1: Individual Product -->
+            <div class="vip-card">
+                <div class="vip-card-header">تخصيص نسبة ربح لمنتجات عضوية VIP معينة</div>
+                <div class="row g-4">
+                    <div class="col-md-4 text-end">
+                        <label class="vip-label">اختر عضوية VIP</label>
+                        <div class="vip-input-group">
+                            <div class="vip-icon-left"><i class="bi bi-chevron-down"></i></div>
+                            <select class="vip-select" id="ind-vip-level">
+                                <option selected disabled>اختر عضوية VIP...</option>
+                                <option value="silver">عضوية فضية</option>
+                                <option value="gold">عضوية ذهبية</option>
+                                <option value="diamond">عضوية ماسية</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <label class="vip-label">ابحث عن المنتج</label>
+                        <div class="vip-input-group">
+                            <div class="vip-icon-left"><i class="bi bi-chevron-down"></i></div>
+                            <select class="vip-select" id="ind-product">
+                                <option selected disabled>ابحث باسم المنتج...</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <label class="vip-label">نسبة الربح (%)</label>
+                        <div class="vip-input-group">
+                            <div class="vip-icon-left"><i class="bi bi-graph-up-arrow"></i></div>
+                            <input type="number" class="vip-input" id="ind-profit" placeholder="مثال: 80">
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <button class="btn-vip-action btn-vip-save" id="btn-save-ind">
+                        حفظ نسبة الربح للمنتج <i class="bi bi-save"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Section 2: Full Category -->
+            <div class="vip-card">
+                <div class="vip-card-header">تطبيق نسبة ربح على قسم كامل (كل المنتجات ضمن القسم)</div>
+                <div class="row g-4">
+                    <div class="col-md-4 text-end">
+                        <label class="vip-label">اختر عضوية VIP</label>
+                        <div class="vip-input-group">
+                            <div class="vip-icon-left"><i class="bi bi-chevron-down"></i></div>
+                            <select class="vip-select" id="cat-vip-level">
+                                <option selected disabled>اختر عضوية VIP...</option>
+                                <option value="silver">عضوية فضية</option>
+                                <option value="gold">عضوية ذهبية</option>
+                                <option value="diamond">عضوية ماسية</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <label class="vip-label">اختر القسم</label>
+                        <div class="vip-input-group">
+                            <div class="vip-icon-left"><i class="bi bi-chevron-down"></i></div>
+                            <select class="vip-select" id="cat-category">
+                                <option selected disabled>اختر القسم...</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <label class="vip-label">نسبة الربح (%)</label>
+                        <div class="vip-input-group">
+                            <div class="vip-icon-left"><i class="bi bi-percent"></i></div>
+                            <input type="number" class="vip-input" id="cat-profit" placeholder="مثال: 80">
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <button class="btn-vip-action btn-vip-apply" id="btn-apply-cat">
+                        تطبيق على القسم بالكامل <i class="bi bi-lightning-charge"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- List Header -->
+            <div class="filter-list-row">
+                <select class="filter-dropdown-small" id="list-filter">
+                    <option value="all">الكل</option>
+                    <option value="silver">الفضية</option>
+                    <option value="gold">الذهبية</option>
+                    <option value="diamond">الماسية</option>
+                </select>
+                <div class="filter-title">
+                    <span>المنتجات اللي عليها نسبة ربح خاصة بعضوية VIP</span>
+                    <i class="bi bi-list-task"></i>
+                </div>
+            </div>
+
+            <!-- Dynamic Table Container -->
+            <div class="discounts-table-container">
+                <table class="discounts-table" id="discounts-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>العضوية</th>
+                            <th>المنتج / القسم</th>
+                            <th>نسبة الربح</th>
+                            <th>تاريخ التخصيص</th>
+                            <th>إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="discounts-body">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer-custom">
+                <div class="fw-bold">V 1.2</div>
+                <div>
+                    © 2026 جميع الحقوق محفوظة - برمجة وتصميم
+                    <a href="#" class="text-primary text-decoration-none fw-bold ms-1">ahminix</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // --- Sidebar & Theme Logic ---
+        document.getElementById('sidebarCollapse').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+            document.getElementById('content').classList.toggle('expanded');
+        });
+
+        document.getElementById('themeSwitcher').addEventListener('click', function () {
+            document.body.classList.toggle('dark-mode');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+        });
+
+        // --- Mock Data ---
+        const products = [
+            { id: 1, name: "ببجي موبايل - 60 شدة", category: "games" },
+            { id: 2, name: "بطاقة آيتونز 10 دولار", category: "cards" },
+            { id: 3, name: "فري فاير - 100 جوهرة", category: "games" },
+            { id: 4, name: "اشتراك شاهد VIP شهري", category: "subs" }
+        ];
+
+        const categories = [
+            { id: "games", name: "قسم الألعاب" },
+            { id: "cards", name: "قسم البطاقات" },
+            { id: "subs", name: "قسم الاشتراكات" }
+        ];
+
+        let appliedDiscounts = [
+            { id: 1, level: "silver", target: "ببجي موبايل - 60 شدة", profit: 75, date: "2026-03-08" },
+            { id: 2, level: "gold", target: "قسم البطاقات", profit: 85, date: "2026-03-09" }
+        ];
+
+        // --- Init Function ---
+        function init() {
+            populateSelects();
+            renderTable();
+        }
+
+        function populateSelects() {
+            const productSelect = document.getElementById('ind-product');
+            const categorySelect = document.getElementById('cat-category');
+
+            products.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.name;
+                opt.textContent = p.name;
+                productSelect.appendChild(opt);
+            });
+
+            categories.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.name;
+                opt.textContent = c.name;
+                categorySelect.appendChild(opt);
+            });
+        }
+
+        // --- Render Table ---
+        function renderTable(filter = 'all') {
+            const tbody = document.getElementById('discounts-body');
+            tbody.innerHTML = '';
+
+            const filteredData = filter === 'all'
+                ? appliedDiscounts
+                : appliedDiscounts.filter(d => d.level === filter);
+
+            if (filteredData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="empty-state-row">لا توجد تخصيصات للعضوية المختارة حالياً</td></tr>`;
+                return;
+            }
+
+            filteredData.forEach((d, index) => {
+                const levelLabels = { silver: "فضية", gold: "ذهبية", diamond: "ماسية" };
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><span class="badge-vip badge-${d.level}">${levelLabels[d.level]}</span></td>
+                    <td class="fw-bold text-dark">${d.target}</td>
+                    <td><span class="profit-val-badge">${d.profit}%</span></td>
+                    <td class="text-muted small">${d.date}</td>
+                    <td>
+                        <button class="btn btn-sm btn-light text-danger shadow-none" onclick="removeDiscount(${d.id})">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // --- Form Handlers ---
+        document.getElementById('btn-save-ind').addEventListener('click', () => {
+            const level = document.getElementById('ind-vip-level').value;
+            const target = document.getElementById('ind-product').value;
+            const profit = document.getElementById('ind-profit').value;
+
+            if (level === "اختر عضوية VIP..." || target === "ابحث باسم المنتج..." || !profit) {
+                Swal.fire({ icon: 'error', title: 'خطأ في المدخلات', text: 'يرجى اختيار العضوية والمنتج وإدخال نسبة الربح.', confirmButtonText: 'فهمت' });
+                return;
+            }
+
+            appliedDiscounts.unshift({ id: Date.now(), level, target, profit, date: new Date().toLocaleDateString('en-GB') });
+            Swal.fire({ icon: 'success', title: 'تم الحفظ', text: 'تم تخصيص نسبة الربح للمنتج بنجاح!', timer: 1800, showConfirmButton: false });
+
+            // Clear fields
+            document.getElementById('ind-profit').value = '';
+            renderTable(document.getElementById('list-filter').value);
+        });
+
+        document.getElementById('btn-apply-cat').addEventListener('click', () => {
+            const level = document.getElementById('cat-vip-level').value;
+            const target = document.getElementById('cat-category').value;
+            const profit = document.getElementById('cat-profit').value;
+
+            if (level === "اختر عضوية VIP..." || target === "اختر القسم..." || !profit) {
+                Swal.fire({ icon: 'error', title: 'خطأ في المدخلات', text: 'يرجى اختيار العضوية والقسم وإدخال نسبة الربح.', confirmButtonText: 'فهمت' });
+                return;
+            }
+
+            appliedDiscounts.unshift({ id: Date.now(), level, target, profit, date: new Date().toLocaleDateString('en-GB') });
+            Swal.fire({ icon: 'success', title: 'تم التطبيق', text: 'تم تطبيق نسبة الربح على جميع منتجات القسم بنجاح!', timer: 1800, showConfirmButton: false });
+
+            // Clear fields
+            document.getElementById('cat-profit').value = '';
+            renderTable(document.getElementById('list-filter').value);
+        });
+
+        document.getElementById('list-filter').addEventListener('change', (e) => {
+            renderTable(e.target.value);
+        });
+
+        window.removeDiscount = (id) => {
+            Swal.fire({
+                title: 'هل أنت متأكد؟',
+                text: "سيتم حذف هذا التخصيص من القائمة!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'نعم، احذف',
+                cancelButtonText: 'إلغاء'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    appliedDiscounts = appliedDiscounts.filter(d => d.id !== id);
+                    renderTable(document.getElementById('list-filter').value);
+                    Swal.fire({ title: 'تم الحذف!', icon: 'success', timer: 1000, showConfirmButton: false });
+                }
+            });
+        };
+
+        // Initialize on load
+        window.addEventListener('load', init);
+    </script>
+</body>
+
+</html>
