@@ -358,7 +358,7 @@ body.dark-mode .hov:hover {
 }
 
 .sidebar-menu {
-    height: 480px;
+    height: 100%;
     overflow-y: scroll;
     scrollbar-width: none;
     /* Firefox */
