@@ -574,5 +574,11 @@ function adminLogout() {
     localStorage.removeItem('userData');
     localStorage.removeItem('token');
     sessionStorage.clear();
-    window.location.href = '../login.html';
+    
+    // Check if we are in a subdirectory (adminDashbord)
+    if (window.location.pathname.includes('/adminDashbord/')) {
+        window.location.href = '../login.html';
+    } else {
+        window.location.href = 'login.html';
+    }
 }
