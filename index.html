@@ -4,6 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Session Check: Redirect to login if not admin
+        if (localStorage.getItem('user-type') !== 'admin') {
+            window.location.href = "login.html";
+        }
+    </script>
     <title>لوحة التحكم - نسخة تجريبية</title>
 
     <!-- Bootstrap 5.3 RTL -->
@@ -233,10 +239,26 @@
                         <i class="bi bi-shield-lock me-1"></i>
                         التحقق بخطوتين
                     </a>
+                    
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الحساب</h1>
+                    </div>
+                    
+                    <a href="#" style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-danger gap-3 ms-4 hov p-2 mt-2" id="adminLogout">
+                        <i class="bi bi-box-arrow-right"></i>
+                        تسجيل الخروج
+                    </a>
                 </div>
             </nav>
         </div>
     </aside>
+
+    <script>
+        document.getElementById('adminLogout').addEventListener('click', function(e) {
+            e.preventDefault();
+            adminLogout();
+        });
+    </script>
 
     <!-- Main Content Wrapper -->
     <div id="content" class="main-content">
@@ -247,11 +269,8 @@
             </button>
 
             <div class="ms-auto d-flex align-items-center gap-3">
-                <button id="btnNotifications" class="btn btn-light rounded-circle shadow-none position-relative">
-                    <i class="fa-solid fa-bell"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" style="width: 10px; height: 10px;">
-                        <span class="visually-hidden">إشعارات جديدة</span>
-                    </span>
+                <button class="btn btn-light rounded-circle shadow-none icon-action" onclick="adminLogout()" title="تسجيل الخروج">
+                    <i class="bi bi-box-arrow-right"></i>
                 </button>
                 <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none">
                     <i class="fa-solid fa-moon"></i>

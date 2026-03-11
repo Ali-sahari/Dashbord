@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>من نحن - Ahminix</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-wrapper {
+            padding-top: 80px;
+            padding-bottom: 40px;
+            padding-right: 16px;
+            padding-left: 16px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .about-container {
+            min-height: calc(100vh - 120px);
+            background: var(--card-color);
+            border-radius: 16px;
+            padding: 60px 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .about-logo {
+            max-width: 250px;
+            height: auto;
+            margin-bottom: 2rem;
+        }
+
+        .about-text-box {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .about-p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            line-height: 2.1;
+            font-weight: 500;
+        }
+
+        .about-brand {
+            color: var(--text-color);
+            font-weight: 700;
+        }
+
+        body.dark-mode .about-container {
+            background: #1a2535;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Skeleton: JS builds everything -->
+    <div class="main-content" id="main-content">
+        <!-- Navbar (built by JS) -->
+        <nav dir="ltr" class="custom-navbar d-flex align-items-center justify-content-between" id="app-navbar"></nav>
+
+        <!-- Page Content (built by JS) -->
+        <div class="page-wrapper" id="page-content"></div>
+
+        <!-- Floating WhatsApp Speed Dial (built by JS) -->
+        <div class="floating-wa-container" id="wa-container"></div>
+    </div>
+
+    <!-- Sidebar (built by JS) -->
+    <aside class="custom-sidebar" id="sidebar"></aside>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+    // ============================================================
+    // ★ DATA CONFIG — تعديل هذا الكائن يُحدِّث الصفحة بالكامل ★
+    // ============================================================
+    const pageData = {
+        site: {
+            logo:      'LOGO',
+            copyright: '©2025 Ahminix',
+            credits:   { text: 'برمجة وتصميم', brand: 'ahminix' },
+            logoImg:   'logo.png' // Make sure this image is the one in the screenshot
+        },
+        user: {
+            name:    'Demo Demo',
+            id:      '#1',
+            vip:     'VIP1',
+            balance: '$ 1.00',
+            photo:   null
+        },
+        currencies: [
+            'الدولار الأمريكي - USD',
+            'درهم اماراتي - بنك مشرق - AED',
+            'ADIB - AED - درهم اماراتي',
+            'جنيه مصري - EGP',
+            'دينار عراقي - زين كاش - IQD',
+            'دينار عراقي - آسيا سيل - IQD',
+            'دينار أردني - JOD',
+            'ريال سعودي - راجحي - SAR',
+            'ريال سعودي - كريمي - SAR',
+            'ليرة سورية - سيريتل كاش - SYP',
+            'ليرة سورية - شام كاش - SYP',
+            'ليرة تركية - TRY',
+            'الريال اليمني - YER'
+        ],
+        whatsapp: [
+            { label: '1', href: '#' },
+            { label: '2', href: '#' }
+        ],
+        nav: [
+            { href: './home.html',            label: 'الرئيسية',               iconClass: 'bi bi-house-door-fill', iconColor: '#10B981' },
+            { href: './addBalance.html',      label: 'إضافة رصيد',            svgPath: 'M12.3 8.93L9.88 6.5H15.5V10H17V5H9.88L12.3 2.57L11.24 1.5L7 5.75L11.24 10L12.3 8.93M12 14A3 3 0 1 0 15 17A3 3 0 0 0 12 14M3 11V23H21V11M19 19A2 2 0 0 0 17 21H7A2 2 0 0 0 5 19V15A2 2 0 0 0 7 13H17A2 2 0 0 0 19 15Z', svgColor: '#0D6EFD' },
+            { href: './freeFireCodes.html',   label: 'أكواد فري فاير - Shams4Store', svgPath: 'M3,5H21A1,1 0 0,1 22,6V18A1,1 0 0,1 21,19H3A1,1 0 0,1 2,18V6A1,1 0 0,1 3,5M5,8H10V10H5V8M5,12H9V14H5V12M12,8H19V9.5H12V8M12,12H17V13.5H12V12Z', svgColor: '#FFC107' },
+            { href: './payments.html',        label: 'دفعاتي',                svgPath: 'M15 15V17H18V20H20V17H23V15H20V12H18V15M14.97 11.61C14.85 10.28 13.59 8.97 12 9C10.3 9.03 9 10.3 9 12C9 13.7 10.3 14.94 12 15C12.38 15 12.77 14.92 13.14 14.77C13.41 13.67 13.86 12.63 14.97 11.61M13 16H7C7 14.9 6.11 14 5 14V10C6.11 10 7 9.11 7 8H17C17 9.11 17.9 10 19 10V10.06C19.67 10.06 20.34 10.18 21 10.4V6H3V18H13.32C13.1 17.33 13 16.66 13 16Z', svgColor: '#0D6EFD' },
+            { href: './wallet.html',          label: 'محفظتي',                svgPath: 'M21,18V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V6H12C10.89,6 10,6.9 10,8V16A2,2 0 0,0 12,18M12,16H22V8H12M16,13.5A1.5,1.5 0 0,1 14.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,12A1.5,1.5 0 0,1 16,13.5Z', svgColor: '#FFC107' },
+            { href: './orders.html',          label: 'طلباتي',                svgPath: 'M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z', svgColor: '#DC3545' },
+            { href: './telegramAccount.html', label: 'حساب تلغرام',           svgPath: 'M9.04 15.47L8.63 19.26C9.22 19.26 9.47 19.01 9.78 18.71L11.6 17L15.38 19.78C16.07 20.16 16.56 19.96 16.75 19.14L19.86 4.82C20.09 3.74 19.46 3.32 18.79 3.57L2.21 9.86C1.08 10.3 1.1 10.93 2.02 11.22L6.26 12.54L16.1 6.39C16.56 6.11 16.98 6.27 16.63 6.55L9.04 15.47Z', svgColor: '#0D6EFD' },
+            { href: './agents.html',          label: 'وكلاؤنا',               svgPath: 'M18.72,14.76C19.07,13.91 19.26,13 19.26,12C19.26,11.28 19.15,10.59 18.96,9.95C18.31,10.1 17.63,10.18 16.92,10.18C13.86,10.18 11.15,8.67 9.5,6.34C8.61,8.5 6.91,10.26 4.77,11.22C4.73,11.47 4.73,11.74 4.73,12A7.27,7.27 0 0,0 12,19.27C13.05,19.27 14.06,19.04 14.97,18.63C15.54,19.72 15.8,20.26 15.78,20.26C14.14,20.81 12.87,21.08 12,21.08C9.58,21.08 7.27,20.13 5.57,18.42C4.53,17.38 3.76,16.11 3.33,14.73H2V10.18H3.09C3.93,6.04 7.6,2.92 12,2.92C14.4,2.92 16.71,3.87 18.42,5.58C19.69,6.84 20.54,8.45 20.89,10.18H22V14.67H22V14.69L22,14.73H21.94L18.38,18L13.08,17.4V15.73H17.91L18.72,14.76M9.27,11.77C9.57,11.77 9.86,11.89 10.07,12.11C10.28,12.32 10.4,12.61 10.4,12.91C10.4,13.21 10.28,13.5 10.07,13.71C9.86,13.92 9.57,14.04 9.27,14.04C8.64,14.04 8.13,13.54 8.13,12.91C8.13,12.28 8.64,11.77 9.27,11.77M14.72,11.77C15.35,11.77 15.85,12.28 15.85,12.91C15.85,13.54 15.35,14.04 14.72,14.04C14.09,14.04 13.58,13.54 13.58,12.91A1.14,1.14 0 0,1 14.72,11.77Z', svgColor: '#0D6EFD' },
+            { href: './protection.html',      label: 'الحماية',               svgPath: 'M12,12H19C18.47,16.11 15.72,19.78 12,20.92V12H5V6.3L12,3.19M12,1L3,5V11C3,16.55 6.84,21.73 12,23C17.16,21.73 21,16.55 21,11V5L12,1Z', svgColor: '#198754' },
+            { href: './api.html',             label: 'API',                   svgPath: 'M7 7H5A2 2 0 0 0 3 9V17H5V13H7V17H9V9A2 2 0 0 0 7 7M7 11H5V9H7M14 7H10V17H12V13H14A2 2 0 0 0 16 11V9A2 2 0 0 0 14 7M14 11H12V9H14M20 9V15H21V17H17V15H18V9H17V7H21V9Z', svgColor: '#198754' },
+            { href: './about.html',           label: 'من نحن',               svgPath: 'M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M13,13V7H11V13H13M13,17V15H11V17H13Z', svgColor: '#0DCAF0' }
+        ],
+        currentPage: 'about.html'
+    };
+
+    // ============================================================
+    // RENDER ENGINE
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', () => {
+        buildNavbar();
+        buildPageContent();
+        buildWaFloat();
+        buildSidebar();
+        highlightActiveNav();
+        initUIInteractions();
+    });
+
+    // ────────────────────────────────────────────────────────────
+    // DYNAMIC UI EVENT ATTACHMENTS (to replace lost script.js events)
+    // ────────────────────────────────────────────────────────────
+    function initUIInteractions() {
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const sidebar = document.getElementById('sidebar');
+        const currencyDropdownBtn = document.getElementById('currency-dropdown-btn');
+        const currencyMenu = document.getElementById('currency-menu');
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeText = document.getElementById('theme-text');
+        const waMainBtn = document.getElementById('wa-main-btn');
+        const waSubButtons = document.getElementById('wa-sub-buttons');
+        const waMainIcon = document.getElementById('wa-main-icon');
+
+        // Sidebar, Theme, and Currency toggles are now handled globally by script.js
+        // If specific dynamic behavior is needed (like updating site.themeText in pageData),
+        // it can be added here, but the basic toggle shouldn't be duplicated.
+
+        // WhatsApp Floating Toggle
+        if (waMainBtn && waSubButtons && waMainIcon) {
+            waMainBtn.addEventListener('click', () => {
+                waSubButtons.classList.toggle('show');
+                if (waSubButtons.classList.contains('show')) {
+                    waMainIcon.classList.remove('bi-chat-dots-fill');
+                    waMainIcon.classList.add('bi-x-lg');
+                } else {
+                    waMainIcon.classList.remove('bi-x-lg');
+                    waMainIcon.classList.add('bi-chat-dots-fill');
+                }
+            });
+        }
+    }
+
+    // ────────────────────────────────────────────────────────────
+    // NAVBAR
+    // ────────────────────────────────────────────────────────────
+    function buildNavbar() {
+        const { site, user } = pageData;
+        document.getElementById('app-navbar').innerHTML = `
+            <!-- Logo -->
+            <div class="nav-logo">
+                <span class="fw-bold fs-4 text-white">${site.logo}</span>
+            </div>
+
+            <!-- Navbar Right Section -->
+            <div class="nav-right d-flex align-items-center">
+                <!-- 1. Notification Bell -->
+                <a style="text-decoration: none;" href="./notifications.html"><i class="bi bi-bell-fill nav-icon"></i></a>
+                
+                <!-- 2. VIP Badge -->
+                <a style="text-decoration: none;" href="./VIP1.html"><div class="nav-vip-badge">${user.vip}</div></a>
+
+                <!-- 3. Plus Button -->
+               <a href="./addBalance.html">
+                 <button class="nav-plus-btn">
+                    <i class="bi bi-plus"></i>
+                </button>
+               </a>
+
+                <!-- 4. Balance Text -->
+                <span class="nav-balance">${user.balance}</span>
+
+                <!-- 5. Hamburger Menu -->
+                <button class="nav-hamburger-btn" id="hamburger-btn">
+                    <i class="bi bi-list"></i>
+                </button>
+            </div>`;
+    }
+
+    // ────────────────────────────────────────────────────────────
+    // PAGE CONTENT (ABOUT)
+    // ────────────────────────────────────────────────────────────
+    function buildPageContent() {
+        const { site } = pageData;
+        document.getElementById('page-content').innerHTML = `
+            <div class="about-container p-4 p-md-5">
+                <!-- Logo -->
+                <img src="${site.logoImg}" alt="Logo" class="about-logo img-fluid">
+
+                <!-- Text Container -->
+                <div class="about-text-box">
+                    <p class="about-p mb-4 mb-md-5">
+                        نحن في <span class="about-brand">Ahminix</span> نؤمن بأن تجربة الشراء يجب أن تكون بسيطة، سريعة، وآمنة.
+                        تأسسنا لنكون وجهتك المفضلة لشحن الألعاب والبطاقات الرقمية، ونعمل باستمرار على تقديم أفضل الأسعار والخدمات لجميع اللاعبين في العالم العربي.
+                    </p>
+
+                    <p class="about-p mb-5">
+                        نُقدم لك واجهة سهلة الاستخدام، وسرعة في تنفيذ الطلبات، واهتمام حقيقي بكل عميل. رؤيتنا أن نكون منصة رائدة تلبي احتياجاتك الرقمية بكفاءة واحترافية.
+                    </p>
+
+                    <!-- Copyright -->
+                    <div class="mt-5 pt-3" style="font-size: 14px; color: var(--text-muted); font-weight: 500;">
+                        ${site.copyright}
+                    </div>
+                </div>
+            </div>`;
+    }
+
+    // ────────────────────────────────────────────────────────────
+    // FLOATING WHATSAPP
+    // ────────────────────────────────────────────────────────────
+    function buildWaFloat() {
+        const subBtns = pageData.whatsapp.map(w => `
+            <a href="${w.href}" class="wa-float-btn position-relative mb-2" style="background:#0c4a6e;color:white;">
+                <i class="bi bi-whatsapp"></i>
+                <span class="badge bg-success rounded-circle position-absolute top-0 start-100 translate-middle" style="font-size:11px;">${w.label}</span>
+            </a>`).join('');
+        document.getElementById('wa-container').innerHTML = `
+            <div class="wa-sub-buttons" id="wa-sub-buttons">${subBtns}</div>
+            <button class="wa-main-btn shadow" id="wa-main-btn" style="background:#0c4a6e;color:white;border:none;outline:none;">
+                <i class="bi bi-chat-dots-fill" id="wa-main-icon"></i>
+            </button>`;
+    }
+
+    // ────────────────────────────────────────────────────────────
+    // SIDEBAR
+    // ────────────────────────────────────────────────────────────
+    function buildSidebar() {
+        const { user, nav, currencies, site, whatsapp } = pageData;
+
+        // Nav items
+        const navItems = nav.map(item => {
+            const icon = item.iconClass
+                ? `<i class="${item.iconClass}" style="color:${item.iconColor};"></i>`
+                : `<svg style="height:20px;fill:${item.svgColor};" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="${item.svgPath}"></path></svg>`;
+            return `<a style="text-decoration:none;" href="${item.href}" class="nav-item"><span>${icon}</span><span>${item.label}</span></a>`;
+        }).join('') + `
+            <a style="text-decoration: none;" href="#" class="nav-item text-danger" id="userLogout">
+                <i class="bi bi-box-arrow-right icon-action" style="font-size: 20px;"></i>
+                <span class="ms-2">تسجيل الخروج</span>
+            </a>
+        `;
+
+        // Currency items
+        const currencyItems = currencies.map(c =>
+            `<div class="currency-item rounded-pill">${c}</div>`).join('');
+
+        // WhatsApp footer icons
+        const waIcons = whatsapp.map(w =>
+            `<i class="bi bi-whatsapp" style="font-size:28px;color:#16a34a;cursor:pointer;" onclick="location.href='${w.href}'"></i>`).join('');
+
+        document.getElementById('sidebar').innerHTML = `
+        <div class="sidebar-content">
+            <!-- SIDEBAR HEADER -->
+            <div class="sidebar-header text-center pb-3 border-bottom">
+                
+                <!-- User Profile Picture -->
+                <div class="user-profile-pic mx-auto mb-3" style="width: 80px; height: 36px; border-radius: 18px; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: #FFF;">
+                    <span class="text-primary text-decoration-underline" style="font-size: 15px;">User</span>
+                    <i class="bi bi-image text-secondary" style="font-size: 14px;"></i>
+                </div>
+
+                <!-- User Info Row -->
+                <div class="d-flex align-items-center justify-content-center gap-2 mb-4">
+                     <div class="sidebar-vip-badge shadow-sm" style="background:#F3F4F6; color:#111827; border-radius:12px; padding: 2px 8px; font-weight:700; font-size:13px; display:flex; align-items:center;">
+                        ${user.vip} <i class="bi bi-star-fill ms-1" style="color:#FBBF24; font-size:12px;"></i>
+                    </div>                   
+                    <div class="user-name mb-0" style="font-weight:700; font-size:15px; color:#111827;">${user.name}</div>
+                    <div class="user-id" style="font-size:13px; color:#6B7280;">${user.id}</div>
+                    <i class="bi bi-exclamation-circle-fill text-secondary" style="font-size: 14px; margin-left:2px;"></i>
+                </div>
+                
+                <!-- Balance -->
+                <div class="sidebar-balance mb-4" style="font-size: 26px; font-weight: 700; color: #005685;">${user.balance}</div>
+                
+                <!-- ACTION ICONS -->
+                <div class="action-icons d-flex justify-content-center align-items-center mb-4" style="gap: 64px;">
+                    <a href="favorites.html">
+                        <i class="bi bi-suit-heart-fill icon-heart" style="font-size: 26px; color:#E11D48;"></i>
+                    </a>
+                    <a href="profile.html">
+                        <i class="bi bi-person-fill icon-action" style="font-size: 28px; color:#1F2937;"></i>
+                    </a>
+                    <i class="bi bi-box-arrow-right icon-action" style="font-size: 26px; color:#1F2937;"></i>
+                </div>
+
+                <!-- CURRENCY SELECTOR (Collapsible) -->
+                <div class="currency-collapsible text-center mb-3">
+                    <button class="currency-btn rounded-pill border" style="background:#FEF9C3; border-color:#FCD34D !important; color:#92400E; font-weight:700; padding:6px 24px;" id="currency-dropdown-btn">
+                        <span class="me-2">USD</span> العملة <i class="bi bi-arrow-repeat ms-2" style="font-size:16px;"></i>
+                    </button>
+                </div>
+                
+                <div class="currency-menu-container" id="currency-menu">${currencyItems}</div>
+
+            <!-- SIDEBAR NAVIGATION MENU -->
+            <nav class="sidebar-nav mt-3">${navItems}</nav>
+
+            <!-- DARK MODE / LIGHT MODE -->
+            <div class="d-flex justify-content-center">
+                <div class="theme-toggle-container t mt-4 pt-3 pe-3 pb-3">
+                    <div class="theme-toggle-wrapper" id="theme-toggle-btn">
+                        <span id="theme-text">الوضع الفاتح</span>
+                        <div class="theme-switch">
+                            <div class="theme-switch-handle">
+                                <i class="bi bi-brightness-high" id="theme-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIDEBAR FOOTER -->
+            <div class="sidebar-footer mt-5 pb-3 text-center">
+                <!-- WhatsApp Icons -->
+                <div class="d-flex justify-content-center gap-3 mb-5">${waIcons}</div>
+                
+                <!-- Logo -->
+                <div class="mb-3">
+                    <img src="${site.logoImg}" alt="Logo" style="height: 120px; object-fit: contain;">
+                </div>
+                
+                <!-- Credits -->
+                <div class="mb-3" style="font-size: 16px; font-weight: 500; color: #4B5563;">
+                    ${site.credits.text} <span style="color: #007BFF;">${site.credits.brand}</span>
+                </div>
+                
+                <!-- Copyright -->
+                <div style="font-size: 16px; font-weight: 500; color: #111827;">
+                    ${site.copyright.split(' ')[0]}
+                </div>
+            </div>
+        </div>`;
+    }
+
+    // ────────────────────────────────────────────────────────────
+    // ACTIVE NAV HIGHLIGHT
+    // ────────────────────────────────────────────────────────────
+    function highlightActiveNav() {
+        document.querySelectorAll('.nav-item').forEach(a => {
+            const href = a.getAttribute('href') || '';
+            a.classList.toggle('active', href.includes(pageData.currentPage));
+        });
+    }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
+
     // --- Modal Texts Page Logic ---
     const fieldSuccess = document.getElementById('field_success');
     const fieldProcessing = document.getElementById('field_processing');
@@ -361,7 +362,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Simple validation
             if (password.length < 8) {
-                showToast('كلمة المرور يجب أن تكون 8 أحرف على الأقل'); // Using toast for validation too but maybe keep alert for errors? User asked for "beautiful message" for addition.
+                showToast('كلمة المرور يجب أن تكون 8 أحرف على الأقل');
                 return;
             }
 
@@ -384,7 +385,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Create new row HTML (tr)
             const newRow = document.createElement('tr');
-            newRow.className = 'admin-row admin-row-new text-center border-bottom'; // Added admin-row-new
+            newRow.className = 'admin-row admin-row-new text-center border-bottom';
             newRow.innerHTML = `
                 <td><span class="text-muted fw-bold">${randomId}</span></td>
                 <td><span class="text-muted small">${email}</span></td>
@@ -453,14 +454,14 @@ document.addEventListener('DOMContentLoaded', function() {
         pinForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const pin = document.getElementById('pinCode').value;
-            const confirm = document.getElementById('pinConfirm').value;
+            const confirmPin = document.getElementById('pinConfirm').value;
 
             if (pin.length !== 4) {
                 showToast('يجب أن يتكون الرمز من 4 أرقام');
                 return;
             }
 
-            if (pin === confirm) {
+            if (pin === confirmPin) {
                 update2FAStatus(true, 'رمز PIN');
                 showToast('تم تفعيل قفل PIN بنجاح! 🔑');
                 pinForm.reset();
@@ -478,6 +479,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
     // --- Dashboard / Index Page Logic ---
     const btnMaintenance = document.getElementById('btnMaintenance');
     const maintenanceText = document.getElementById('maintenanceText');
@@ -489,16 +491,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const isDanger = this.classList.contains('btn-danger');
             
             if (isDanger) {
-                // Switching to active state (Success)
                 this.classList.replace('btn-danger', 'btn-success');
                 icon.classList.replace('fa-toggle-off', 'fa-toggle-on');
-                if(maintenanceText) maintenanceText.innerText = 'إيقاف وضع الصيانة';
+                if (maintenanceText) maintenanceText.innerText = 'إيقاف وضع الصيانة';
                 showToast('تم تفعيل وضع الصيانة 🛠️');
             } else {
-                // Switching to inactive state (Danger)
                 this.classList.replace('btn-success', 'btn-danger');
                 icon.classList.replace('fa-toggle-on', 'fa-toggle-off');
-                if(maintenanceText) maintenanceText.innerText = 'تفعيل وضع الصيانة';
+                if (maintenanceText) maintenanceText.innerText = 'تفعيل وضع الصيانة';
                 showToast('تم إيقاف وضع الصيانة ✅');
             }
         });
@@ -515,14 +515,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Dynamic stats card actions
     const actionButtons = document.querySelectorAll('.btn-card-action, .btn-outline-danger, .btn-outline-secondary');
     actionButtons.forEach(btn => {
-        // Ignore if it's the shipping button or debit balance details in the big cards
-        // Wait, the user asked to make all buttons dynamic
         btn.addEventListener('click', function(e) {
             if (this.tagName === 'A' && this.getAttribute('href') === '#') {
                 e.preventDefault();
                 showToast('جاري فتح التفاصيل... ⏳');
-                
-                // Add tiny click feedback
                 this.style.transform = 'scale(0.95)';
                 setTimeout(() => {
                     this.style.transform = 'scale(1)';
@@ -530,6 +526,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
     // --- Add Product Page Logic ---
     const btnAddProduct = document.getElementById('btnAddProduct');
     const btnCancelProduct = document.getElementById('btnCancelProduct');
@@ -538,7 +535,6 @@ document.addEventListener('DOMContentLoaded', function() {
         btnAddProduct.addEventListener('click', function(e) {
             e.preventDefault();
             const btn = this;
-            const originalHtml = btn.innerHTML;
             
             // Show loading state
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> <span>جاري الحفظ...</span>';
@@ -548,13 +544,11 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 showToast('تمت إضافة المنتج بنجاح! 📦');
                 
-                // Switch to success state temporarily
                 btn.innerHTML = '<i class="fa-solid fa-check"></i> <span>تمت الإضافة</span>';
                 btn.classList.replace('btn-action-primary', 'btn-success');
                 btn.style.opacity = '1';
                 
                 setTimeout(() => {
-                    // Reset or Redirect
                     window.location.href = './manage_products.html';
                 }, 1500);
             }, 1000);
@@ -564,9 +558,21 @@ document.addEventListener('DOMContentLoaded', function() {
     if (btnCancelProduct) {
         btnCancelProduct.addEventListener('click', function(e) {
             e.preventDefault();
-            if(confirm('هل أنت متأكد من إلغاء العملية؟ ستفقد جميع البيانات التي أدخلتها.')) {
+            if (confirm('هل أنت متأكد من إلغاء العملية؟ ستفقد جميع البيانات التي أدخلتها.')) {
                 window.location.href = './manage_products.html';
             }
         });
     }
 });
+
+// --- Admin Logout ---
+function adminLogout() {
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminUser');
+    localStorage.removeItem('adminData');
+    localStorage.removeItem('user');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('token');
+    sessionStorage.clear();
+    window.location.href = '../login.html';
+}

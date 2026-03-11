@@ -1,0 +1,643 @@
+/* Google Fonts - Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* CSS Variables for Light / Dark Mode */
+:root {
+    --bg-color: #F8FAFC;
+    --text-color: #111827;
+    --card-color: #FFFFFF;
+    --navbar-bg: #005685;
+    --sidebar-bg: #FFFFFF;
+    --border-color: #E5E7EB;
+    --hover-bg: #F1F1F1;  /* updated */
+    --active-bg: #F1F1F1; /* updated */
+    --active-text: #005685;
+    --text-muted: #6B7280;
+}
+
+body.dark-mode {
+    --bg-color: #000000;   /* Pure black */
+    --text-color: #FFFFFF; /* Pure white */
+    --card-color: #121212; /* Very dark gray */
+    --navbar-bg: #000000;
+    --sidebar-bg: #0A0A0A;
+    --border-color: #262626;
+    --hover-bg: #1A1A1A;
+    --active-bg: #1A1A1A;
+    --active-text: #FFFFFF;
+    --text-muted: #A3A3A3;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+}
+
+/* MAIN CONTENT (Pushed by Sidebar) */
+.main-content {
+    transition: margin-right 0.25s ease;
+    margin-right: 0;
+    min-height: 100vh;
+    background-color: var(--bg-color);
+}
+
+.page-content {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* CSS for preventing transitions on page load */
+body.no-transition .main-content,
+body.no-transition .custom-navbar,
+body.no-transition .custom-sidebar {
+    transition: none !important;
+}
+
+body.sidebar-open .main-content {
+    margin-right: 320px;
+}
+
+/* NAVBAR */
+.custom-navbar {
+    height: 64px;
+    background: var(--navbar-bg);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 0 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: width 0.25s ease;
+}
+
+body.sidebar-open .custom-navbar {
+    width: calc(100% - 320px);
+}
+
+.nav-right {
+    gap: 18px; /* Spacing between items strictly 18px */
+}
+
+.nav-icon {
+    font-size: 20px;
+    color: #D1D5DB;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.nav-icon:hover {
+    color: white;
+}
+
+.nav-vip-badge {
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 16px; /* Pill shape for VIP */
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #E11D48;
+}
+
+.nav-plus-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%; /* Pure circular */
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s;
+}
+
+.nav-plus-btn:hover {
+    transform: scale(1.05);
+}
+
+.nav-plus-btn i {
+    color: var(--navbar-bg);
+    font-size: 22px;
+}
+
+.nav-balance {
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+}
+
+.nav-hamburger-btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-hamburger-btn i {
+    font-size: 24px;
+    color: white;
+}
+
+/* SIDEBAR EXTERIOR */
+.custom-sidebar {
+    position: fixed;
+    top: 0;
+    right: -320px;
+    height: 100vh;
+    width: 320px;
+    background: var(--sidebar-bg);
+    box-shadow: -4px 0 24px rgba(0,0,0,0.08); /* Modern clean shadow */
+    transition: right 0.25s ease;
+    z-index: 1050;
+}
+
+body.sidebar-open .custom-sidebar {
+    right: 0;
+}
+
+/* SIDEBAR CONTENT */
+.sidebar-content {
+    padding: 24px;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-content::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar-content::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+/* SIDEBAR HEADER */
+.sidebar-header {
+    margin-bottom: 8px; /* Use 8px grid */
+}
+
+.user-name {
+    font-weight: 700;
+    color: var(--text-color);
+    font-size: 16px;
+    line-height: 1.2;
+}
+
+.user-id {
+    font-size: 13px;
+    color: #9CA3AF;
+    font-weight: 500;
+}
+
+.sidebar-balance {
+    font-size: 28px;
+    font-weight: 700;
+    color: #005685;
+    margin-bottom: 16px;
+    line-height: 1.1;
+}
+body.dark-mode .sidebar-balance {
+    color: #FFFFFF;
+}
+
+/* ACTION ICONS */
+.action-icons i {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.action-icons i:hover {
+    transform: translateY(-2px);
+}
+body.dark-mode .icon-action {
+    color: #F9FAFB !important;
+}
+
+/* CURRENCY DROPDOWN (Collapsible) */
+.currency-collapsible {
+    position: relative;
+    z-index: 2; /* ensure button sits above the menu border */
+}
+
+.currency-menu-container {
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 16px;
+    padding: 24px 12px 12px 12px;
+    margin-top: -24px; /* overlap under the button */
+    display: none; /* hidden by default, toggled via JS */
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    margin-bottom: 16px;
+}
+
+body.dark-mode .currency-menu-container {
+    background: var(--sidebar-bg);
+    border-color: var(--border-color);
+}
+
+.currency-menu-container.show {
+    display: flex; /* static flow pushes content down */
+    animation: fadeInDown 0.25s ease;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.currency-item {
+    background: #D1FAE5; /* Light green */
+    border: 1px solid #6EE7B7;
+    color: #064E3B;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s;
+}
+
+body.dark-mode .currency-item {
+    background: #064E3B;
+    border-color: #047857;
+    color: #D1FAE5;
+}
+
+.currency-item:hover {
+    background: #A7F3D0;
+    transform: scale(1.02);
+}
+body.dark-mode .currency-item:hover {
+    background: #047857;
+}
+
+/* SIDEBAR NAVIGATION MENU */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    direction: rtl; /* Right-to-Left explicitly for navigation */
+    margin-right: -24px; /* Pull background to the very right edge */
+}
+
+.nav-item {
+    height: 42px; /* specified height */
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 16px 0 24px; /* restored right padding alignment */
+    border-radius: 10px 0 0 10px; /* Rounded only on the left side */
+    cursor: pointer;
+    color: #082C49; /* Explicit requested color */
+    font-weight: 700; /* Bolded text like image */
+    font-size: 15px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+body.dark-mode .nav-item {
+    color: var(--text-color);
+}
+
+.nav-item:hover {
+    background: var(--hover-bg);
+}
+
+.nav-item.active {
+    background: var(--active-bg);
+    color: #082C49;
+    font-weight: 700;
+}
+
+.nav-item i {
+    font-size: 18px;
+}
+
+/* DARK MODE TOGGLE */
+.theme-toggle-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: auto; /* push to bottom of sidebar */
+}
+
+.theme-toggle-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.theme-toggle-wrapper span {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.theme-switch {
+    width: 60px;
+    height: 32px;
+    background-color: #E6E9ED;
+    border-radius: 16px;
+    position: relative;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+body.dark-mode .theme-switch {
+    background-color: #374151;
+}
+
+.theme-switch-handle {
+    width: 26px;
+    height: 26px;
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    position: absolute;
+    right: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: right 0.3s, transform 0.3s, background-color 0.3s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+body.dark-mode .theme-switch-handle {
+    right: calc(100% - 29px);
+    background-color: #1F2937;
+}
+
+.theme-switch-handle i {
+    font-size: 14px;
+    color: #111827;
+    transition: color 0.3s;
+}
+
+/* --- HOME PAGE CONTENT STYLES --- */
+
+/* Demo Alert Banner */
+.demo-alert {
+    background-color: #FDF2F2;
+    border: 1px solid #FCA5A5;
+    border-radius: 8px;
+    padding: 16px 24px;
+    color: #DC2626; /* Red Tone */
+}
+
+body.dark-mode .demo-alert {
+    background-color: #450a0a;
+    border-color: #7f1d1d;
+    color: #fca5a5;
+}
+
+.demo-buttons .btn-demo-solid {
+    background-color: #EF4444;
+    color: white;
+    font-size: 13px;
+    border: 1px solid #EF4444;
+}
+.demo-buttons .btn-demo-solid:hover {
+    background-color: #DC2626;
+    color: white;
+}
+
+.demo-buttons .btn-demo-outline {
+    background-color: transparent;
+    color: #EF4444;
+    font-size: 13px;
+    border: 1px solid #FCA5A5;
+}
+.demo-buttons .btn-demo-outline:hover {
+    background-color: #FEE2E2;
+}
+
+body.dark-mode .demo-buttons .btn-demo-outline {
+    color: #fca5a5;
+    border-color: #fca5a5;
+}
+
+/* Hero Banner */
+.hero-banner {
+    background-color: #050821; /* Dark Navy Blue */
+    border-radius: 12px;
+    min-height: 240px;
+    width: 100%;
+}
+.hero-logo {
+    height: 120px;
+    object-fit: contain;
+    filter: brightness(0) invert(1); /* makes the logo white if it's black */
+}
+
+/* Info Bar */
+.info-bar {
+    background-color: #F3F4F6;
+    border-radius: 4px;
+    height: 40px;
+    color: #4B5563;
+    font-size: 14px;
+}
+body.dark-mode .info-bar {
+    background-color: var(--card-color);
+    color: #9CA3AF;
+}
+
+/* Search Bar */
+.search-input {
+    background-color: #F3F4F6;
+    border: none;
+    padding: 12px 24px;
+    font-size: 14px;
+    color: var(--text-color);
+}
+.search-input::placeholder {
+    color: #9CA3AF;
+}
+.search-input:focus {
+    box-shadow: none;
+    border: 1px solid var(--navbar-bg);
+}
+body.dark-mode .search-input {
+    background-color: var(--card-color);
+}
+
+/* Category Cards */
+.category-card {
+    background-color: #050821; /* Navy background - kept for contrast as requested by design */
+    border-radius: 12px;
+    aspect-ratio: 1 / 1; /* Make it a square */
+    transition: transform 0.2s ease, box-shadow 0.2s;
+}
+
+body.dark-mode .category-card {
+    background-color: #0A0A0A;
+    border: 1px solid var(--border-color);
+}
+.category-card-link:hover .category-card {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.cat-icon {
+    height: 80px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+.cat-title {
+    color: white;
+    font-weight: 800;
+    font-size: 20px;
+    margin: 0;
+}
+.cat-label {
+    color: #0284C7; /* Blue text */
+    font-size: 15px;
+    transition: color 0.2s;
+}
+body.dark-mode .cat-label {
+    color: #D4D4D4;
+}
+.category-card-link:hover .cat-label {
+    color: #0369A1;
+}
+
+/* Floating WhatsApp Speed Dial */
+.floating-wa-container {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 999;
+}
+
+.wa-sub-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: bottom center;
+}
+
+.wa-sub-buttons.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.wa-main-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    background-color: #0c4a6e;
+}
+
+.wa-main-btn:active {
+    transform: scale(0.9);
+}
+
+.wa-float-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    text-decoration: none;
+    transition: transform 0.2s, background-color 0.2s;
+}
+.wa-float-btn:hover {
+    transform: scale(1.1);
+    background-color: #0ea5e9 !important;
+}
+
+/* Form Elements & General Utilities */
+.modal-content {
+    background-color: var(--card-color) !important;
+    color: var(--text-color) !important;
+}
+
+.form-control {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.form-control:focus {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+body.dark-mode .form-control {
+    border-color: #4b5563;
+}
+
+body.dark-mode .container, 
+body.dark-mode .container-fluid,
+body.dark-mode .min-vh-100,
+body.dark-mode .page-content,
+body.dark-mode .main-content {
+    background-color: var(--bg-color) !important;
+}
+
+body.dark-mode .card,
+body.dark-mode .bg-white,
+body.dark-mode #transactions-container .card {
+    background-color: var(--card-color) !important;
+    color: var(--text-color) !important;
+}
+
+body.dark-mode .text-dark,
+body.dark-mode .card-body h6,
+body.dark-mode .fw-bold {
+    color: var(--text-color) !important;
+}
+
+body.dark-mode .text-muted,
+body.dark-mode .text-secondary {
+    color: var(--text-muted) !important;
+}
+
+body.dark-mode .border,
+body.dark-mode .border-secondary-subtle {
+    border-color: var(--border-color) !important;
+}
+
+/* Specific Page Fixes */
+body.dark-mode .info-bar {
+    background-color: var(--card-color);
+    color: var(--text-muted);
+}
+
+/* Global Action Icon Cursor */
+.icon-action {
+    cursor: pointer;
+}

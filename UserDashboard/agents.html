@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern SaaS Dashboard</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Empty state banner */
+        .agents-empty-banner {
+            background-color: #cff4fc;
+            border: 1px solid #9eeaf9;
+            color: #055160;
+            border-radius: 8px;
+            padding: 18px 24px;
+            font-size: 15px;
+            text-align: center;
+        }
+        /* Agent Card */
+        .agent-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            background: #fff;
+            padding: 20px;
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+            cursor: default;
+        }
+        .agent-card:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+        .agent-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0c4a6e, #0ea5e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .agent-badge {
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+        /* Floating Button */
+        #wa-fab {
+            width: 54px;
+            height: 54px;
+            background-color: #0c4a6e;
+            transition: transform 0.3s ease;
+        }
+        #wa-main-icon {
+            transition: transform 0.3s ease;
+        }
+        /* Footer */
+        .agents-footer {
+            font-size: 14px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Main Content Wrapper (pushed when sidebar opens) -->
+    <div class="main-content" id="main-content">
+        <!-- Fixed Top Navbar -->
+        <nav class="custom-navbar d-flex align-items-center justify-content-between">
+            <!-- Logo -->
+            <div class="nav-logo">
+                <span class="fw-bold fs-4 text-white">LOGO</span>
+            </div>
+
+            <!-- Navbar Right Section -->
+            <div class="nav-right d-flex align-items-center">
+                <!-- 1. Notification Bell -->
+                <a style="text-decoration: none;" href="./notifications.html"><i class="bi bi-bell-fill nav-icon"></i></a>
+                
+                <!-- 2. VIP Badge -->
+                <a style="text-decoration: none;" href="./VIP1.html"><div class="nav-vip-badge">VIP1</div></a>
+
+                <!-- 3. Plus Button -->
+               <a href="./addBalance.html">
+                 <button class="nav-plus-btn">
+                    <i class="bi bi-plus"></i>
+                </button>
+               </a>
+
+                <!-- 4. Balance Text -->
+                <span class="nav-balance">$ 1.00</span>
+
+                <!-- 5. Hamburger Menu -->
+                <button class="nav-hamburger-btn" id="hamburger-btn">
+                    <i class="bi bi-list"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- ===== PAGE CONTENT ===== -->
+        <div class="page-content min-vh-100 bg-white pb-5" style="margin-top: 4rem;">
+            <div class="container py-4">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-xl-10">
+
+                        <!-- Row 1: Page Title -->
+                        <div class="row mb-3 pt-2">
+                            <div class="col-12 text-end">
+                                <h4 class="fw-bold mb-0" style="color: #111827; font-size: 22px;">وكلاؤنا</h4>
+                            </div>
+                        </div>
+
+                        <!-- Row 2: Search + Filter -->
+                        <div class="row mb-4 g-2 align-items-center">
+                            <!-- Search Input -->
+                            <div class="col-12 col-md-7">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0" style="border-color:#d1d5db;">
+                                        <i class="bi bi-search text-secondary"></i>
+                                    </span>
+                                    <input type="text"
+                                           id="agents-search"
+                                           class="form-control border-start-0 ps-0"
+                                           placeholder="ابحث بالاسم أو الدولة..."
+                                           oninput="filterAgents()"
+                                           style="border-color: #d1d5db; font-size: 14px;">
+                                </div>
+                            </div>
+                            <!-- Filter Buttons -->
+                            <div class="col-12 col-md-5 d-flex gap-2 justify-content-md-end">
+                                <button class="btn btn-sm fw-medium rounded-pill px-3 filter-btn active-filter"
+                                        id="filter-all"
+                                        onclick="setFilter('all')"
+                                        style="background-color: #0c4a6e; color: #fff; border-color: #0c4a6e; font-size: 13px;">
+                                    الكل
+                                </button>
+                                <button class="btn btn-sm fw-medium rounded-pill px-3 filter-btn"
+                                        id="filter-active"
+                                        onclick="setFilter('active')"
+                                        style="background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; font-size: 13px;">
+                                    نشط
+                                </button>
+                                <button class="btn btn-sm fw-medium rounded-pill px-3 filter-btn"
+                                        id="filter-inactive"
+                                        onclick="setFilter('inactive')"
+                                        style="background-color: #f3f4f6; color: #6b7280; border: 1px solid #e5e7eb; font-size: 13px;">
+                                    غير نشط
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Row 3: Agents Count -->
+                        <div class="row mb-3">
+                            <div class="col-12 text-end">
+                                <span id="agents-count" class="text-secondary" style="font-size: 13px;"></span>
+                            </div>
+                        </div>
+
+                        <!-- Row 4: Agents Grid (rendered by JS) -->
+                        <div class="row" id="agents-container">
+                            <!-- Filled by JS -->
+                        </div>
+
+                        <!-- Row 5: Footer Copyright -->
+                        <div class="row mt-5 pt-4">
+                            <div class="col-12 text-center agents-footer">
+                                &copy;2025 &nbsp; Ahminix
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+               <!-- Floating WhatsApp Speed Dial -->
+    <div class="floating-wa-container">
+        <!-- Sub buttons (hidden by default) -->
+        <div class="wa-sub-buttons" id="wa-sub-buttons">
+            <a href="#" class="wa-float-btn position-relative mb-2" style="background:#0c4a6e; color:white;">
+                <i class="bi bi-whatsapp"></i><span class="badge bg-success rounded-circle position-absolute top-0 start-100 translate-middle" style="font-size:11px;">1</span>
+            </a>
+            <a href="#" class="wa-float-btn position-relative mb-2" style="background:#0c4a6e; color:white;">
+                <i class="bi bi-whatsapp"></i><span class="badge bg-success rounded-circle position-absolute top-0 start-100 translate-middle" style="font-size:11px;">2</span>
+            </a>
+        </div>
+        <!-- Main Toggle Button -->
+        <button class="wa-main-btn shadow" id="wa-main-btn" style="background:#0c4a6e; color:white; border:none; outline:none;">
+            <i class="bi bi-chat-dots-fill" id="wa-main-icon"></i>
+        </button>
+    </div>
+        <!-- ===== END PAGE CONTENT ===== -->
+
+
+        <aside class="custom-sidebar" id="sidebar">
+        <div class="sidebar-content">
+            <!-- SIDEBAR HEADER -->
+            <div class="sidebar-header text-center pb-3 border-bottom">
+                
+                <!-- User Profile Picture (Simulating the broken image style from the screenshot) -->
+                <div class="user-profile-pic mx-auto mb-3" style="width: 80px; height: 36px; border-radius: 18px; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: #FFF;">
+                    <span class="text-primary text-decoration-underline" style="font-size: 15px;">User</span>
+                    <i class="bi bi-image text-secondary" style="font-size: 14px;"></i>
+                </div>
+
+                <!-- User Info Row -->
+                <div class="d-flex align-items-center justify-content-center gap-2 mb-4">
+                     <div class="sidebar-vip-badge shadow-sm" style="background:#F3F4F6; color:#111827; border-radius:12px; padding: 2px 8px; font-weight:700; font-size:13px; display:flex; align-items:center;">
+                        VIP1 <i class="bi bi-star-fill ms-1" style="color:#FBBF24; font-size:12px;"></i>
+                    </div>                   
+                    <div class="user-name mb-0" style="font-weight:700; font-size:15px; color:#111827;">Demo Demo</div>
+                    <div class="user-id" style="font-size:13px; color:#6B7280;">#1</div>
+                    <i class="bi bi-exclamation-circle-fill text-secondary" style="font-size: 14px; margin-left:2px;"></i>
+                </div>
+                
+                <!-- Balance -->
+                <div class="sidebar-balance mb-4" style="font-size: 26px; font-weight: 700; color: #005685;">$ 1.00</div>
+                
+                <!-- ACTION ICONS -->
+                <div class="action-icons d-flex justify-content-center align-items-center mb-4" style="gap: 64px;">
+                    <a href="favorites.html">
+                        <i class="bi bi-suit-heart-fill icon-heart" style="font-size: 26px; color:#E11D48;"></i>
+                    </a>
+                    <a href="profile.html">
+                        <i class="bi bi-person-fill icon-action" style="font-size: 28px; color:#1F2937;"></i>
+                    </a>
+                    <i class="bi bi-box-arrow-right icon-action" style="font-size: 26px; color:#1F2937;"></i>
+                </div>
+
+                <!-- CURRENCY SELECTOR (Collapsible) -->
+                <div class="currency-collapsible text-center mb-3">
+                    <button class="currency-btn rounded-pill border" style="background:#FEF9C3; border-color:#FCD34D !important; color:#92400E; font-weight:700; padding:6px 24px;" id="currency-dropdown-btn">
+                        <span class="me-2">USD</span> العملة <i class="bi bi-arrow-repeat ms-2" style="font-size:16px;"></i>
+                    </button>
+                </div>
+                
+                <div class="currency-menu-container" id="currency-menu">
+                    <div class="currency-item rounded-pill">الدولار الأمريكي - USD</div>
+                    <div class="currency-item rounded-pill">درهم اماراتي - بنك مشرق - AED</div>
+                    <div class="currency-item rounded-pill">ADIB - AED - درهم اماراتي</div>
+                    <div class="currency-item rounded-pill">جنيه مصري - EGP</div>
+                    <div class="currency-item rounded-pill">دينار عراقي - زين كاش - IQD</div>
+                    <div class="currency-item rounded-pill">دينار عراقي - آسيا سيل - IQD</div>
+                    <div class="currency-item rounded-pill">دينار أردني - JOD</div>
+                    <div class="currency-item rounded-pill">ريال سعودي - راجحي - SAR</div>
+                    <div class="currency-item rounded-pill">ريال سعودي - كريمي - SAR</div>
+                    <div class="currency-item rounded-pill">ليرة سورية - سيريتل كاش - SYP</div>
+                    <div class="currency-item rounded-pill">ليرة سورية - شام كاش - SYP</div>
+                    <div class="currency-item rounded-pill">ليرة تركية - TRY</div>
+                    <div class="currency-item rounded-pill">الريال اليمني - YER</div>
+                </div>
+
+            <!-- SIDEBAR NAVIGATION MENU -->
+            <nav class="sidebar-nav mt-3">
+                <a style="text-decoration: none;" href="./home.html" class="nav-item">
+                    <i class="bi bi-house-door-fill" style="color: #10B981;"></i>
+                    <span>الرئيسية</span>
+                </a>
+                <a style="text-decoration: none;" href="./addBalance.html" class="nav-item">
+                    <svg style="height: 20px; fill: #0D6EFD;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M12.3 8.93L9.88 6.5H15.5V10H17V5H9.88L12.3 2.57L11.24 1.5L7 5.75L11.24 10L12.3 8.93M12 14A3 3 0 1 0 15 17A3 3 0 0 0 12 14M3 11V23H21V11M19 19A2 2 0 0 0 17 21H7A2 2 0 0 0 5 19V15A2 2 0 0 0 7 13H17A2 2 0 0 0 19 15Z"></path>
+                  </svg>
+                    <span>إضافة رصيد</span>
+                </a>
+                <a style="text-decoration: none;" href="./freeFireCodes.html" class="nav-item">
+                    <svg style="height: 20px; fill: #FFC107;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M3,5H21A1,1 0 0,1 22,6V18A1,1 0 0,1 21,19H3A1,1 0 0,1 2,18V6A1,1 0 0,1 3,5M5,8H10V10H5V8M5,12H9V14H5V12M12,8H19V9.5H12V8M12,12H17V13.5H12V12Z"></path>
+                  </svg>
+                    <span>أكواد فري فاير - Shams4Store</span>
+                </a>
+                <a style="text-decoration: none;" href="./payments.html" class="nav-item">
+                    <svg style="height: 20px; fill: #0D6EFD;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M15 15V17H18V20H20V17H23V15H20V12H18V15M14.97 11.61C14.85 10.28 13.59 8.97 12 9C10.3 9.03 9 10.3 9 12C9 13.7 10.3 14.94 12 15C12.38 15 12.77 14.92 13.14 14.77C13.41 13.67 13.86 12.63 14.97 11.61M13 16H7C7 14.9 6.11 14 5 14V10C6.11 10 7 9.11 7 8H17C17 9.11 17.9 10 19 10V10.06C19.67 10.06 20.34 10.18 21 10.4V6H3V18H13.32C13.1 17.33 13 16.66 13 16Z"></path>
+                  </svg>
+                    <span>دفعاتي</span>
+                </a>
+                <a style="text-decoration: none;" href="./wallet.html" class="nav-item">
+                    <svg style="height: 20px; fill: #FFC107;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M21,18V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V6H12C10.89,6 10,6.9 10,8V16A2,2 0 0,0 12,18M12,16H22V8H12M16,13.5A1.5,1.5 0 0,1 14.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,12A1.5,1.5 0 0,1 16,13.5Z"></path>
+                  </svg>
+                    <span>محفظتي</span>
+                </a>
+                <a style="text-decoration: none;" href="./orders.html" class="nav-item">
+                    <svg style="height: 20px; fill: #DC3545;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"></path>
+                  </svg>
+                    <span>طلباتي</span>
+                </a>
+                <a style="text-decoration: none;" href="./telegramAccount.html" class="nav-item">
+                    <svg style="height: 20px; fill: #0D6EFD;"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M9.04 15.47L8.63 19.26C9.22 19.26 9.47 19.01 9.78 18.71L11.6 17L15.38 19.78C16.07 20.16 16.56 19.96 16.75 19.14L19.86 4.82C20.09 3.74 19.46 3.32 18.79 3.57L2.21 9.86C1.08 10.3 1.1 10.93 2.02 11.22L6.26 12.54L16.1 6.39C16.56 6.11 16.98 6.27 16.63 6.55L9.04 15.47Z"></path>
+                  </svg>
+                    <span>حساب تلغرام</span>
+                </a>
+                <a style="text-decoration: none;" href="./agents.html" class="nav-item active">
+                    <i class="bi bi-people-fill" style="color: #0D6EFD;"></i>
+                    <span>وكلاؤنا</span>
+                </a>
+                <a style="text-decoration: none;" href="./protection.html" class="nav-item">
+                   <svg style="height: 20px; fill: #198754;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M12,12H19C18.47,16.11 15.72,19.78 12,20.92V12H5V6.3L12,3.19M12,1L3,5V11C3,16.55 6.84,21.73 12,23C17.16,21.73 21,16.55 21,11V5L12,1Z"></path>
+                  </svg>
+                    <span>الحماية</span>
+                </a>
+                <a style="text-decoration: none;" href="./api.html" class="nav-item">
+                   <svg style="height: 20px; fill: #198754;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M7 7H5A2 2 0 0 0 3 9V17H5V13H7V17H9V9A2 2 0 0 0 7 7M7 11H5V9H7M14 7H10V17H12V13H14A2 2 0 0 0 16 11V9A2 2 0 0 0 14 7M14 11H12V9H14M20 9V15H21V17H17V15H18V9H17V7H21V9Z"></path>
+                  </svg>
+                    <span>API</span>
+                </a>
+                <a style="text-decoration: none;" href="./about.html" class="nav-item">
+                   <svg style="height: 20px; fill: #0DCAF0;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M13,13V7H11V13H13M13,17V15H11V17H13Z"></path>
+                  </svg>
+                    <span>من نحن</span>
+                </a>
+                
+                <a style="text-decoration: none;" href="#" class="nav-item text-danger" id="userLogout">
+                   <i class="bi bi-box-arrow-right icon-action" style="font-size: 20px;"></i>
+                   <span class="ms-2">تسجيل الخروج</span>
+                </a>
+            </nav>
+                <!-- DARK MODE / LIGHT MODE -->
+            <div class="d-flex justify-content-center">
+            <div class="theme-toggle-container t mt-4 pt-3 pe-3 pb-3">
+                <div class="theme-toggle-wrapper" id="theme-toggle-btn">
+                    <span id="theme-text">الوضع الفاتح</span>
+                    <div class="theme-switch">
+                        <div class="theme-switch-handle">
+                            <i class="bi bi-brightness-high" id="theme-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <!-- SIDEBAR FOOTER -->
+            <div class="sidebar-footer mt-5 pb-3 text-center">
+                <!-- WhatsApp Icons -->
+                <div class="d-flex justify-content-center gap-3 mb-5">
+                    <i class="bi bi-whatsapp" style="font-size: 28px; color: #16a34a; cursor: pointer;"></i>
+                    <i class="bi bi-whatsapp" style="font-size: 28px; color: #16a34a; cursor: pointer;"></i>
+                </div>
+                
+                <!-- Logo -->
+                <div class="mb-3">
+                    <img src="logo.png" alt="Logo" style="height: 120px; object-fit: contain;">
+                </div>
+                
+                <!-- Credits -->
+                <div class="mb-3" style="font-size: 16px; font-weight: 500; color: #4B5563;">
+                    برمجة وتصميم <span style="color: #007BFF;">ahminix</span>
+                </div>
+                
+                <!-- Copyright -->
+                <div style="font-size: 16px; font-weight: 500; color: #111827;">
+                    ©2025
+                </div>
+            </div>
+        </div>
+    </aside>
+        </aside>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Custom JS -->
+        <script src="script.js"></script>
+
+        <script>
+            /* =============================================
+               DATA - بيانات الوكلاء
+               (استبدل بالبيانات الحقيقية من API)
+               ============================================= */
+            const agentsData = [
+                { name: 'أحمد الزهراني', country: 'المملكة العربية السعودية', phone: '+966 50 123 4567', currency: 'SAR', active: true,  whatsapp: '966501234567' },
+                { name: 'محمد حسن',      country: 'الإمارات العربية المتحدة',  phone: '+971 55 987 6543', currency: 'AED', active: true,  whatsapp: '971559876543' },
+                { name: 'كريم العبدالله', country: 'الكويت',                   phone: '+965 9988 7766',   currency: 'KWD', active: true,  whatsapp: '96599887766'  },
+                { name: 'سامي الجابري',  country: 'الأردن',                    phone: '+962 79 555 4433',  currency: 'JOD', active: false, whatsapp: ''             },
+                { name: 'يوسف الحمدان', country: 'قطر',                        phone: '+974 5555 8899',   currency: 'QAR', active: true,  whatsapp: '97455558899'  },
+                { name: 'علي المنصور',  country: 'العراق',                     phone: '+964 771 234 5678', currency: 'IQD', active: false, whatsapp: ''             },
+            ];
+
+
+            /* ============================================= */
+            let currentFilter = 'all';
+
+            /* ========= SET FILTER ========= */
+            function setFilter(filter) {
+                currentFilter = filter;
+                // Update button styles
+                const btns = { all: 'filter-all', active: 'filter-active', inactive: 'filter-inactive' };
+                Object.values(btns).forEach(id => {
+                    const btn = document.getElementById(id);
+                    btn.style.backgroundColor = '#f3f4f6';
+                    btn.style.color = '#6b7280';
+                    btn.style.borderColor = '#e5e7eb';
+                });
+                const activeBtn = document.getElementById(btns[filter]);
+                activeBtn.style.backgroundColor = '#0c4a6e';
+                activeBtn.style.color = '#fff';
+                activeBtn.style.borderColor = '#0c4a6e';
+                filterAgents();
+            }
+
+            /* ========= FILTER + SEARCH ========= */
+            function filterAgents() {
+                const query = (document.getElementById('agents-search')?.value || '').trim().toLowerCase();
+                let filtered = agentsData;
+
+                // Filter by status
+                if (currentFilter === 'active')   filtered = filtered.filter(a => a.active);
+                if (currentFilter === 'inactive') filtered = filtered.filter(a => !a.active);
+
+                // Search by name or country
+                if (query) {
+                    filtered = filtered.filter(a =>
+                        (a.name || '').toLowerCase().includes(query) ||
+                        (a.country || '').toLowerCase().includes(query)
+                    );
+                }
+
+                renderCards(filtered, query);
+            }
+
+            /* ========= RENDER CARDS ========= */
+            function renderCards(list, query = '') {
+                const container = document.getElementById('agents-container');
+                const countEl = document.getElementById('agents-count');
+
+                if (!list || list.length === 0) {
+                    const msg = agentsData.length === 0
+                        ? 'لا يوجد وكلاء مضافين حالياً'
+                        : 'لا توجد نتائج تطابق البحث';
+                    container.innerHTML = `
+                        <div class="col-12">
+                            <div class="agents-empty-banner">${msg}</div>
+                        </div>`;
+                    if (countEl) countEl.textContent = '';
+                    return;
+                }
+
+                if (countEl) countEl.textContent = `${list.length} وكيل`;
+
+                const highlight = (text, q) => {
+                    if (!q || !text) return text || '';
+                    const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                    return text.replace(re, '<mark class="bg-warning bg-opacity-25 rounded px-1">$1</mark>');
+                };
+
+                container.innerHTML = list.map((agent, i) => {
+                    const statusBadge = agent.active
+                        ? `<span class="agent-badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">نشط</span>`
+                        : `<span class="agent-badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25">غير نشط</span>`;
+
+                    const wa = agent.whatsapp
+                        ? `<a href="https://wa.me/${agent.whatsapp.replace(/\D/g,'')}" target="_blank"
+                               class="btn btn-sm rounded-pill d-flex align-items-center gap-1"
+                               style="background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0; font-size:12px;">
+                               <i class="bi bi-whatsapp"></i> واتساب
+                           </a>` : '';
+
+                    return `
+                        <div class="col-12 col-md-6 col-lg-4 mb-4" style="animation: agentFadeIn 0.35s ease ${i * 0.06}s both;">
+                            <div class="agent-card d-flex flex-column gap-2">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="agent-avatar"><i class="bi bi-person-fill"></i></div>
+                                    <div class="flex-grow-1 text-end">
+                                        <div class="fw-bold text-dark mb-1" style="font-size: 15px;">${highlight(agent.name, query)}</div>
+                                        <div class="text-secondary" style="font-size: 13px;">${highlight(agent.country || '', query)}</div>
+                                    </div>
+                                    ${statusBadge}
+                                </div>
+                                <hr class="my-1 border-secondary-subtle">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    <span class="text-secondary" style="font-size: 13px;" dir="ltr">${agent.phone || ''}</span>
+                                    <div class="d-flex align-items-center gap-2">
+                                        ${wa}
+                                        <span class="badge rounded-pill bg-light text-dark border" style="font-size: 12px;">${agent.currency || ''}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                }).join('');
+            }
+
+            /* ========= FLOATING BUTTON ========= */
+            function toggleWa() {
+                const icon = document.getElementById('wa-main-icon');
+                icon.style.transform = (icon.style.transform === 'rotate(90deg)') ? 'rotate(0deg)' : 'rotate(90deg)';
+            }
+
+            /* ========= INIT ========= */
+            document.addEventListener('DOMContentLoaded', () => filterAgents());
+        </script>
+
+</body>
+
+</html>

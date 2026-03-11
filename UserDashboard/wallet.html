@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern SaaS Dashboard</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Main Content Wrapper (pushed when sidebar opens) -->
+    <div class="main-content" id="main-content">
+        <!-- Fixed Top Navbar -->
+        <nav class="custom-navbar d-flex align-items-center justify-content-between">
+            <!-- Logo -->
+            <div class="nav-logo">
+                <span class="fw-bold fs-4 text-white">LOGO</span>
+            </div>
+
+            <!-- Navbar Right Section -->
+            <div class="nav-right d-flex align-items-center">
+                <!-- 1. Notification Bell -->
+                <a style="text-decoration: none;" href="./notifications.html"><i class="bi bi-bell-fill nav-icon"></i></a>
+                
+                <!-- 2. VIP Badge -->
+                <a style="text-decoration: none;" href="./VIP1.html"><div class="nav-vip-badge">VIP1</div></a>
+
+                <!-- 3. Plus Button -->
+               <a href="./addBalance.html">
+                 <button class="nav-plus-btn">
+                    <i class="bi bi-plus"></i>
+                </button>
+               </a>
+
+                <!-- 4. Balance Text -->
+                <span class="nav-balance">$ 1.00</span>
+
+                <!-- 5. Hamburger Menu -->
+                <button class="nav-hamburger-btn" id="hamburger-btn">
+                    <i class="bi bi-list"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Page Content Area -->
+        <div class="page-content" style="padding-top: 80px; padding-left: 24px; padding-right: 24px; direction: rtl; min-height: 100vh; background-color: #fcfcfc;">
+            <div class="container pb-5" style="max-width: 1000px; margin: 0 auto;">
+                
+                <!-- Title -->
+                <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+                    <h3 class="m-0 text-dark fs-4 fw-normal">المحفظة</h3>
+                </div>
+
+                <!-- Stats Cards Container (Dynamic) -->
+                <div class="row g-3 mb-4" id="stats-cards-container">
+                    <!-- Cards will be rendered here dynamically -->
+                </div>
+
+                <!-- Filter Form Container (Dynamic Layout matching Bootstrap RTL) -->
+                <div class="row g-2 mb-4 justify-content-end align-items-end flex-row-reverse" style="max-width: 900px;" id="filter-form-container">
+                    <!-- Date From -->
+                    <div class="col-md-5 col-12 position-relative pt-2">
+                        <label class="position-absolute text-muted px-2 z-1" style="background: #fcfcfc; top: 0; right: 20px; font-size: 12px;">من</label>
+                        <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                            <input type="text" class="form-control border-start-0 text-end bg-transparent shadow-none" value="10/03/2026" dir="ltr" id="date-from">
+                            <span class="input-group-text bg-transparent border-end-0 text-dark" style="cursor: pointer;"><i class="bi bi-calendar"></i></span>
+                        </div>
+                    </div>
+                    <!-- Date To -->
+                    <div class="col-md-5 col-12 position-relative pt-2">
+                        <label class="position-absolute text-muted px-2 z-1" style="background: #fcfcfc; top: 0; right: 20px; font-size: 12px;">إلى</label>
+                        <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                            <input type="text" class="form-control border-start-0 text-end bg-transparent shadow-none" value="10/03/2026" dir="ltr" id="date-to">
+                            <span class="input-group-text bg-transparent border-end-0 text-dark" style="cursor: pointer;"><i class="bi bi-calendar"></i></span>
+                        </div>
+                    </div>
+                    <!-- Search Button -->
+                    <div class="col-md-1 col-12 pt-2 d-flex justify-content-start align-items-center">
+                        <button class="btn btn-primary rounded-circle shadow-sm d-flex align-items-center justify-content-center transition-hover p-0" style="width: 42px; height: 42px; background-color: #0c4a6e; border-color: #0c4a6e;" onclick="showToast('جاري البحث...', 'info')">
+                            <i class="bi bi-search fs-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filter Pills Scrollable (Dynamic Container) -->
+                <div class="d-flex flex-wrap gap-2 mb-4 justify-content-start" id="filter-pills-container">
+                    <!-- Dynamic Pills Will Be Appended Here -->
+                </div>
+
+                <!-- Total Text -->
+                <div class="d-flex justify-content-end mb-3 mt-4" id="totalValueContainer">
+                    <div class="px-3 py-2 rounded-pill shadow-sm bg-light border border-light-subtle d-flex align-items-center justify-content-center" style="font-size: 15px;">
+                        <span class="text-secondary ms-2" style="font-size: 14px;">اجمالي :</span>
+                        <span dir="ltr" class="text-dark fw-medium" style="font-size: 14px;">0.00 $</span>
+                    </div>
+                </div>
+
+                <!-- Content Container (Dynamic) -->
+                <div id="transactions-container">
+                    <!-- Empty State -->
+                    <div class="card border-light rounded-4 mb-5 shadow-sm bg-white" id="empty-state">
+                        <div class="card-body text-center py-4 text-secondary fs-6">
+                            لا توجد عمليات خلال هذه الفترة.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Copyright -->
+                <div class="text-center pb-4 text-secondary pt-5 fs-6">
+                    &copy; 2025 Ahminix
+                </div>
+
+            </div>
+
+            <!-- Floating WhatsApp Speed Dial -->
+    <div class="floating-wa-container">
+        <!-- Sub buttons (hidden by default) -->
+        <div class="wa-sub-buttons" id="wa-sub-buttons">
+            <a href="#" class="wa-float-btn position-relative mb-2" style="background:#0c4a6e; color:white;">
+                <i class="bi bi-whatsapp"></i><span class="badge bg-success rounded-circle position-absolute top-0 start-100 translate-middle" style="font-size:11px;">1</span>
+            </a>
+            <a href="#" class="wa-float-btn position-relative mb-2" style="background:#0c4a6e; color:white;">
+                <i class="bi bi-whatsapp"></i><span class="badge bg-success rounded-circle position-absolute top-0 start-100 translate-middle" style="font-size:11px;">2</span>
+            </a>
+        </div>
+        <!-- Main Toggle Button -->
+        <button class="wa-main-btn shadow" id="wa-main-btn" style="background:#0c4a6e; color:white; border:none; outline:none;">
+            <i class="bi bi-chat-dots-fill" id="wa-main-icon"></i>
+        </button>
+    </div>
+         <!-- End main-ontent -->
+            
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                // Dynamic Stats Data
+                const statsData = [
+                    { id: 'balance_debt', label: 'رصيد مدين', value: '0.00', bg: 'bg-primary' }, // #0d6efd ~ #2196f3
+                    { id: 'total_in', label: 'الوارد', value: '1.00', bg: 'bg-purple' }, // custom or bootstrap style
+                    { id: 'total_purchases', label: 'اجمالي مشتريات', value: '0.00', bg: 'bg-danger' }, // #dc3545 ~ #ef4444
+                    { id: 'current_balance', label: 'رصيدك الحالي', value: '1.00', bg: 'bg-success' } // #198754 ~ #4caf50
+                ];
+
+                function renderStatsCards() {
+                    const container = document.getElementById('stats-cards-container');
+                    container.innerHTML = '';
+                    
+                    // Colors mapping for exact match based on the picture
+                    const colors = {
+                        'bg-primary': '#2196f3',
+                        'bg-purple': '#9c27b0',
+                        'bg-danger': '#ef4444',
+                        'bg-success': '#4caf50'
+                    };
+
+                    statsData.forEach(stat => {
+                        const col = document.createElement('div');
+                        col.className = 'col-md-3 col-6';
+                        col.innerHTML = `
+                            <div class="card border-0 text-white text-center py-4 h-100 transition-hover shadow-sm" 
+                                 style="background-color: ${colors[stat.bg]}; border-radius: 12px; cursor: pointer;" 
+                                 onclick="showToast('${stat.label}', 'info')">
+                                <div class="fs-4 fw-bold mb-1" dir="ltr" data-base-value="${stat.value}">${typeof formatCurrency === 'function' ? formatCurrency(parseFloat(stat.value)) : '$' + stat.value}</div>
+                                <div class="fs-6 fw-semibold">${stat.label}</div>
+                            </div>
+                        `;
+                        container.appendChild(col);
+                    });
+                }
+
+                // Dynamic Pills Logic
+                const filterCategories = [
+                    { id: 'all', label: 'الكل', count: 0, badgeTheme: 'secondary', bg: 'bg-primary border-primary bg-opacity-10 border-opacity-25 text-dark' },
+                    { id: 'orders', label: 'طلبات', count: 0, badgeTheme: 'secondary', bg: 'bg-light border-light text-secondary' },
+                    { id: 'refunded', label: 'مسترجع الطلبات', count: 0, badgeTheme: 'success', bg: 'bg-light border-light text-secondary' },
+                    { id: 'manual_payments', label: 'دفعات يدوية', count: 0, badgeTheme: 'success', bg: 'bg-light border-light text-secondary' },
+                    { id: 'shipping', label: 'طلبات شحن', count: 0, badgeTheme: 'success', bg: 'bg-light border-light text-secondary' },
+                    { id: 'manual_withdrawal', label: 'سحب يدوي', count: 0, badgeTheme: 'danger', bg: 'bg-light border-light text-secondary' }
+                ];
+
+                let activeCategory = 'all';
+
+                function renderPills() {
+                    const container = document.getElementById('filter-pills-container');
+                    container.innerHTML = '';
+
+                    filterCategories.forEach(cat => {
+                        const isActive = activeCategory === cat.id;
+                        
+                        // Handle native Bootstrap classes for active vs inactive state
+                        const activeClasses = isActive ? 'bg-primary bg-opacity-10 border-primary border border-opacity-25 text-dark fw-medium' : 'bg-transparent border border-light-subtle text-secondary';
+                        
+                        const pillBtn = document.createElement('button');
+                        pillBtn.className = `btn rounded-pill d-flex align-items-center gap-2 shadow-sm transition-all fs-6 px-3 py-1 ${activeClasses}`;
+                        
+                        // Action on click
+                        pillBtn.onclick = () => {
+                            activeCategory = cat.id;
+                            renderPills(); // Re-render to update active state
+                            document.getElementById('totalValueContainer').classList.remove('d-none');
+                            document.getElementById('totalValueContainer').classList.add('d-flex');
+                            simulateLoading();
+                        };
+
+                        const badgeHtml = `<span class="badge rounded-circle d-flex align-items-center justify-content-center p-0 text-${cat.badgeTheme} bg-${cat.badgeTheme} bg-opacity-10" style="width: 20px; height: 20px; font-size: 11px;">${cat.count}</span>`;
+                        pillBtn.innerHTML = `<span>${cat.label}</span> ${badgeHtml}`;
+
+                        container.appendChild(pillBtn);
+                    });
+                }
+
+                // Dynamic Transactions Data
+                const transactionsData = [
+                    { id: '#1001', type: 'orders', title: 'طلب جديد #1001', amount: -2.50, date: '10/03/2026', status: 'مكتمل' },
+                    { id: '#1002', type: 'refunded', title: 'استرجاع طلب #1002', amount: 5.00, date: '10/03/2026', status: 'مسترجع' },
+                    { id: '#1003', type: 'manual_payments', title: 'دفعة يدوية', amount: 10.00, date: '09/03/2026', status: 'مكتمل' },
+                    { id: '#1004', type: 'shipping', title: 'طلب شحن محفظة', amount: 50.00, date: '08/03/2026', status: 'قيد المعالجة' },
+                    { id: '#1005', type: 'manual_withdrawal', title: 'سحب رصيد', amount: -15.00, date: '05/03/2026', status: 'مكتمل' }
+                ];
+
+                function renderTransactions() {
+                    const container = document.getElementById('transactions-container');
+                    const totalContainer = document.getElementById('totalValueContainer');
+                    const totalSpan = totalContainer.querySelector('span');
+                    
+                    container.innerHTML = '';
+                    
+                    // Filter based on active category
+                    let filteredTransactions = transactionsData;
+                    if (activeCategory !== 'all') {
+                        filteredTransactions = transactionsData.filter(t => t.type === activeCategory);
+                    }
+
+                    // Update Counts on Pills
+                    filterCategories.forEach(cat => {
+                        if (cat.id === 'all') {
+                            cat.count = transactionsData.length;
+                        } else {
+                            cat.count = transactionsData.filter(t => t.type === cat.id).length;
+                        }
+                    });
+
+                    // Calculate Total (Dynamic formatting via helper)
+                    const totalAmount = filteredTransactions.reduce((sum, t) => sum + t.amount, 0);
+                    totalSpan.textContent = typeof formatCurrency === 'function' ? formatCurrency(totalAmount) : totalAmount.toFixed(2) + ' $';
+                    totalSpan.parentElement.setAttribute('data-base-value', totalAmount);
+
+                    if (filteredTransactions.length === 0) {
+                        container.innerHTML = `
+                            <div class="card border-light rounded-4 mb-5 shadow-sm bg-white" id="empty-state">
+                                <div class="card-body text-center py-4 text-secondary fs-6">
+                                    لا توجد عمليات خلال هذه الفترة.
+                                </div>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    const listGroup = document.createElement('div');
+                    listGroup.className = 'd-flex flex-column gap-3 mb-5';
+
+                    filteredTransactions.forEach(t => {
+                        const amountColor = t.amount > 0 ? 'text-success' : 'text-danger';
+                        const amountSign = t.amount > 0 ? '+' : '';
+                        
+                        const itemHtml = `
+                            <div class="card border border-light-subtle rounded-4 shadow-sm bg-white overflow-hidden transition-hover">
+                                <div class="card-body p-3 p-md-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center bg-light" style="width: 48px; height: 48px;">
+                                            <i class="bi bi-receipt fs-5 text-secondary"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1 text-dark fw-bold fs-6">${t.title}</h6>
+                                            <div class="d-flex align-items-center gap-2 text-secondary" style="font-size: 13px;">
+                                                <span><i class="bi bi-calendar3 me-1"></i> ${t.date}</span>
+                                                <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle fw-normal">${t.status}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-start text-md-end mt-2 mt-md-0 d-flex flex-row flex-md-column justify-content-between align-items-center align-items-md-end">
+                                        <div class="fw-bold fs-5 ${amountColor}" dir="ltr" data-base-value="${t.amount}">${amountSign}${typeof formatCurrency === 'function' ? formatCurrency(t.amount) : t.amount.toFixed(2) + ' $'}</div>
+                                        <div class="text-muted" style="font-size: 12px;">المبلغ الإجمالي</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        listGroup.innerHTML += itemHtml;
+                    });
+
+                    container.appendChild(listGroup);
+                }
+
+                function simulateLoading() {
+                    const container = document.getElementById('transactions-container');
+                    container.innerHTML = `
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">جاري التحميل...</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    setTimeout(() => {
+                        renderTransactions();
+                        renderPills(); // Update counts in UI after updating logic
+                    }, 400);
+                }
+
+                // Initial render pipeline
+                renderStatsCards();
+                renderTransactions(); // Prepare counts and render list
+                renderPills();        // Render pills with prepared counts
+
+                // Dynamic WhatsApp Float Button Logic
+                function toggleWa() {
+                    const subOptions = document.getElementById('wa-sub-buttons');
+                    const icon = document.getElementById('wa-main-icon');
+                    
+                    if (subOptions.classList.contains('d-none')) {
+                        subOptions.classList.remove('d-none');
+                        subOptions.classList.add('d-flex');
+                        icon.style.transform = 'rotate(180deg)';
+                    } else {
+                        subOptions.classList.add('d-none');
+                        subOptions.classList.remove('d-flex');
+                        icon.style.transform = 'rotate(0deg)';
+                    }
+                }
+
+                function showToast(message, iconType) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-start',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                    Toast.fire({
+                        icon: iconType,
+                        title: message
+                    });
+                }
+            </script>
+            
+            <style>
+                .transition-hover {
+                    transition: transform 0.2s ease, opacity 0.2s ease;
+                }
+                .transition-hover:hover {
+                    transform: translateY(-2px);
+                    opacity: 0.95;
+                }
+                .flex-center {
+                    display: flex;
+                    align-items: center;
+                }
+                .form-control:focus {
+                    border-color: #0c4a6e;
+                    box-shadow: 0 0 0 0.1rem rgba(12, 74, 110, 0.25);
+                }
+            </style>
+
+    <aside class="custom-sidebar" id="sidebar">
+        <div class="sidebar-content">
+            <!-- SIDEBAR HEADER -->
+            <div class="sidebar-header text-center pb-3 border-bottom">
+                
+                <!-- User Profile Picture (Simulating the broken image style from the screenshot) -->
+                <div class="user-profile-pic mx-auto mb-3" style="width: 80px; height: 36px; border-radius: 18px; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: #FFF;">
+                    <span class="text-primary text-decoration-underline" style="font-size: 15px;">User</span>
+                    <i class="bi bi-image text-secondary" style="font-size: 14px;"></i>
+                </div>
+
+                <!-- User Info Row -->
+                <div class="d-flex align-items-center justify-content-center gap-2 mb-4">
+                     <div class="sidebar-vip-badge shadow-sm" style="background:#F3F4F6; color:#111827; border-radius:12px; padding: 2px 8px; font-weight:700; font-size:13px; display:flex; align-items:center;">
+                        VIP1 <i class="bi bi-star-fill ms-1" style="color:#FBBF24; font-size:12px;"></i>
+                    </div>                   
+                    <div class="user-name mb-0" style="font-weight:700; font-size:15px; color:#111827;">Demo Demo</div>
+                    <div class="user-id" style="font-size:13px; color:#6B7280;">#1</div>
+                    <i class="bi bi-exclamation-circle-fill text-secondary" style="font-size: 14px; margin-left:2px;"></i>
+                </div>
+                
+                <!-- Balance -->
+                <div class="sidebar-balance mb-4" style="font-size: 26px; font-weight: 700; color: #005685;">$ 1.00</div>
+                
+                <!-- ACTION ICONS -->
+                <div class="action-icons d-flex justify-content-center align-items-center mb-4" style="gap: 64px;">
+                    <a href="favorites.html">
+                        <i class="bi bi-suit-heart-fill icon-heart" style="font-size: 26px; color:#E11D48;"></i>
+                    </a>
+                    <a href="profile.html">
+                        <i class="bi bi-person-fill icon-action" style="font-size: 28px; color:#1F2937;"></i>
+                    </a>
+                    <i class="bi bi-box-arrow-right icon-action" style="font-size: 26px; color:#1F2937;"></i>
+                </div>
+
+                <!-- CURRENCY SELECTOR (Collapsible) -->
+                <div class="currency-collapsible text-center mb-3">
+                    <button class="currency-btn rounded-pill border" style="background:#FEF9C3; border-color:#FCD34D !important; color:#92400E; font-weight:700; padding:6px 24px;" id="currency-dropdown-btn">
+                        <span class="me-2">USD</span> العملة <i class="bi bi-arrow-repeat ms-2" style="font-size:16px;"></i>
+                    </button>
+                </div>
+                
+                <div class="currency-menu-container" id="currency-menu">
+                    <div class="currency-item rounded-pill">الدولار الأمريكي - USD</div>
+                    <div class="currency-item rounded-pill">درهم اماراتي - بنك مشرق - AED</div>
+                    <div class="currency-item rounded-pill">ADIB - AED - درهم اماراتي</div>
+                    <div class="currency-item rounded-pill">جنيه مصري - EGP</div>
+                    <div class="currency-item rounded-pill">دينار عراقي - زين كاش - IQD</div>
+                    <div class="currency-item rounded-pill">دينار عراقي - آسيا سيل - IQD</div>
+                    <div class="currency-item rounded-pill">دينار أردني - JOD</div>
+                    <div class="currency-item rounded-pill">ريال سعودي - راجحي - SAR</div>
+                    <div class="currency-item rounded-pill">ريال سعودي - كريمي - SAR</div>
+                    <div class="currency-item rounded-pill">ليرة سورية - سيريتل كاش - SYP</div>
+                    <div class="currency-item rounded-pill">ليرة سورية - شام كاش - SYP</div>
+                    <div class="currency-item rounded-pill">ليرة تركية - TRY</div>
+                    <div class="currency-item rounded-pill">الريال اليمني - YER</div>
+                </div>
+            </div> <!-- end sidebar-header -->
+            
+            <!-- SIDEBAR NAVIGATION MENU -->
+            <nav class="sidebar-nav mt-3">
+                <a style="text-decoration: none;" href="./home.html" class="nav-item">
+                    <i class="bi bi-house-door-fill" style="color: #10B981;"></i>
+                    <span>الرئيسية</span>
+                </a>
+                <a style="text-decoration: none;" href="./addBalance.html" class="nav-item">
+                    <svg style="height: 20px; fill: #0D6EFD;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M12.3 8.93L9.88 6.5H15.5V10H17V5H9.88L12.3 2.57L11.24 1.5L7 5.75L11.24 10L12.3 8.93M12 14A3 3 0 1 0 15 17A3 3 0 0 0 12 14M3 11V23H21V11M19 19A2 2 0 0 0 17 21H7A2 2 0 0 0 5 19V15A2 2 0 0 0 7 13H17A2 2 0 0 0 19 15Z"></path>
+                  </svg>
+                    <span>إضافة رصيد</span>
+                </a>
+                <a style="text-decoration: none;" href="./freeFireCodes.html" class="nav-item">
+                    <svg style="height: 20px; fill: #FFC107;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M3,5H21A1,1 0 0,1 22,6V18A1,1 0 0,1 21,19H3A1,1 0 0,1 2,18V6A1,1 0 0,1 3,5M5,8H10V10H5V8M5,12H9V14H5V12M12,8H19V9.5H12V8M12,12H17V13.5H12V12Z"></path>
+                  </svg>
+                    <span>أكواد فري فاير - Shams4Store</span>
+                </a>
+                <a style="text-decoration: none;" href="./payments.html" class="nav-item">
+                    <svg style="height: 20px; fill: #0D6EFD;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M15 15V17H18V20H20V17H23V15H20V12H18V15M14.97 11.61C14.85 10.28 13.59 8.97 12 9C10.3 9.03 9 10.3 9 12C9 13.7 10.3 14.94 12 15C12.38 15 12.77 14.92 13.14 14.77C13.41 13.67 13.86 12.63 14.97 11.61M13 16H7C7 14.9 6.11 14 5 14V10C6.11 10 7 9.11 7 8H17C17 9.11 17.9 10 19 10V10.06C19.67 10.06 20.34 10.18 21 10.4V6H3V18H13.32C13.1 17.33 13 16.66 13 16Z"></path>
+                  </svg>
+                    <span>دفعاتي</span>
+                </a>
+                <a style="text-decoration: none;" href="./wallet.html" class="nav-item active">
+                    <svg style="height: 20px; fill: #FFC107;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M21,18V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V6H12C10.89,6 10,6.9 10,8V16A2,2 0 0,0 12,18M12,16H22V8H12M16,13.5A1.5,1.5 0 0,1 14.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,12A1.5,1.5 0 0,1 16,13.5Z"></path>
+                  </svg>
+                    <span>محفظتي</span>
+                </a>
+                <a style="text-decoration: none;" href="./orders.html" class="nav-item">
+                    <svg style="height: 20px; fill: #DC3545;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"></path>
+                  </svg>
+                    <span>طلباتي</span>
+                </a>
+                <a style="text-decoration: none;" href="./telegramAccount.html" class="nav-item">
+                    <svg style="height: 20px; fill: #0D6EFD;"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M9.04 15.47L8.63 19.26C9.22 19.26 9.47 19.01 9.78 18.71L11.6 17L15.38 19.78C16.07 20.16 16.56 19.96 16.75 19.14L19.86 4.82C20.09 3.74 19.46 3.32 18.79 3.57L2.21 9.86C1.08 10.3 1.1 10.93 2.02 11.22L6.26 12.54L16.1 6.39C16.56 6.11 16.98 6.27 16.63 6.55L9.04 15.47Z"></path>
+                  </svg>
+                    <span>حساب تلغرام</span>
+                </a>
+                <a style="text-decoration: none;" href="./agents.html" class="nav-item">
+                    <svg style="height: 20px; fill: #0D6EFD;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M18.72,14.76C19.07,13.91 19.26,13 19.26,12C19.26,11.28 19.15,10.59 18.96,9.95C18.31,10.1 17.63,10.18 16.92,10.18C13.86,10.18 11.15,8.67 9.5,6.34C8.61,8.5 6.91,10.26 4.77,11.22C4.73,11.47 4.73,11.74 4.73,12A7.27,7.27 0 0,0 12,19.27C13.05,19.27 14.06,19.04 14.97,18.63C15.54,19.72 15.8,20.26 15.78,20.26C14.14,20.81 12.87,21.08 12,21.08C9.58,21.08 7.27,20.13 5.57,18.42C4.53,17.38 3.76,16.11 3.33,14.73H2V10.18H3.09C3.93,6.04 7.6,2.92 12,2.92C14.4,2.92 16.71,3.87 18.42,5.58C19.69,6.84 20.54,8.45 20.89,10.18H22V14.67H22V14.69L22,14.73H21.94L18.38,18L13.08,17.4V15.73H17.91L18.72,14.76M9.27,11.77C9.57,11.77 9.86,11.89 10.07,12.11C10.28,12.32 10.4,12.61 10.4,12.91C10.4,13.21 10.28,13.5 10.07,13.71C9.86,13.92 9.57,14.04 9.27,14.04C8.64,14.04 8.13,13.54 8.13,12.91C8.13,12.28 8.64,11.77 9.27,11.77M14.72,11.77C15.35,11.77 15.85,12.28 15.85,12.91C15.85,13.54 15.35,14.04 14.72,14.04C14.09,14.04 13.58,13.54 13.58,12.91A1.14,1.14 0 0,1 14.72,11.77Z"></path>
+                  </svg>
+                    <span>وكلاؤنا</span>
+                </a>
+                <a style="text-decoration: none;" href="./protection.html" class="nav-item">
+                   <svg style="height: 20px; fill: #198754;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M12,12H19C18.47,16.11 15.72,19.78 12,20.92V12H5V6.3L12,3.19M12,1L3,5V11C3,16.55 6.84,21.73 12,23C17.16,21.73 21,16.55 21,11V5L12,1Z"></path>
+                  </svg>
+                    <span>الحماية</span>
+                </a>
+                <a style="text-decoration: none;" href="./api.html" class="nav-item">
+                   <svg style="height: 20px; fill: #198754;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M7 7H5A2 2 0 0 0 3 9V17H5V13H7V17H9V9A2 2 0 0 0 7 7M7 11H5V9H7M14 7H10V17H12V13H14A2 2 0 0 0 16 11V9A2 2 0 0 0 14 7M14 11H12V9H14M20 9V15H21V17H17V15H18V9H17V7H21V9Z"></path>
+                  </svg>
+                    <span>API</span>
+                </a>
+                <a style="text-decoration: none;" href="./about.html" class="nav-item">
+                   <svg style="height: 20px; fill: #0DCAF0;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="sb-ico__svg">
+                    <path d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M13,13V7H11V13H13M13,17V15H11V17H13Z"></path>
+                  </svg>
+                    <span>من نحن</span>
+                </a>
+                
+                <a style="text-decoration: none;" href="#" class="nav-item text-danger" id="userLogout">
+                   <i class="bi bi-box-arrow-right icon-action" style="font-size: 20px;"></i>
+                   <span class="ms-2">تسجيل الخروج</span>
+                </a>
+            </nav>
+                <!-- DARK MODE / LIGHT MODE -->
+            <div class="d-flex justify-content-center">
+            <div class="theme-toggle-container t mt-4 pt-3 pe-3 pb-3">
+                <div class="theme-toggle-wrapper" id="theme-toggle-btn">
+                    <span id="theme-text">الوضع الفاتح</span>
+                    <div class="theme-switch">
+                        <div class="theme-switch-handle">
+                            <i class="bi bi-brightness-high" id="theme-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <!-- SIDEBAR FOOTER -->
+            <div class="sidebar-footer mt-5 pb-3 text-center">
+                <!-- WhatsApp Icons -->
+                <div class="d-flex justify-content-center gap-3 mb-5">
+                    <i class="bi bi-whatsapp" style="font-size: 28px; color: #16a34a; cursor: pointer;"></i>
+                    <i class="bi bi-whatsapp" style="font-size: 28px; color: #16a34a; cursor: pointer;"></i>
+                </div>
+                
+                <!-- Logo -->
+                <div class="mb-3">
+                    <img src="logo.png" alt="Logo" style="height: 120px; object-fit: contain;">
+                </div>
+                
+                <!-- Credits -->
+                <div class="mb-3" style="font-size: 16px; font-weight: 500; color: #4B5563;">
+                    برمجة وتصميم <span style="color: #007BFF;">ahminix</span>
+                </div>
+                
+                <!-- Copyright -->
+                <div style="font-size: 16px; font-weight: 500; color: #111827;">
+                    ©2025
+                </div>
+            </div>
+        </div>
+    </aside>
+
+        <!-- Bootstrap CSS + JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Custom JS -->
+        <script src="script.js"></script>
+</body>
+
+</html>
