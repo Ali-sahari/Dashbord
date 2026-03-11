@@ -307,8 +307,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (logoutTrigger) {
                 e.preventDefault();
                 localStorage.removeItem('user-type');
-                // Relative path from UserDashboard folder to root login.html
-                window.location.href = "../login.html";
+                // Relative path from UserDashboard folder to root index.html
+                window.location.href = "../index.html";
             }
         }
     });

@@ -577,8 +577,8 @@ function adminLogout() {
     
     // Check if we are in a subdirectory (adminDashbord)
     if (window.location.pathname.includes('/adminDashbord/')) {
-        window.location.href = '../login.html';
+        window.location.href = '../index.html';
     } else {
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
     }
 }

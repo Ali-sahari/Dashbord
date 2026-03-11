@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Session Check: Redirect to login if not admin
+        if (localStorage.getItem('user-type') !== 'admin') {
+            window.location.href = "index.html";
+        }
+    </script>
+    <title>لوحة التحكم - نسخة تجريبية</title>
+
+    <!-- Bootstrap 5.3 RTL -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+    <link rel="icon"
+        href="data:image/png;base64,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">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="./adminDashbord/style.css">
+</head>
+
+<body class="bg-light">
+
+    <aside id="sidebar" class="sidebar shadow-sm">
+        <div class="sidebar-header p-3 border-bottom text-center">
+            <div class="d-flex align-items-center gap-4">
+                <i class="bi bi-speedometer2 fs-4 brand-icon"></i>
+                <p class="mt-3 fw-bold">لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu p-2">
+            <nav class="nav flex-column gap-1 mt-3">
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-primary gap-3 ms-4 hov p-2 active" href="./admin.html">
+                        <i class="bi bi-grid-1x2"></i>
+                        لوحه القياده
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">اداره الطلبات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./adminDashbord/orders.html">
+                        <i class="bi bi-box-seam"></i>
+                        الطلبات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/order_disputes.html">
+                        <i class="bi bi-life-preserver"></i>
+                        طلبات الاعتراض
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاقسام & المنتجات</h1>
+                    </div>
+                </div>
+
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./adminDashbord/categories.html">
+                        <i class="bi bi-folder2-open"></i>
+                        الأقسام
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/add_product.html">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        إضافة منتج
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/manage_products.html">
+                        <i class="bi bi-receipt me-1"></i>
+                        إدارة المنتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/admin_manage_stock.html">
+                        <i class="bi bi-archive me-1"></i>
+                        منتجات المخزون
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الماليه</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./adminDashbord/admin_payment_methods.html">
+                        <i class="bi bi-wallet2"></i>
+                        طرق الدفع
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/topups.html">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        طلبات الشحن
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/admin_vouchers.html">
+                        <i class="bi bi-ticket-perforated me-1"></i>
+                        بطاقات المتجر
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/vip_product_discount.html">
+                        <i class="bi bi-award me-1"></i>
+                        نسبة ربح VIP للمنتجات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/admin_currencies.html">
+                        <i class="bi bi-currency-exchange me-1"></i>
+                        العملات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/total_profit.html">
+                        <i class="bi bi-cash-coin me-1"></i>
+                        سجل الأرباح
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">المستخدمون</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./adminDashbord/users.html">
+                        <i class="bi bi-people"></i>
+                        إدارة المستخدمين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/overdraft_users.html">
+                        <i class="bi bi-dash-circle me-1"></i>
+                        الرصيد المدين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/users_spending.html">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        المستخدمون الأكثر صرفًا
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/admin_agents.html">
+                        <i class="bi bi-person-gear me-1"></i>
+                        الوكلاء
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/admin_referrals.html">
+                        <i class="bi bi-person-check me-1"></i>
+                        الإحالات
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/admin_vip_members.html">
+                        <i class="bi bi-shield me-1"></i>
+                        العضويات VIP
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/admin_send_notification.html">
+                        <i class="bi bi-megaphone me-1"></i>
+                        إرسال إشعار
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">API</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./adminDashbord/manage_providers.html">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        إدارة المزودين
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/import_products.html">
+                        <i class="bi bi-cloud-arrow-down me-1"></i>
+                        استيراد منتجات
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/api_clients.html">
+                        <i class="bi bi-braces-asterisk"></i>
+                        عملائي API
+                    </a>
+
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الاعدادات</h1>
+                    </div>
+                </div>
+                <div>
+                    <a style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-dark gap-3 ms-4 hov p-2"
+                        href="./adminDashbord/admin_theme.html">
+                        <i class="bi bi-palette"></i>
+                        التصميم
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/modal_texts.html">
+                        <i class="bi bi-chat-square-text me-1"></i>
+                        رسائل الطلب والردود
+                    </a>
+
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/admin_category_explorer.html">
+                        <i class="bi bi-diagram-3 me-1"></i>
+                        إدارة الترتيب
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/admin_social_links.html">
+                        <i class="bi bi-share me-1"></i>
+                        وسائل التواصل
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/admins_manager.html">
+                        <i class="bi bi-gear me-1"></i>
+                        حسابات الإدارة
+                    </a>
+                    <a style="text-decoration:none;display:flex;width:85%;"
+                        class="fw-bold text-dark gap-3 ms-4 hov p-2 mt-3" href="./adminDashbord/twofa_settings.html">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        التحقق بخطوتين
+                    </a>
+                    
+                    <div style="border-bottom:1px dashed black; padding:10px;" class="text-start pt-3 ps-4">
+                        <h1 class="fw-bold" style="font-size:0.7rem;opacity:0.50;">الحساب</h1>
+                    </div>
+                    
+                    <a href="#" style="text-decoration:none;display:flex;width:85%;" class="fw-bold text-danger gap-3 ms-4 hov p-2 mt-2" id="adminLogout">
+                        <i class="bi bi-box-arrow-right"></i>
+                        تسجيل الخروج
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <script>
+        document.getElementById('adminLogout').addEventListener('click', function(e) {
+            e.preventDefault();
+            adminLogout();
+        });
+    </script>
+
+    <!-- Main Content Wrapper -->
+    <div id="content" class="main-content">
+        <!-- Top Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom sticky-top px-3">
+            <button id="sidebarCollapse" class="btn btn-light shadow-none">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle shadow-none icon-action" onclick="adminLogout()" title="تسجيل الخروج">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+                <button id="themeSwitcher" class="btn btn-light rounded-circle shadow-none">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+
+        <div class="p-4 dashboard-wrapper" style="background-color: #f8fafc; min-height: calc(100vh - 60px);">
+            <!-- Page Header -->
+            <div class="d-flex align-items-center gap-2 mb-4">
+                <i class="fa-solid fa-table-columns text-primary fs-4"></i>
+                <h4 class="fw-bold mb-0">لوحة القيادة</h4>
+            </div>
+
+            <!-- Demo Warning Box -->
+            <!-- <div class="card mb-4 border-danger border-2"
+                style="background-color: #fff5f5; border: 2px solid #f87171 !important;">
+                <div
+                    class="card-body d-flex flex-wrap align-items-center justify-content-between gap-3 text-center text-md-start">
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-danger px-4 fw-bold">دخول المستخدم التجريبي</button>
+                        <button class="btn btn-outline-danger px-4 fw-bold bg-white">دخول الأدمن التجريبي</button>
+                    </div>
+                    <div class="text-danger fw-bold flex-grow-1 text-center">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                        هذه نسخة تجريبية للمعاينة فقط - جميع عمليات الإضافة والتعديل والحذف والتنفيذ معطلة.
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Top Statistics Grid -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="card h-100">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-start">
+                                <div class="stat-label">عدد الطلبات</div>
+                                <div class="stat-value text-primary">4</div>
+                            </div>
+                            <div class="stat-icon text-primary">
+                                <i class="fa-solid fa-box"></i>
+                            </div>
+                        </div>
+                        <div class="card-divider"></div>
+                        <a href="./adminDashbord/orders.html" class="btn-card-action border-primary text-primary"
+                            style="background-color: transparent !important;">عرض التفاصيل</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card h-100">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-start">
+                                <div class="stat-label">الطلبات قيد الانتظار</div>
+                                <div class="stat-value text-warning">1</div>
+                            </div>
+                            <div class="stat-icon text-warning">
+                                <i class="fa-solid fa-hourglass-half"></i>
+                            </div>
+                        </div>
+                        <div class="card-divider"></div>
+                        <a href="./adminDashbord/orders.html" class="btn-card-action border-warning text-warning"
+                            style="background-color: transparent !important;">إدارة الطلبات</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card h-100">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-start">
+                                <div class="stat-label">عدد المستخدمين</div>
+                                <div class="stat-value text-info">1</div>
+                            </div>
+                            <div class="stat-icon text-info">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="card-divider"></div>
+                        <a href="./adminDashbord/users.html" class="btn-card-action border-info text-info"
+                            style="background-color: transparent !important;">عرض المستخدمين</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card h-100">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-start">
+                                <div class="stat-label">المنتجات النشطة</div>
+                                <div class="stat-value text-success">5</div>
+                            </div>
+                            <div class="stat-icon text-success">
+                                <i class="fa-solid fa-tag"></i>
+                            </div>
+                        </div>
+                        <div class="card-divider"></div>
+                        <a href="./adminDashbord/manage_products.html" class="btn-card-action border-success text-success"
+                            style="background-color: transparent !important;">إدارة المنتجات</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wide Financial Cards -->
+            <div class="row g-3 mb-4">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="./adminDashbord/topups.html" class="btn btn-outline-danger border-1 d-flex align-items-center gap-2">
+                                    <i class="fa-solid fa-truck-fast"></i>
+                                    إدارة طلبات الشحن
+                                </a>
+                            </div>
+                            <div class="text-start">
+                                <span class="text-muted d-block small mb-1">إجمالي رصيد المستخدمين</span>
+                                <div class="d-flex align-items-center gap-3 justify-content-end">
+                                    <span class="text-danger fw-bold fs-4">1</span>
+                                    <span class="text-muted small">طلبات شحن معلقة</span>
+                                    <span class="text-success fw-bold fs-2 ms-4">$1.00</span>
+                                </div>
+                                <div class="text-success small fw-bold mt-1">119.00 ل.س</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="./adminDashbord/overdraft_users.html" class="btn btn-outline-secondary border-1 d-flex align-items-center gap-2">
+                                    <i class="fa-solid fa-eye"></i>
+                                    عرض تفاصيل الرصيد المدين
+                                </a>
+                            </div>
+                            <div class="text-start">
+                                <span class="text-muted d-block small mb-1">إجمالي المبلغ المدين المستخدم</span>
+                                <div class="d-flex align-items-center gap-3 justify-content-end">
+                                    <span class="text-primary fw-bold fs-4">0</span>
+                                    <span class="text-muted small">المستخدمون المسموح لهم برصيد مدين</span>
+                                    <span class="text-danger fw-bold fs-2 ms-4">$0.00</span>
+                                </div>
+                                <div class="text-danger small fw-bold mt-1">0.00 ل.س</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Secondary Statistics Grid -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="card h-100 text-center p-3">
+                        <i class="fa-solid fa-cart-shopping text-primary fs-3 mb-2"></i>
+                        <div class="stat-label mb-1">عدد الطلبات هذا الشهر</div>
+                        <div class="fs-4 fw-bold text-primary mb-1">0</div>
+                        <div class="text-muted x-small" style="font-size: 0.7rem;">الفترة: 01-03-2026 - 31-03-2026</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card h-100 text-center p-3">
+                        <i class="fa-solid fa-dollar-sign text-info fs-3 mb-2"></i>
+                        <div class="stat-label mb-1">إجمالي المبيعات</div>
+                        <div class="fs-4 fw-bold text-info mb-1">$0.0000</div>
+                        <div class="text-muted x-small" style="font-size: 0.7rem;">0.00 ل.س المبلغ المستلم من العملاء
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card h-100 text-center p-3">
+                        <i class="fa-solid fa-wallet text-danger fs-3 mb-2"></i>
+                        <div class="stat-label mb-1">التكلفة الكلية</div>
+                        <div class="fs-4 fw-bold text-danger mb-1">$0.0000</div>
+                        <div class="text-muted x-small" style="font-size: 0.7rem;">0.00 ل.س تكلفة شراء المنتجات</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card h-100 text-center p-3">
+                        <i class="fa-solid fa-chart-line text-success fs-3 mb-2"></i>
+                        <div class="stat-label mb-1">الأرباح الصافية</div>
+                        <div class="fs-4 fw-bold text-success mb-1">$0.0000</div>
+                        <div class="text-muted x-small" style="font-size: 0.7rem;">0.00 ل.س بعد خصم التكاليف</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maintenance Footer -->
+            <div class="card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <button id="btnMaintenance" class="btn btn-danger d-flex align-items-center gap-2 px-4 py-2 fw-bold">
+                        <i class="fa-solid fa-toggle-off"></i>
+                        <span id="maintenanceText">تفعيل وضع الصيانة</span>
+                    </button>
+                    <div class="text-start">
+                        <div class="fw-bold d-flex align-items-center gap-2 justify-content-end mb-1">
+                            وضع الصيانة
+                            <i class="fa-solid fa-gear text-secondary"></i>
+                        </div>
+                        <span class="text-muted small">التحكم بتفعيل أو إيقاف واجهة المستخدمين</span>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="mt-5 pt-3 border-top text-center  text-muted small">
+                © 2026 جميع الحقوق محفوظة - برمجة وتصميم <a href="#"
+                    class="text-primary text-decoration-none fw-bold">ahminix</a>
+                <span class="ms-3">V 1.2</span>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080; display: flex; flex-direction: column; gap: 10px;"></div>
+
+    <!-- Bootstrap Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="./adminDashbord/main.js"></script>
+</body>
+
+</html>
