@@ -170,6 +170,73 @@ body.sidebar-open .custom-sidebar {
     right: 0;
 }
 
+/* SIDEBAR BACKDROP (Mobile Only) */
+.sidebar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1045; /* Just below sidebar */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease;
+    backdrop-filter: blur(2px);
+}
+
+.sidebar-backdrop.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* SIDEBAR CLOSE BUTTON (Mobile Only) */
+.sidebar-close-btn {
+    display: none; /* Hidden on desktop */
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 32px;
+    height: 32px;
+    background: var(--bg-color);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    z-index: 1100;
+}
+
+.sidebar-close-btn i {
+    font-size: 20px;
+    color: var(--text-color);
+}
+
+/* MOBILE RESPONSIVE OVERRIDES */
+@media (max-width: 767px) {
+    body.sidebar-open .main-content {
+        margin-right: 0 !important; /* Prevent pushing content */
+    }
+
+    body.sidebar-open .custom-navbar {
+        width: 100% !important; /* Prevent navbar shrinking */
+    }
+
+    .custom-sidebar {
+        width: 280px; /* Slightly narrower on mobile */
+        right: -280px;
+    }
+
+    .sidebar-close-btn {
+        display: flex; /* Show only on mobile */
+    }
+    
+    .sidebar-content {
+        padding-top: 60px; /* Space for close button */
+    }
+}
+
 /* SIDEBAR CONTENT */
 .sidebar-content {
     padding: 24px;

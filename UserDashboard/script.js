@@ -94,15 +94,52 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeIcon = document.getElementById('theme-icon');
     const themeText = document.getElementById('theme-text');
 
-    // 1 & 2. Sidebar Toggle and Push Layout (handled by body class sidebar-open)
+    // Sync Sidebar UI Components (Backdrop, Close Button, Body Overflow)
+    const syncSidebarUI = (isOpen) => {
+        let backdrop = document.querySelector('.sidebar-backdrop');
+        if (!backdrop) {
+            backdrop = document.createElement('div');
+            backdrop.className = 'sidebar-backdrop';
+            document.body.appendChild(backdrop);
+            // Clicking backdrop closes sidebar
+            backdrop.addEventListener('click', () => toggleSidebar());
+        }
+
+        if (isOpen) {
+            backdrop.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent body scroll on mobile
+            
+            // Inject Close Button for Mobile if not present
+            if (sidebar && !sidebar.querySelector('.sidebar-close-btn')) {
+                const closeBtn = document.createElement('button');
+                closeBtn.className = 'sidebar-close-btn';
+                closeBtn.innerHTML = '<i class="bi bi-x-lg"></i>';
+                closeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleSidebar();
+                });
+                sidebar.prepend(closeBtn);
+            }
+        } else {
+            backdrop.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+    };
+
+    // 1 & 2. Sidebar Toggle Logic
     const toggleSidebar = (e) => {
         if(e) e.stopPropagation();
-        document.body.classList.toggle('sidebar-open');
+        const isOpen = document.body.classList.toggle('sidebar-open');
+        syncSidebarUI(isOpen);
         
         // Save state to localStorage
-        const isNowOpen = document.body.classList.contains('sidebar-open');
-        localStorage.setItem('sidebar-state', isNowOpen ? 'open' : 'closed');
+        localStorage.setItem('sidebar-state', isOpen ? 'open' : 'closed');
     };
+
+    // Initial Sync on Page Load
+    if (sidebar) {
+        syncSidebarUI(document.body.classList.contains('sidebar-open'));
+    }
 
     if (hamburgerBtn) hamburgerBtn.addEventListener('click', toggleSidebar);
     
